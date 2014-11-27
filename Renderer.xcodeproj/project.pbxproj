@@ -8,23 +8,51 @@
 
 /* Begin PBXBuildFile section */
 		E0484E1F1A27631B0032978D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0484E1E1A27631B0032978D /* main.cpp */; };
+		E0484E361A2766080032978D /* GLUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0484E331A2766080032978D /* GLUtils.cpp */; };
+		E0484E391A27662E0032978D /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0484E381A27662E0032978D /* CoreVideo.framework */; };
+		E0484E3B1A2766320032978D /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0484E3A1A2766320032978D /* OpenGL.framework */; };
+		E0484E3D1A2766360032978D /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0484E3C1A2766360032978D /* GLUT.framework */; };
+		E0484E3F1A2766400032978D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0484E3E1A2766400032978D /* AppKit.framework */; };
+		E0484E411A2766450032978D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0484E401A2766450032978D /* IOKit.framework */; };
+		E0484E431A2766480032978D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0484E421A2766480032978D /* Cocoa.framework */; };
+		E0484E451A2766650032978D /* libGLEW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0484E441A2766650032978D /* libGLEW.a */; };
+		E0484E471A2766790032978D /* libglfw3.3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E0484E461A2766790032978D /* libglfw3.3.0.dylib */; };
+		E0484E4A1A2768BB0032978D /* Cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0484E481A2768BB0032978D /* Cube.cpp */; };
+		E0484E531A27710B0032978D /* s.fragment in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0484E511A2770D10032978D /* s.fragment */; };
+		E0484E541A27710D0032978D /* s.vertex in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0484E521A2770D10032978D /* s.vertex */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		E0484E191A27631B0032978D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
 			files = (
+				E0484E531A27710B0032978D /* s.fragment in CopyFiles */,
+				E0484E541A27710D0032978D /* s.vertex in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E0484E1B1A27631B0032978D /* Renderer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Renderer; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0484E1E1A27631B0032978D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		E0484E331A2766080032978D /* GLUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLUtils.cpp; sourceTree = "<group>"; };
+		E0484E341A2766080032978D /* GLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLUtils.h; sourceTree = "<group>"; };
+		E0484E381A27662E0032978D /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		E0484E3A1A2766320032978D /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		E0484E3C1A2766360032978D /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		E0484E3E1A2766400032978D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		E0484E401A2766450032978D /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		E0484E421A2766480032978D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		E0484E441A2766650032978D /* libGLEW.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLEW.a; path = ../../../../../../usr/local/Cellar/glew/1.11.0/lib/libGLEW.a; sourceTree = "<group>"; };
+		E0484E461A2766790032978D /* libglfw3.3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw3.3.0.dylib; path = ../../../../../../usr/local/Cellar/glfw3/3.0.4/lib/libglfw3.3.0.dylib; sourceTree = "<group>"; };
+		E0484E481A2768BB0032978D /* Cube.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cube.cpp; sourceTree = "<group>"; };
+		E0484E491A2768BB0032978D /* Cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cube.h; sourceTree = "<group>"; };
+		E0484E511A2770D10032978D /* s.fragment */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = s.fragment; sourceTree = "<group>"; };
+		E0484E521A2770D10032978D /* s.vertex */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = s.vertex; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +60,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0484E471A2766790032978D /* libglfw3.3.0.dylib in Frameworks */,
+				E0484E451A2766650032978D /* libGLEW.a in Frameworks */,
+				E0484E431A2766480032978D /* Cocoa.framework in Frameworks */,
+				E0484E411A2766450032978D /* IOKit.framework in Frameworks */,
+				E0484E3F1A2766400032978D /* AppKit.framework in Frameworks */,
+				E0484E3D1A2766360032978D /* GLUT.framework in Frameworks */,
+				E0484E3B1A2766320032978D /* OpenGL.framework in Frameworks */,
+				E0484E391A27662E0032978D /* CoreVideo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +77,15 @@
 		E0484E121A27631B0032978D = {
 			isa = PBXGroup;
 			children = (
+				E0484E461A2766790032978D /* libglfw3.3.0.dylib */,
+				E0484E441A2766650032978D /* libGLEW.a */,
+				E0484E421A2766480032978D /* Cocoa.framework */,
+				E0484E401A2766450032978D /* IOKit.framework */,
+				E0484E3E1A2766400032978D /* AppKit.framework */,
+				E0484E3C1A2766360032978D /* GLUT.framework */,
+				E0484E3A1A2766320032978D /* OpenGL.framework */,
+				E0484E381A27662E0032978D /* CoreVideo.framework */,
+				E0484E321A2766080032978D /* GLUtils */,
 				E0484E1D1A27631B0032978D /* Renderer */,
 				E0484E1C1A27631B0032978D /* Products */,
 			);
@@ -57,9 +102,31 @@
 		E0484E1D1A27631B0032978D /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
+				E0484E501A2770C00032978D /* shaders */,
 				E0484E1E1A27631B0032978D /* main.cpp */,
+				E0484E481A2768BB0032978D /* Cube.cpp */,
+				E0484E491A2768BB0032978D /* Cube.h */,
 			);
 			path = Renderer;
+			sourceTree = "<group>";
+		};
+		E0484E321A2766080032978D /* GLUtils */ = {
+			isa = PBXGroup;
+			children = (
+				E0484E331A2766080032978D /* GLUtils.cpp */,
+				E0484E341A2766080032978D /* GLUtils.h */,
+			);
+			name = GLUtils;
+			path = Renderer/GLUtils/GLUtils;
+			sourceTree = "<group>";
+		};
+		E0484E501A2770C00032978D /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				E0484E511A2770D10032978D /* s.fragment */,
+				E0484E521A2770D10032978D /* s.vertex */,
+			);
+			name = shaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,6 +185,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0484E4A1A2768BB0032978D /* Cube.cpp in Sources */,
+				E0484E361A2766080032978D /* GLUtils.cpp in Sources */,
 				E0484E1F1A27631B0032978D /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -202,14 +271,28 @@
 		E0484E231A27631B0032978D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/glew/1.11.0/lib,
+					/usr/local/Cellar/glfw3/3.0.4/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = /usr/local/include;
 			};
 			name = Debug;
 		};
 		E0484E241A27631B0032978D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/glew/1.11.0/lib,
+					/usr/local/Cellar/glfw3/3.0.4/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = /usr/local/include;
 			};
 			name = Release;
 		};
