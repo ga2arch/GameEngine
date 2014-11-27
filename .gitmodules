@@ -1,3 +1,6 @@
 [submodule "GameEngien/GLUtils"]
 	path = GameEngine/GLUtils
 	url = git@github.com:ga2arch/GLUtils.git
+[submodule "GameEngine/GLUtils"]
+	path = GameEngine/GLUtils
+	url = git@github.com:ga2arch/GLUtils.git
