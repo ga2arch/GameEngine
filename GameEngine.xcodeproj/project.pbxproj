@@ -21,6 +21,7 @@
 		E0484E531A27710B0032978D /* s.fragment in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0484E511A2770D10032978D /* s.fragment */; };
 		E0484E541A27710D0032978D /* s.vertex in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0484E521A2770D10032978D /* s.vertex */; };
 		E0484E571A278ACD0032978D /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0484E551A278ACD0032978D /* Engine.cpp */; };
+		E0969C5A1A2792950045370F /* Cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0969C581A2792950045370F /* Cube.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,7 +39,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E0484E1B1A27631B0032978D /* Renderer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Renderer; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0484E1B1A27631B0032978D /* GameEngine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GameEngine; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0484E1E1A27631B0032978D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		E0484E331A2766080032978D /* GLUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLUtils.cpp; sourceTree = "<group>"; };
 		E0484E341A2766080032978D /* GLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLUtils.h; sourceTree = "<group>"; };
@@ -56,6 +57,8 @@
 		E0484E521A2770D10032978D /* s.vertex */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = s.vertex; sourceTree = "<group>"; };
 		E0484E551A278ACD0032978D /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Engine.cpp; sourceTree = "<group>"; };
 		E0484E561A278ACD0032978D /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
+		E0969C581A2792950045370F /* Cube.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cube.cpp; sourceTree = "<group>"; };
+		E0969C591A2792950045370F /* Cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cube.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +92,7 @@
 				E0484E3A1A2766320032978D /* OpenGL.framework */,
 				E0484E381A27662E0032978D /* CoreVideo.framework */,
 				E0484E321A2766080032978D /* GLUtils */,
-				E0484E1D1A27631B0032978D /* Renderer */,
+				E0484E1D1A27631B0032978D /* GameEngine */,
 				E0484E1C1A27631B0032978D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -97,22 +100,24 @@
 		E0484E1C1A27631B0032978D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E0484E1B1A27631B0032978D /* Renderer */,
+				E0484E1B1A27631B0032978D /* GameEngine */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E0484E1D1A27631B0032978D /* Renderer */ = {
+		E0484E1D1A27631B0032978D /* GameEngine */ = {
 			isa = PBXGroup;
 			children = (
 				E0484E501A2770C00032978D /* shaders */,
 				E0484E1E1A27631B0032978D /* main.cpp */,
 				E0484E481A2768BB0032978D /* Shape.cpp */,
 				E0484E491A2768BB0032978D /* Shape.h */,
+				E0969C581A2792950045370F /* Cube.cpp */,
+				E0969C591A2792950045370F /* Cube.h */,
 				E0484E551A278ACD0032978D /* Engine.cpp */,
 				E0484E561A278ACD0032978D /* Engine.h */,
 			);
-			path = Renderer;
+			path = GameEngine;
 			sourceTree = "<group>";
 		};
 		E0484E321A2766080032978D /* GLUtils */ = {
@@ -137,9 +142,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E0484E1A1A27631B0032978D /* Renderer */ = {
+		E0484E1A1A27631B0032978D /* GameEngine */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E0484E221A27631B0032978D /* Build configuration list for PBXNativeTarget "Renderer" */;
+			buildConfigurationList = E0484E221A27631B0032978D /* Build configuration list for PBXNativeTarget "GameEngine" */;
 			buildPhases = (
 				E0484E171A27631B0032978D /* Sources */,
 				E0484E181A27631B0032978D /* Frameworks */,
@@ -149,9 +154,9 @@
 			);
 			dependencies = (
 			);
-			name = Renderer;
+			name = GameEngine;
 			productName = Renderer;
-			productReference = E0484E1B1A27631B0032978D /* Renderer */;
+			productReference = E0484E1B1A27631B0032978D /* GameEngine */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -168,7 +173,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E0484E161A27631B0032978D /* Build configuration list for PBXProject "Renderer" */;
+			buildConfigurationList = E0484E161A27631B0032978D /* Build configuration list for PBXProject "GameEngine" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -180,7 +185,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E0484E1A1A27631B0032978D /* Renderer */,
+				E0484E1A1A27631B0032978D /* GameEngine */,
 			);
 		};
 /* End PBXProject section */
@@ -194,6 +199,7 @@
 				E0484E4A1A2768BB0032978D /* Shape.cpp in Sources */,
 				E0484E361A2766080032978D /* GLUtils.cpp in Sources */,
 				E0484E1F1A27631B0032978D /* main.cpp in Sources */,
+				E0969C5A1A2792950045370F /* Cube.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,7 +289,7 @@
 					/usr/local/Cellar/glew/1.11.0/lib,
 					/usr/local/Cellar/glfw3/3.0.4/lib,
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = GameEngine;
 				USER_HEADER_SEARCH_PATHS = "/usr/local/include /Users/Gabriele/Esperimenti/mathfu/include /Users/Gabriele/Esperimenti/mathfu/dependencies/vectorial/include";
 			};
 			name = Debug;
@@ -297,7 +303,7 @@
 					/usr/local/Cellar/glew/1.11.0/lib,
 					/usr/local/Cellar/glfw3/3.0.4/lib,
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = GameEngine;
 				USER_HEADER_SEARCH_PATHS = "/usr/local/include /Users/Gabriele/Esperimenti/mathfu/include /Users/Gabriele/Esperimenti/mathfu/dependencies/vectorial/include";
 			};
 			name = Release;
@@ -305,7 +311,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E0484E161A27631B0032978D /* Build configuration list for PBXProject "Renderer" */ = {
+		E0484E161A27631B0032978D /* Build configuration list for PBXProject "GameEngine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E0484E201A27631B0032978D /* Debug */,
@@ -314,7 +320,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E0484E221A27631B0032978D /* Build configuration list for PBXNativeTarget "Renderer" */ = {
+		E0484E221A27631B0032978D /* Build configuration list for PBXNativeTarget "GameEngine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E0484E231A27631B0032978D /* Debug */,
