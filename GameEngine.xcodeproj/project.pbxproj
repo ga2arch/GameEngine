@@ -127,7 +127,7 @@
 				E0484E341A2766080032978D /* GLUtils.h */,
 			);
 			name = GLUtils;
-			path = Renderer/GLUtils/GLUtils;
+			path = GameEngine/GLUtils/GLUtils;
 			sourceTree = "<group>";
 		};
 		E0484E501A2770C00032978D /* shaders */ = {
