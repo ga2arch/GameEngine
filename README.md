@@ -1,4 +1,4 @@
 GameEngine
 ==========
 
-OpenGL experiments
+OpenGL GameEngine (experiments)
