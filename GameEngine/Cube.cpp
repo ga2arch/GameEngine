@@ -16,11 +16,13 @@ void Cube::setup_vertices() {
     vbo_verts = GLUtils::make_vbo(GL_ARRAY_BUFFER, vertices, sizeof(vertices));
 }
 
-void Cube::draw(const glm::mat4& proj,
-                const glm::mat4& view,
-                const glm::vec3& pos) {
-    
+void Cube::update(const glm::vec3& pos) {
     model = glm::translate(model, pos);
+}
+
+void Cube::draw(const glm::mat4& proj,
+                const glm::mat4& view) {
+    
     material.begin(proj, view, model);
     
     auto a_pos = material.program.get_attribute("position");

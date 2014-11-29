@@ -27,9 +27,9 @@ public:
     virtual void setup_vao() =0;
     virtual void setup_vertices() =0;
     
+    virtual void update(const glm::vec3& pos) =0;
     virtual void draw(const glm::mat4& proj,
-                      const glm::mat4& view,
-                      const glm::vec3& pos) =0;
+                      const glm::mat4& view) =0;
     
 protected:
     Material material;

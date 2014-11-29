@@ -40,15 +40,6 @@ void Engine::add_mesh(std::shared_ptr<Mesh> mesh) {
     
 }
 
-//void Engine::update() {
-//    for (const auto& kv: scene) {
-//        auto ms = kv.second;
-//        
-//        for (auto& m: ms)
-//            m->update(glm::vec3(0.0,0.0,0.0));
-//    }
-//}
-
 void Engine::draw() {
     for (const auto& kv: scene) {
         auto p = kv.first;
@@ -56,8 +47,10 @@ void Engine::draw() {
         
         auto ms = kv.second;
         
-        for (auto& m: ms)
-            m->draw(proj, view, glm::vec3(0.0,0.0,0.0));
+        for (auto& m: ms) {
+            m->update(glm::vec3(0.0,0.0,0.0));
+            m->draw(proj, view);
+        }
     }
 }
 

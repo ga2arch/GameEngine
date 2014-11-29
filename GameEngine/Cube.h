@@ -24,9 +24,9 @@ public:
     void setup_vao() override;
     void setup_vertices() override;
     
+    void update(const glm::vec3& pos) override;
     void draw(const glm::mat4& proj,
-              const glm::mat4& view,
-              const glm::vec3& pos) override;
+              const glm::mat4& view) override;
     
     void move(const glm::vec3& v) {
         model = glm::translate(model, v);
