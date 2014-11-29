@@ -27,7 +27,7 @@ void Engine::add_mesh(std::shared_ptr<Mesh> mesh) {
 
 void Engine::draw() {
     for (auto& m: scene) {
-        m->draw(proj, view, glm::vec3(1.0,1.0,1.0));
+        m->draw(proj, view, glm::vec3(0.0,0.0,0.0));
     }
 }
 

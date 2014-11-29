@@ -15,6 +15,8 @@ Program::Program(Shader vertex, Shader fragment) {
     
     add_uniform("proj");
     add_uniform("view");
+    add_uniform("model");
+    
     add_attribute("position");
 }
 
