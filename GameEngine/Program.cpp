@@ -18,12 +18,20 @@ void Program::use() {
     glUseProgram(program);
 }
 
-void Program::set_attribute(const std::string name) {
+void Program::add_attribute(const std::string name) {
     auto a = glGetAttribLocation(program, name.c_str());
     attributes.insert(std::make_pair(name, a));
 }
 
-void Program::set_uniform(const std::string name) {
+void Program::add_uniform(const std::string name) {
     auto a = glGetUniformLocation(program, name.c_str());
     uniforms.insert(std::make_pair(name, a));
+}
+
+GLuint Program::get_attribute(const std::string name) {
+    return attributes.at(name);
+}
+
+GLuint Program::get_uniform(const std::string name) {
+    return uniforms.at(name);
 }

@@ -20,9 +20,12 @@ public:
     Program(Shader vertex, Shader fragment);
     
     void use();
-    void set_uniform(const std::string name);
-    void set_attribute(const std::string name);
+    void add_uniform(const std::string name);
+    void add_attribute(const std::string name);
     
+    GLuint get_uniform(const std::string name);
+    GLuint get_attribute(const std::string name);
+
 protected:
     GLuint program;
     

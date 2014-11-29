@@ -21,6 +21,7 @@
 		E0484E541A27710D0032978D /* s.vertex in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0484E521A2770D10032978D /* s.vertex */; };
 		E0969C5D1A2A2EE90045370F /* Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0969C5B1A2A2EE90045370F /* Program.cpp */; };
 		E0969C601A2A2F410045370F /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0969C5E1A2A2F410045370F /* Shader.cpp */; };
+		E0969C631A2A36710045370F /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0969C611A2A36710045370F /* Mesh.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -56,6 +57,8 @@
 		E0969C5C1A2A2EE90045370F /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Program.h; sourceTree = "<group>"; };
 		E0969C5E1A2A2F410045370F /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		E0969C5F1A2A2F410045370F /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
+		E0969C611A2A36710045370F /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
+		E0969C621A2A36710045370F /* Mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mesh.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +114,8 @@
 				E0969C5C1A2A2EE90045370F /* Program.h */,
 				E0969C5E1A2A2F410045370F /* Shader.cpp */,
 				E0969C5F1A2A2F410045370F /* Shader.h */,
+				E0969C611A2A36710045370F /* Mesh.cpp */,
+				E0969C621A2A36710045370F /* Mesh.h */,
 			);
 			path = GameEngine;
 			sourceTree = "<group>";
@@ -194,6 +199,7 @@
 				E0484E361A2766080032978D /* GLUtils.cpp in Sources */,
 				E0969C601A2A2F410045370F /* Shader.cpp in Sources */,
 				E0484E1F1A27631B0032978D /* main.cpp in Sources */,
+				E0969C631A2A36710045370F /* Mesh.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
