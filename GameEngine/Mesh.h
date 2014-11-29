@@ -22,7 +22,7 @@ class Mesh {
 public:
     Mesh(const Material& mat): material(mat) {};
     
-    Program get_program() { return material.program; };
+    Program& get_program() { return material.program; };
     
     virtual void setup_vao() =0;
     virtual void setup_vertices() =0;

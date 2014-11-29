@@ -7,6 +7,12 @@
 //
 
 #include "Engine.h"
+#include <random>
+#include <cmath>
+
+std::default_random_engine rng_gen;
+std::uniform_real_distribution<float> rng_dist(0.0f, 1.0f);
+float rng() { return rng_dist(rng_gen); }
 
 Engine::Engine(int w, int h, const char* title) {
     window.w = w;
@@ -14,18 +20,18 @@ Engine::Engine(int w, int h, const char* title) {
     window.title = title;
     
     GLUtils::create_window(window.title, window.w, window.h, window.win);
-    view = glm::lookAt(glm::vec3(3.0f, 3.0f, -5.0f),
+    view = glm::lookAt(glm::vec3(3.0f, 20.0f, -20.0f),
                        glm::vec3(0.0f, 0.0f, 0.0f),
                        glm::vec3(0.0f, 1.0f, 0.0f));
     
-    proj = glm::perspective(45.0f, 800.0f / 600.0f, 1.0f, 10.0f);
+    proj = glm::perspective(45.0f, 800.0f / 600.0f, 1.0f, 100.0f);
 }
 
 void Engine::add_mesh(std::shared_ptr<Mesh> mesh) {
-    auto program = mesh->get_program();
+    auto& program = mesh->get_program();
     
     try {
-        auto m = scene.at(program);
+        auto& m = scene.at(program);
         m.push_back(mesh);
 
     } catch (std::out_of_range) {
@@ -34,12 +40,21 @@ void Engine::add_mesh(std::shared_ptr<Mesh> mesh) {
     
 }
 
+//void Engine::update() {
+//    for (const auto& kv: scene) {
+//        auto ms = kv.second;
+//        
+//        for (auto& m: ms)
+//            m->update(glm::vec3(0.0,0.0,0.0));
+//    }
+//}
+
 void Engine::draw() {
-    for (auto& kv: scene) {
-        auto p = std::get<0>(kv);
+    for (const auto& kv: scene) {
+        auto p = kv.first;
         p.use();
         
-        auto ms = std::get<1>(kv);
+        auto ms = kv.second;
         
         for (auto& m: ms)
             m->draw(proj, view, glm::vec3(0.0,0.0,0.0));

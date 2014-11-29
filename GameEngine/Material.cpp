@@ -11,8 +11,7 @@
 void Material::begin(const glm::mat4& proj,
                      const glm::mat4& view,
                      const glm::mat4& model) {
-    //program.use();
-    
+
     auto u_proj  = program.get_uniform("proj");
     auto u_view  = program.get_uniform("view");
     auto u_model = program.get_uniform("model");

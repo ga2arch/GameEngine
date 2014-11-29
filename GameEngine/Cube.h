@@ -28,6 +28,10 @@ public:
               const glm::mat4& view,
               const glm::vec3& pos) override;
     
+    void move(const glm::vec3& v) {
+        model = glm::translate(model, v);
+    }
+    
 private:
     const GLfloat vertices[108] = {
         -1.0f,-1.0f,-1.0f, // triangle 1 : begin
