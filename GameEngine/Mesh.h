@@ -10,6 +10,11 @@
 #define __GameEngine__Mesh__
 
 #include <stdio.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "Material.h"
 
 class Mesh {
@@ -17,16 +22,18 @@ class Mesh {
 public:
     Mesh(const Material& mat): material(mat) {};
     
-    void setup();
-    
     virtual void setup_vao() =0;
     virtual void setup_vertices() =0;
     
-    virtual void draw() =0;
+    virtual void draw(const glm::mat4& proj,
+                      const glm::mat4& view,
+                      const glm::vec3& pos) =0;
     
 protected:
     Material material;
     GLuint vao;
+    
+    glm::mat4 model = glm::mat4(1.0);
     
 };
 

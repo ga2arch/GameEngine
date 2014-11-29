@@ -8,7 +8,3 @@
 
 #include "Mesh.h"
 
-void Mesh::setup() {
-    setup_vao();
-    setup_vertices();
-}
