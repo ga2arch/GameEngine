@@ -22,6 +22,7 @@
 		E0969C5D1A2A2EE90045370F /* Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0969C5B1A2A2EE90045370F /* Program.cpp */; };
 		E0969C601A2A2F410045370F /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0969C5E1A2A2F410045370F /* Shader.cpp */; };
 		E0969C631A2A36710045370F /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0969C611A2A36710045370F /* Mesh.cpp */; };
+		E0969C661A2A38380045370F /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0969C641A2A38380045370F /* Material.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -59,6 +60,8 @@
 		E0969C5F1A2A2F410045370F /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		E0969C611A2A36710045370F /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
 		E0969C621A2A36710045370F /* Mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mesh.h; sourceTree = "<group>"; };
+		E0969C641A2A38380045370F /* Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
+		E0969C651A2A38380045370F /* Material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Material.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,14 +111,10 @@
 		E0484E1D1A27631B0032978D /* GameEngine */ = {
 			isa = PBXGroup;
 			children = (
+				E0969C681A2A38B00045370F /* meshes */,
+				E0969C671A2A38AA0045370F /* materials */,
 				E0484E501A2770C00032978D /* shaders */,
 				E0484E1E1A27631B0032978D /* main.cpp */,
-				E0969C5B1A2A2EE90045370F /* Program.cpp */,
-				E0969C5C1A2A2EE90045370F /* Program.h */,
-				E0969C5E1A2A2F410045370F /* Shader.cpp */,
-				E0969C5F1A2A2F410045370F /* Shader.h */,
-				E0969C611A2A36710045370F /* Mesh.cpp */,
-				E0969C621A2A36710045370F /* Mesh.h */,
 			);
 			path = GameEngine;
 			sourceTree = "<group>";
@@ -133,10 +132,32 @@
 		E0484E501A2770C00032978D /* shaders */ = {
 			isa = PBXGroup;
 			children = (
+				E0969C5B1A2A2EE90045370F /* Program.cpp */,
+				E0969C5C1A2A2EE90045370F /* Program.h */,
+				E0969C5E1A2A2F410045370F /* Shader.cpp */,
+				E0969C5F1A2A2F410045370F /* Shader.h */,
 				E0484E511A2770D10032978D /* s.fragment */,
 				E0484E521A2770D10032978D /* s.vertex */,
 			);
 			name = shaders;
+			sourceTree = "<group>";
+		};
+		E0969C671A2A38AA0045370F /* materials */ = {
+			isa = PBXGroup;
+			children = (
+				E0969C641A2A38380045370F /* Material.cpp */,
+				E0969C651A2A38380045370F /* Material.h */,
+			);
+			name = materials;
+			sourceTree = "<group>";
+		};
+		E0969C681A2A38B00045370F /* meshes */ = {
+			isa = PBXGroup;
+			children = (
+				E0969C611A2A36710045370F /* Mesh.cpp */,
+				E0969C621A2A36710045370F /* Mesh.h */,
+			);
+			name = meshes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,6 +218,7 @@
 			files = (
 				E0969C5D1A2A2EE90045370F /* Program.cpp in Sources */,
 				E0484E361A2766080032978D /* GLUtils.cpp in Sources */,
+				E0969C661A2A38380045370F /* Material.cpp in Sources */,
 				E0969C601A2A2F410045370F /* Shader.cpp in Sources */,
 				E0484E1F1A27631B0032978D /* main.cpp in Sources */,
 				E0969C631A2A36710045370F /* Mesh.cpp in Sources */,

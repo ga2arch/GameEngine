@@ -10,8 +10,23 @@
 #define __GameEngine__Mesh__
 
 #include <stdio.h>
+#include "Material.h"
 
 class Mesh {
+    
+public:
+    Mesh(const Material& mat): material(mat) {};
+    
+    void setup();
+    
+    virtual void setup_vao() =0;
+    virtual void setup_vertices() =0;
+    
+    virtual void draw() =0;
+    
+protected:
+    Material material;
+    GLuint vao;
     
 };
 
