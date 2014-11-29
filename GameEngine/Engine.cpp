@@ -22,12 +22,27 @@ Engine::Engine(int w, int h, const char* title) {
 }
 
 void Engine::add_mesh(std::shared_ptr<Mesh> mesh) {
-    scene.push_back(mesh);
+    auto program = mesh->get_program();
+    
+    try {
+        auto m = scene.at(program);
+        m.push_back(mesh);
+
+    } catch (std::out_of_range) {
+        scene[program] = std::vector<std::shared_ptr<Mesh>>{mesh};
+    }
+    
 }
 
 void Engine::draw() {
-    for (auto& m: scene) {
-        m->draw(proj, view, glm::vec3(0.0,0.0,0.0));
+    for (auto& kv: scene) {
+        auto p = std::get<0>(kv);
+        p.use();
+        
+        auto ms = std::get<1>(kv);
+        
+        for (auto& m: ms)
+            m->draw(proj, view, glm::vec3(0.0,0.0,0.0));
     }
 }
 

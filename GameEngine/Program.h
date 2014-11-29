@@ -25,9 +25,14 @@ public:
     
     GLuint get_uniform(const std::string name);
     GLuint get_attribute(const std::string name);
+    
+    bool operator<(const Program& p) const {
+        return program < p.program;
+    };
 
-protected:
     GLuint program;
+    
+protected:
     
     std::map<std::string, GLuint> uniforms;
     std::map<std::string, GLuint> attributes;

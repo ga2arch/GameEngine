@@ -24,9 +24,7 @@ int main(int argc, const char * argv[]) {
     auto p = Program(Shader("s.vertex", GL_VERTEX_SHADER),
                      Shader("s.fragment", GL_FRAGMENT_SHADER));
     
-    auto m = Simple(p);
-
-    engine.add_mesh(std::make_shared<Cube>(m));
+    engine.add_mesh(std::make_shared<Cube>(Simple(p)));
     
     engine.run();
     

@@ -10,6 +10,7 @@
 #define __GameEngine__Engine__
 
 #include <stdio.h>
+#include <map>
 #include <vector>
 
 #include <glm/glm.hpp>
@@ -32,7 +33,7 @@ public:
 private:
     glm::mat4 view, proj;
 
-    std::vector<std::shared_ptr<Mesh>> scene;
+    std::map<Program, std::vector<std::shared_ptr<Mesh>>> scene;
 
     struct {
         int w, h;
