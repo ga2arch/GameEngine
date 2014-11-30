@@ -46,7 +46,7 @@ void Engine::draw() {
         auto ms = kv.second;
         
         for (auto& m: ms) {
-            //m->update(glm::vec3(0.0,0.0,0.0));
+            m->update(glm::vec3(0.0,0.0,0.0));
             m->draw(proj, view);
         }
     }

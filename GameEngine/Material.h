@@ -34,7 +34,14 @@ public:
 class Simple: public Material {
     
 public:
-    Simple(const Program& prog): Material(prog) {};
+    Simple(const Program& prog): Material(prog) {
+        program.add_uniform("proj");
+        program.add_uniform("view");
+        program.add_uniform("model");
+        
+        program.add_attribute("position");
+        program.add_attribute("normal");
+    };
     
     void _begin() {
         

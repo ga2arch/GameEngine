@@ -1,7 +1,9 @@
 #version 330
 
+in vec3 norm;
+
 out vec4 fragColor;
 
 void main() {
-    fragColor = vec4(1.0f, 0.4f, 0.3f, 1.0f);
+    fragColor = vec4(norm, 1.0f);
 }
