@@ -7,12 +7,10 @@
 //
 
 #include "Engine.h"
-#include <random>
-#include <cmath>
 
-std::default_random_engine rng_gen;
-std::uniform_real_distribution<float> rng_dist(0.0f, 1.0f);
-float rng() { return rng_dist(rng_gen); }
+//std::default_random_engine rng_gen;
+//std::uniform_real_distribution<float> rng_dist(0.0f, 1.0f);
+//float rng() { return rng_dist(rng_gen); }
 
 Engine::Engine(int w, int h, const char* title) {
     window.w = w;
@@ -34,7 +32,7 @@ void Engine::add_mesh(std::shared_ptr<Mesh> mesh) {
         auto& m = scene.at(program);
         m.push_back(mesh);
 
-    } catch (std::out_of_range) {
+    } catch (std::out_of_range&) {
         scene[program] = std::vector<std::shared_ptr<Mesh>>{mesh};
     }
     
@@ -48,7 +46,7 @@ void Engine::draw() {
         auto ms = kv.second;
         
         for (auto& m: ms) {
-            m->update(glm::vec3(0.0,0.0,0.0));
+            //m->update(glm::vec3(0.0,0.0,0.0));
             m->draw(proj, view);
         }
     }

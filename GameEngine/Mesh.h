@@ -25,7 +25,8 @@ public:
     Program& get_program() { return material.program; };
     
     virtual void setup_vao() =0;
-    virtual void setup_vertices() =0;
+    virtual void setup_vbo() =0;
+    virtual void setup_ibo() =0;
     
     virtual void update(const glm::vec3& pos) =0;
     virtual void draw(const glm::mat4& proj,
@@ -33,10 +34,12 @@ public:
     
 protected:
     Material material;
+    
     GLuint vao;
+    GLuint vbo;
+    GLuint ibo;
     
-    glm::mat4 model = glm::mat4(1.0);
-    
+    glm::mat4 model;
 };
 
 #endif /* defined(__GameEngine__Mesh__) */

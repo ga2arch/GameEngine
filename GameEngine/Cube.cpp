@@ -9,11 +9,18 @@
 #include "Cube.h"
 
 void Cube::setup_vao() {
-    vao = GLUtils::make_vao(GL_ARRAY_BUFFER, vbo_verts, 3, 0);
+    auto a_pos = get_program().get_attribute("position");
+    vao = GLUtils::make_vao(GL_ARRAY_BUFFER, vbo);
+    
+    GLUtils::bind_vao(a_pos, 3, 0);
 }
 
-void Cube::setup_vertices() {
-    vbo_verts = GLUtils::make_vbo(GL_ARRAY_BUFFER, vertices, sizeof(vertices));
+void Cube::setup_vbo() {
+    vbo = GLUtils::make_vbo(GL_ARRAY_BUFFER, vertices, 24*sizeof(GLfloat));
+}
+
+void Cube::setup_ibo() {
+    ibo = GLUtils::make_ibo(indices, 14*sizeof(GLushort));
 }
 
 void Cube::update(const glm::vec3& pos) {
@@ -25,12 +32,14 @@ void Cube::draw(const glm::mat4& proj,
     
     material.begin(proj, view, model);
     
-    auto a_pos = material.program.get_attribute("position");
+    auto a_pos = get_program().get_attribute("position");
     
     glEnableVertexAttribArray(a_pos);
     glBindVertexArray(vao);
     
-    glDrawArrays(GL_TRIANGLES, 0, 12*3);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+    glDrawElements(GL_TRIANGLE_STRIP, 14, GL_UNSIGNED_SHORT, nullptr);
+    //glDrawArrays(GL_TRIANGLES, 0, 12*3);
     
     glDisableVertexAttribArray(a_pos);
 }

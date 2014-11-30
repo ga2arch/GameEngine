@@ -17,12 +17,14 @@ class Cube: public Mesh {
     
 public:
     Cube(const Material& mat): Mesh(mat) {
-        setup_vertices();
+        setup_vbo();
+        setup_ibo();
         setup_vao();
     };
     
     void setup_vao() override;
-    void setup_vertices() override;
+    void setup_vbo() override;
+    void setup_ibo() override;
     
     void update(const glm::vec3& pos) override;
     void draw(const glm::mat4& proj,
@@ -31,49 +33,22 @@ public:
     void move(const glm::vec3& v) {
         model = glm::translate(model, v);
     }
-    
+
 private:
-    const GLfloat vertices[108] = {
-        -1.0f,-1.0f,-1.0f, // triangle 1 : begin
-        -1.0f,-1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f, // triangle 1 : end
-        1.0f, 1.0f,-1.0f, // triangle 2 : begin
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f,-1.0f, // triangle 2 : end
-        1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f,-1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f,-1.0f,
-        -1.0f, 1.0f,-1.0f,
-        1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f
+    const GLfloat vertices[24] = {
+        -1.0, -1.0,  1.0,
+        1.0, -1.0,  1.0,
+        -1.0,  1.0,  1.0,
+        1.0,  1.0,  1.0,
+        -1.0, -1.0, -1.0,
+        1.0, -1.0, -1.0,
+        -1.0,  1.0, -1.0,
+        1.0,  1.0, -1.0,
     };
     
-    GLint vao;
-    GLint vbo_verts;
+    const GLushort indices[14] = {
+        0, 1, 2, 3, 7, 1, 5, 4, 7, 6, 2, 4, 0, 1
+    };
 };
 
 #endif /* defined(__GameEngine__Cube__) */
