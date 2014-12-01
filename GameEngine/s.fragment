@@ -1,9 +1,28 @@
 #version 330
 
 in vec3 norm;
+in vec3 pos;
 
 out vec4 fragColor;
 
 void main() {
-    fragColor = vec4(norm, 1.0f);
+    
+    vec3 diff = vec3(1.0,0.0,0.0);
+    vec3 spec = vec3(.5,0.5,0.0);
+    vec3 irr = vec3(5.0);
+    
+    float m = 2.0;
+    vec3 light_pos = vec3(4.0, 3.0, -2.0);
+    vec3 Kd = diff / 3.14;
+    vec3 Ks = (m+8)/(8 * 3.14) * spec;
+    
+    vec3 pv = vec3(6.0, 6.0, -6.0);
+    vec3 v = normalize(pv - pos);
+    vec3 Lo = vec3(0.0, 0.0, 0.0);
+    vec3 h = normalize(v + light_pos);
+    float cosTh = clamp(dot(norm, h), 0, 1);
+    float cosTi = clamp(dot(norm, light_pos), 0, 1);
+    Lo += ((Kd + Ks * pow(cosTh, m)) * irr * cosTi);
+    
+    fragColor = vec4(Lo, 1.0f);
 }

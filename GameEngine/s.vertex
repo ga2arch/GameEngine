@@ -8,9 +8,13 @@ uniform mat4 view;
 uniform mat4 model;
 
 out vec3 norm;
+out vec3 pos;
 
 void main() {
     norm = normal;
+    pos = position;
 
+    //color = Lo;
+    
     gl_Position = proj * view * model * vec4(position, 1.0);
 }

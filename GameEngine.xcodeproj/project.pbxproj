@@ -25,6 +25,7 @@
 		E0969C661A2A38380045370F /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0969C641A2A38380045370F /* Material.cpp */; };
 		E0969C6C1A2A39030045370F /* Cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0969C6A1A2A39030045370F /* Cube.cpp */; };
 		E0969C6F1A2A3BF50045370F /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0969C6D1A2A3BF50045370F /* Engine.cpp */; };
+		E0AB74AF1A2D048100FB9713 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0AB74AD1A2D048100FB9713 /* Light.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -68,6 +69,8 @@
 		E0969C6B1A2A39030045370F /* Cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cube.h; sourceTree = "<group>"; };
 		E0969C6D1A2A3BF50045370F /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Engine.cpp; sourceTree = "<group>"; };
 		E0969C6E1A2A3BF50045370F /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
+		E0AB74AD1A2D048100FB9713 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
+		E0AB74AE1A2D048100FB9713 /* Light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +120,7 @@
 		E0484E1D1A27631B0032978D /* GameEngine */ = {
 			isa = PBXGroup;
 			children = (
+				E0AB74AC1A2D046C00FB9713 /* lights */,
 				E0969C681A2A38B00045370F /* meshes */,
 				E0969C671A2A38AA0045370F /* materials */,
 				E0484E501A2770C00032978D /* shaders */,
@@ -168,6 +172,15 @@
 				E0969C6B1A2A39030045370F /* Cube.h */,
 			);
 			name = meshes;
+			sourceTree = "<group>";
+		};
+		E0AB74AC1A2D046C00FB9713 /* lights */ = {
+			isa = PBXGroup;
+			children = (
+				E0AB74AD1A2D048100FB9713 /* Light.cpp */,
+				E0AB74AE1A2D048100FB9713 /* Light.h */,
+			);
+			name = lights;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -226,6 +239,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0AB74AF1A2D048100FB9713 /* Light.cpp in Sources */,
 				E0969C5D1A2A2EE90045370F /* Program.cpp in Sources */,
 				E0969C6F1A2A3BF50045370F /* Engine.cpp in Sources */,
 				E0484E361A2766080032978D /* GLUtils.cpp in Sources */,

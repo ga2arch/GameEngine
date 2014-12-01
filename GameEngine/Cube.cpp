@@ -44,8 +44,9 @@ void Cube::draw(const glm::mat4& proj,
     glBindVertexArray(vao);
     
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-    glDrawElements(GL_TRIANGLE_STRIP, sizeof(indices)/sizeof(GLushort), GL_UNSIGNED_SHORT, nullptr);
-    //glDrawArrays(GL_TRIANGLES, 0, 12*3);
+    glDrawElements(GL_TRIANGLE_STRIP,
+                   sizeof(indices)/sizeof(GLushort),
+                   GL_UNSIGNED_SHORT, nullptr);
     
     glDisableVertexAttribArray(a_pos);
     glDisableVertexAttribArray(a_norm);

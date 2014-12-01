@@ -18,7 +18,7 @@ Engine::Engine(int w, int h, const char* title) {
     window.title = title;
     
     GLUtils::create_window(window.title, window.w, window.h, window.win);
-    view = glm::lookAt(glm::vec3(3.0f, 20.0f, -20.0f),
+    view = glm::lookAt(glm::vec3(6.0f, 6.0f, -6.0f),
                        glm::vec3(0.0f, 0.0f, 0.0f),
                        glm::vec3(0.0f, 1.0f, 0.0f));
     

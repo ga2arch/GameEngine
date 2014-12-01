@@ -26,11 +26,11 @@ int main(int argc, const char * argv[]) {
     
     engine.add_mesh(std::make_shared<Cube>(Simple(p)));
     
-    auto c = std::make_shared<Cube>(Simple(p));
-    c->move(glm::vec3(10.0f, 1.0f, 1.0f));
-    
-    engine.add_mesh(c);
-    
+//    auto c = std::make_shared<Cube>(Simple(p));
+//    c->move(glm::vec3(10.0f, 1.0f, 1.0f));
+//    
+//    engine.add_mesh(c);
+//    
     engine.run();
     
 }
