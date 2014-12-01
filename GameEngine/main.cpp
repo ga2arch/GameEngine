@@ -25,7 +25,7 @@ int main(int argc, const char * argv[]) {
                      Shader("s.fragment", GL_FRAGMENT_SHADER));
     
     engine.add_mesh(std::make_shared<Cube>(Simple(p)));
-    
+    engine.set_light(std::make_shared<DirectionalLight>(glm::vec3(4.0f, 6.0f, -5.0f)));
 //    auto c = std::make_shared<Cube>(Simple(p));
 //    c->move(glm::vec3(10.0f, 1.0f, 1.0f));
 //    

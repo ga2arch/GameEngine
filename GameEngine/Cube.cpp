@@ -33,7 +33,15 @@ void Cube::update(const glm::vec3& pos) {
 void Cube::draw(const glm::mat4& proj,
                 const glm::mat4& view) {
     
-    material.begin(proj, view, model);
+    auto u_proj  = get_program().get_uniform("proj");
+    auto u_view  = get_program().get_uniform("view");
+    auto u_model = get_program().get_uniform("model");
+    
+    glUniformMatrix4fv(u_proj,  1, GL_FALSE, glm::value_ptr(proj));
+    glUniformMatrix4fv(u_view,  1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(u_model, 1, GL_FALSE, glm::value_ptr(model));
+
+    material.begin();
     
     auto a_pos = get_program().get_attribute("position");
     auto a_norm = get_program().get_attribute("normal");

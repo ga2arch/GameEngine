@@ -23,6 +23,7 @@ public:
     Mesh(const Material& mat): material(mat) {};
     
     Program& get_program() { return material.program; };
+    Material& get_material() { return material; };
     
     virtual void setup_vao() =0;
     virtual void setup_vbo() =0;

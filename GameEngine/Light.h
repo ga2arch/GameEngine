@@ -17,34 +17,45 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Program.h"
+#include "GLUtils.h"
 
 class Light {
     
 public:
-    virtual void set_uniforms(Program& program);
+    Light(glm::vec3 p): position(p) {}
     
+    virtual void precompute(glm::vec3 color_diffuse,
+                            glm::vec3 color_specular) =0;
+    
+    virtual void upload(Program& program) =0;
 protected:
     glm::vec3 position;
-    
-    glm::vec3 irradiance;
-    glm::vec3 color_diffuse;
-    glm::vec3 color_specular;
-    
+
     glm::vec3 Kd;
     glm::vec3 Ks;
 };
 
-class DirectionalLigth: public Light {
+class DirectionalLight: public Light {
     
 public:
-    DirectionalLigth(glm::vec3 p, glm::vec3 i, glm::vec3 cd, glm::vec3 cs) {
-        position       = p;
-        irradiance     = i;
-        color_diffuse  = cd;
-        color_specular = cs;
+    DirectionalLight(glm::vec3 p): Light(p) {}
+    
+    void precompute(glm::vec3 color_diffuse,
+                    glm::vec3 color_specular) {
         
-        Kd = ((2.0f + 8) / (8.0f * (float)M_PI)) * color_specular;
-        Ks = color_diffuse / (float)M_PI;
+        Kd = color_diffuse / (float)M_PI;
+        Ks = ((2.0f + 8) / (8.0f * (float)M_PI)) * color_specular;
+    }
+    
+    void upload(Program& program) {
+        auto u_p = program.get_uniform("light_pos");
+        auto u_kd = program.get_uniform("Kd");
+        auto u_ks = program.get_uniform("Ks");
+
+        glUniform3fv(u_p,  1, glm::value_ptr(position));
+        glUniform3fv(u_kd, 1, glm::value_ptr(Kd));
+        glUniform3fv(u_ks, 1, glm::value_ptr(Ks));
+
     }
 };
 

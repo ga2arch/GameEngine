@@ -38,6 +38,10 @@ void Engine::add_mesh(std::shared_ptr<Mesh> mesh) {
     
 }
 
+void Engine::lighting() {
+    
+}
+
 void Engine::draw() {
     for (const auto& kv: scene) {
         auto p = kv.first;
@@ -47,6 +51,14 @@ void Engine::draw() {
         
         for (auto& m: ms) {
             m->update(glm::vec3(0.0,0.0,0.0));
+            
+            //for (auto& l: lights) {
+            auto& mat = m->get_material();
+            light->precompute(mat.color_diff, mat.color_spec);
+            
+            //}
+            light->upload(p);
+            
             m->draw(proj, view);
         }
     }
@@ -61,6 +73,7 @@ void Engine::run() {
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
         glViewport(0, 0, window.w, window.h);
         glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
+        
         
         draw();
         

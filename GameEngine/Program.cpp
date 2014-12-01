@@ -12,6 +12,20 @@ Program::Program(Shader vertex, Shader fragment) {
     
     auto shaders = std::make_pair(vertex(), fragment());
     GLUtils::link_shaders(shaders, program);
+    
+    add_uniform("proj");
+    add_uniform("view");
+    add_uniform("model");
+    
+    add_attribute("position");
+    add_attribute("normal");
+    
+    add_uniform("light_pos");
+    add_uniform("irr");
+    add_uniform("Kd");
+    add_uniform("Ks");
+    add_uniform("color_diff");
+    add_uniform("color_spec");
 }
 
 void Program::use() {

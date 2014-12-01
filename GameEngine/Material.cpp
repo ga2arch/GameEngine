@@ -8,17 +8,14 @@
 
 #include "Material.h"
 
-void Material::begin(const glm::mat4& proj,
-                     const glm::mat4& view,
-                     const glm::mat4& model) {
+void Material::begin() {
+    auto u_color_diff  = program.get_uniform("color_diff");
+    auto u_color_spec  = program.get_uniform("color_spec");
+    auto u_irr = program.get_uniform("irr");
 
-    auto u_proj  = program.get_uniform("proj");
-    auto u_view  = program.get_uniform("view");
-    auto u_model = program.get_uniform("model");
-    
-    glUniformMatrix4fv(u_proj,  1, GL_FALSE, glm::value_ptr(proj));
-    glUniformMatrix4fv(u_view,  1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(u_model, 1, GL_FALSE, glm::value_ptr(model));
+    glUniform3fv(u_color_diff, 1, glm::value_ptr(color_diff));
+    glUniform3fv(u_color_spec, 1, glm::value_ptr(color_spec));
+    glUniform3fv(u_irr, 1, glm::value_ptr(irr));
     
     _begin();
 }

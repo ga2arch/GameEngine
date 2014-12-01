@@ -19,6 +19,7 @@
 
 #include "GLUtils.h"
 #include "Mesh.h"
+#include "Light.h"
 
 class Engine {
     
@@ -26,7 +27,11 @@ public:
     Engine(int w, int h, const char* title);
     
     void add_mesh(std::shared_ptr<Mesh> mesh);
+    void set_light(std::shared_ptr<Light> l) {
+        light = l;
+    };
     
+    void lighting();
     void draw();
     void run();
     
@@ -34,6 +39,8 @@ private:
     glm::mat4 view, proj;
 
     std::map<Program, std::vector<std::shared_ptr<Mesh>>> scene;
+    //std::vector<std::shared_ptr<Light>> lights;
+    std::shared_ptr<Light> light;
 
     struct {
         int w, h;

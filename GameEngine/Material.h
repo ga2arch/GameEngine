@@ -20,32 +20,31 @@
 class Material {
     
 public:
-    Material(const Program& prog): program(prog) {};
+    Material(const Program& prog): program(prog) {
+
+    };
     
     virtual void _begin() {};
     
-    void begin(const glm::mat4& proj,
-               const glm::mat4& view,
-               const glm::mat4& model);
+    void begin();
     
     Program program;
+    
+    glm::vec3 color_diff;
+    glm::vec3 color_spec;
+    glm::vec3 irr;
 };
 
 class Simple: public Material {
     
 public:
     Simple(const Program& prog): Material(prog) {
-        program.add_uniform("proj");
-        program.add_uniform("view");
-        program.add_uniform("model");
-        
-        program.add_attribute("position");
-        program.add_attribute("normal");
+        color_diff = glm::vec3(1.0, 0.0, 0.0);
+        color_spec = glm::vec3(0.5, 0.5, 0.0);
+        irr = glm::vec3(5.0);
     };
     
-    void _begin() {
-        
-    }
+    void _begin() {}
     
 };
 
