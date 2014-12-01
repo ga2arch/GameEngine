@@ -25,13 +25,15 @@ public:
     Program& get_program() { return material.program; };
     Material& get_material() { return material; };
     
+    void draw(const glm::mat4& proj,
+              const glm::mat4& view);
+    
     virtual void setup_vao() =0;
     virtual void setup_vbo() =0;
     virtual void setup_ibo() =0;
     
     virtual void update(const glm::vec3& pos) =0;
-    virtual void draw(const glm::mat4& proj,
-                      const glm::mat4& view) =0;
+    virtual void _draw() =0;
     
 protected:
     Material material;

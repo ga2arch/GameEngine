@@ -27,15 +27,10 @@ public:
     void setup_ibo() override;
     
     void update(const glm::vec3& pos) override;
-    void draw(const glm::mat4& proj,
-              const glm::mat4& view) override;
+    void _draw() override;
     
-    void move(const glm::vec3& v) {
-        model = glm::translate(model, v);
-    }
-
 private:
-    GLfloat buffer[6*4*12] = {
+    const GLfloat buffer[6*4*12] = {
         // front
         -1.0, -1.0,  1.0, 0.0, 0.0, 1.0,
         1.0, -1.0,  1.0,  0.0, 0.0, 1.0,

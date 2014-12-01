@@ -27,7 +27,16 @@ public:
     virtual void precompute(glm::vec3 color_diffuse,
                             glm::vec3 color_specular) =0;
     
-    virtual void upload(Program& program) =0;
+    void upload(Program& program) {
+        auto u_p = program.get_uniform("light_pos");
+        auto u_kd = program.get_uniform("Kd");
+        auto u_ks = program.get_uniform("Ks");
+        
+        glUniform3fv(u_p,  1, glm::value_ptr(position));
+        glUniform3fv(u_kd, 1, glm::value_ptr(Kd));
+        glUniform3fv(u_ks, 1, glm::value_ptr(Ks));
+    }
+    
 protected:
     glm::vec3 position;
 
@@ -45,17 +54,6 @@ public:
         
         Kd = color_diffuse / (float)M_PI;
         Ks = ((2.0f + 8) / (8.0f * (float)M_PI)) * color_specular;
-    }
-    
-    void upload(Program& program) {
-        auto u_p = program.get_uniform("light_pos");
-        auto u_kd = program.get_uniform("Kd");
-        auto u_ks = program.get_uniform("Ks");
-
-        glUniform3fv(u_p,  1, glm::value_ptr(position));
-        glUniform3fv(u_kd, 1, glm::value_ptr(Kd));
-        glUniform3fv(u_ks, 1, glm::value_ptr(Ks));
-
     }
 };
 
