@@ -17,8 +17,11 @@ out vec4 fragColor;
 
 void main() {
     
-    float m = 2.0;
-    vec3 pv = vec3(-6.0, -6.0, -6.0);
+    vec3 color = texture(lava_texture, coord).rgb;
+    vec3 cdiff = color.rgb / 3.14;
+    
+    float m = 10.0;
+    vec3 pv = vec3(-6.0, 6.0, 6.0);
     vec3 v = normalize(pv - pos);
     vec3 Lo = vec3(0.0, 0.0, 0.0);
     vec3 h = normalize(v + light_pos);
@@ -26,18 +29,20 @@ void main() {
     float cosTi = clamp(dot(norm, light_pos), 0, 1);
     
     float cosS = dot(normalize(light_pos - pos), normalize(light_pos));
-    float cosU = cos(0.20 * 0.0174532);
-    float cosP = cos(0.10 * 0.0174532);
+    float cosU = cos(35 * 0.0174532);
+    float cosP = cos(20 * 0.0174532);
 
-    vec3 i = irr; /// ((light_pos - pos)*(light_pos - pos));
+    float r = length(light_pos - pos);
+    
+    vec3 i = irr / (r*r);
     if (cosU < cosS && cosS < cosP)
-        i = irr * pow(((cosS - cosU) / (cosP - cosU)), 2.5);
+        i = i * pow(((cosS - cosU) / (cosP - cosU)), 2.5);
     
     if (cosS <= cosU)
         i = vec3(0.0);
     
-    Lo += ((Kd + Ks * pow(cosTh, m)) * i * cosTi);
+    Lo += ((cdiff + Ks * pow(cosTh, m)) * i * cosTi);
     
     //fragColor = vec4(Lo, 1.0f);
-    fragColor = vec4(texture(lava_texture, coord).rgb, 1.0);
+    fragColor = vec4(Lo, 1.0);
 }

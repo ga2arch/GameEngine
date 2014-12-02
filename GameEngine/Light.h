@@ -53,7 +53,7 @@ public:
                     glm::vec3 color_specular) {
         
         Kd = color_diffuse / (float)M_PI;
-        Ks = ((2.0f + 8) / (8.0f * (float)M_PI)) * color_specular;
+        Ks = ((10.0f + 8) / (8.0f * (float)M_PI)) * color_specular;
     }
 };
 
