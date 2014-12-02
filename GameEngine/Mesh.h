@@ -40,7 +40,7 @@ public:
     void setup_ibo();
     void update(const glm::vec3& pos);
     
-    virtual void _draw() =0;
+    virtual void _draw();
     
 protected:
     Material material;

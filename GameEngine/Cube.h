@@ -19,6 +19,5 @@ class Cube: public Mesh {
 public:
     Cube(const Material& mat);
     
-    void _draw() override;
 };
 #endif /* defined(__GameEngine__Cube__) */

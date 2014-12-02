@@ -65,9 +65,3 @@ Cube::Cube(const Material& mat): Mesh(mat) {
     setup();
 }
 
-void Cube::_draw() {
-    glDrawElements(GL_TRIANGLE_STRIP,
-                   indices.size(),
-                   GL_UNSIGNED_SHORT, nullptr);
-}
-

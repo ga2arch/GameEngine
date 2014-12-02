@@ -18,12 +18,6 @@ class Plane: public Mesh {
 public:
     Plane(const Material& mat);
     
-    void _draw() override {
-        glDrawElements(GL_TRIANGLE_STRIP,
-                       indices.size(),
-                       GL_UNSIGNED_SHORT, nullptr);
-    }
-    
 };
 
 #endif /* defined(__GameEngine__Plane__) */
