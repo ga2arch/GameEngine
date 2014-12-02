@@ -47,14 +47,16 @@ void Mesh::setup_vao() {
 }
 
 void Mesh::setup_vbo() {
+    auto count = static_cast<int>(buffer.size());
     vbo = GLUtils::make_vbo(GL_ARRAY_BUFFER,
                             buffer.data(),
-                            buffer.size()*sizeof(GLfloat));
+                            count*sizeof(GLfloat));
 }
 
 void Mesh::setup_ibo() {
+    auto count = static_cast<int>(indices.size());
     ibo = GLUtils::make_ibo(indices.data(),
-                            indices.size()*sizeof(GLushort));
+                            count*sizeof(GLushort));
 }
 
 void Mesh::update(const glm::vec3& pos) {
@@ -62,7 +64,9 @@ void Mesh::update(const glm::vec3& pos) {
 }
 
 void Mesh::_draw() {
+    auto count = static_cast<int>(indices.size());
     glDrawElements(GL_TRIANGLE_STRIP,
-                   indices.size(),
-                   GL_UNSIGNED_SHORT, nullptr);
+                   count,
+                   GL_UNSIGNED_SHORT,
+                   nullptr);
 }

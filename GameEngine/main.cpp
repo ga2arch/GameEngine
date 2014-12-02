@@ -13,6 +13,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Cube.h"
+#include "Plane.h"
 #include "Program.h"
 #include "Material.h"
 #include "Engine.h"
@@ -24,8 +25,8 @@ int main(int argc, const char * argv[]) {
     auto p = Program(Shader("s.vertex", GL_VERTEX_SHADER),
                      Shader("s.fragment", GL_FRAGMENT_SHADER));
     
-    engine.add_mesh(std::make_shared<Cube>(Simple(p)));
-    engine.set_light(std::make_shared<DirectionalLight>(glm::vec3(4.0f, 6.0f, -5.0f)));
+    engine.add_mesh(std::make_shared<Plane>(Simple(p)));
+    engine.set_light(std::make_shared<DirectionalLight>(glm::vec3(-100.0f, -100.0f, -200.0f)));
 //    auto c = std::make_shared<Cube>(Simple(p));
 //    c->update(glm::vec3(2.0f, 1.0f, 1.0f));
 //    

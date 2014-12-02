@@ -15,7 +15,7 @@ out vec4 fragColor;
 void main() {
     
     float m = 2.0;
-    vec3 pv = vec3(6.0, 6.0, -6.0);
+    vec3 pv = vec3(-6.0, -6.0, -6.0);
     vec3 v = normalize(pv - pos);
     vec3 Lo = vec3(0.0, 0.0, 0.0);
     vec3 h = normalize(v + light_pos);
@@ -23,17 +23,17 @@ void main() {
     float cosTi = clamp(dot(norm, light_pos), 0, 1);
     
     float cosS = dot(normalize(light_pos - pos), normalize(light_pos));
-    float cosU = cos(10 * 0.0174532);
-    float cosP = cos(9 * 0.0174532);
+    float cosU = cos(0.20 * 0.0174532);
+    float cosP = cos(0.10 * 0.0174532);
 
     vec3 i = irr; /// ((light_pos - pos)*(light_pos - pos));
     if (cosU < cosS && cosS < cosP)
-        i = irr * pow(((cosS - cosU) / (cosP - cosU)), 0.5);
+        i = irr * pow(((cosS - cosU) / (cosP - cosU)), 2.5);
     
     if (cosS <= cosU)
         i = vec3(0.0);
     
     Lo += ((Kd + Ks * pow(cosTh, m)) * i * cosTi);
     
-    fragColor = vec4(norm, 1.0f);
+    fragColor = vec4(Lo, 1.0f);
 }
