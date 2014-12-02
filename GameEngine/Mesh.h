@@ -30,6 +30,7 @@ public:
         setup_vbo();
         setup_ibo();
         setup_vao();
+        setup_texture();
     }
     
     void draw(const glm::mat4& proj,
@@ -38,6 +39,8 @@ public:
     void setup_vao();
     void setup_vbo();
     void setup_ibo();
+    void setup_texture();
+
     void update(const glm::vec3& pos);
     
     virtual void _draw();
@@ -51,6 +54,7 @@ protected:
     GLuint vao;
     GLuint vbo;
     GLuint ibo;
+    GLuint texture;
     
     glm::mat4 model = glm::mat4(1.0);
 };

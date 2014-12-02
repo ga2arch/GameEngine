@@ -22,28 +22,39 @@ void Mesh::draw(const glm::mat4 &proj, const glm::mat4 &view) {
     
     auto a_pos = get_program().get_attribute("position");
     auto a_norm = get_program().get_attribute("normal");
-    
+    auto a_uv = get_program().get_attribute("uv");
+
     glEnableVertexAttribArray(a_pos);
     glEnableVertexAttribArray(a_norm);
-    
+    glEnableVertexAttribArray(a_uv);
+
     glBindVertexArray(vao);
     
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    
+    auto u_texture = get_program().get_uniform("lava_texture");
+    glUniform1i(u_texture, 0);
     
     _draw();
     
     glDisableVertexAttribArray(a_pos);
     glDisableVertexAttribArray(a_norm);
+    //glDeleteTextures(1, &texture);
 }
 
 void Mesh::setup_vao() {
     auto a_pos = get_program().get_attribute("position");
     auto a_norm = get_program().get_attribute("normal");
-    
+    auto a_uv = get_program().get_attribute("uv");
+
     vao = GLUtils::make_vao(GL_ARRAY_BUFFER, vbo);
     
-    GLUtils::bind_vao(a_pos, 3, 6*sizeof(GLfloat));
-    GLUtils::bind_vao(a_norm, 3, 6*sizeof(GLfloat), 3*sizeof(GLfloat));
+    GLUtils::bind_vao(a_pos,  3, 8*sizeof(GLfloat));
+    GLUtils::bind_vao(a_norm, 3, 8*sizeof(GLfloat), 3*sizeof(GLfloat));
+    GLUtils::bind_vao(a_uv,   2, 8*sizeof(GLfloat), 6*sizeof(GLfloat));
+
 }
 
 void Mesh::setup_vbo() {
@@ -57,6 +68,9 @@ void Mesh::setup_ibo() {
     auto count = static_cast<int>(indices.size());
     ibo = GLUtils::make_ibo(indices.data(),
                             count*sizeof(GLushort));
+}
+
+void Mesh::setup_texture() {
 }
 
 void Mesh::update(const glm::vec3& pos) {

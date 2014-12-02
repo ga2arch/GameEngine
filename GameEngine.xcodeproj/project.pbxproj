@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E02EDED81A2E45C5009467C7 /* Cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E02EDED71A2E45C5009467C7 /* Cube.cpp */; };
 		E02EDEDB1A2E4692009467C7 /* Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E02EDED91A2E4692009467C7 /* Plane.cpp */; };
+		E02EDEE21A2E507B009467C7 /* lodepng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E02EDEE01A2E507B009467C7 /* lodepng.cpp */; };
 		E0484E1F1A27631B0032978D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0484E1E1A27631B0032978D /* main.cpp */; };
 		E0484E361A2766080032978D /* GLUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0484E331A2766080032978D /* GLUtils.cpp */; };
 		E0484E391A27662E0032978D /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0484E381A27662E0032978D /* CoreVideo.framework */; };
@@ -47,6 +48,10 @@
 		E02EDED71A2E45C5009467C7 /* Cube.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cube.cpp; sourceTree = "<group>"; };
 		E02EDED91A2E4692009467C7 /* Plane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plane.cpp; sourceTree = "<group>"; };
 		E02EDEDA1A2E4692009467C7 /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plane.h; sourceTree = "<group>"; };
+		E02EDEE01A2E507B009467C7 /* lodepng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lodepng.cpp; sourceTree = "<group>"; };
+		E02EDEE11A2E507B009467C7 /* lodepng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lodepng.h; sourceTree = "<group>"; };
+		E02EDEE51A2E51B2009467C7 /* floorislava.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = floorislava.png; sourceTree = "<group>"; };
+		E02EDEE61A2E58E3009467C7 /* texture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = texture.jpg; sourceTree = "<group>"; };
 		E0484E1B1A27631B0032978D /* GameEngine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GameEngine; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0484E1E1A27631B0032978D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		E0484E331A2766080032978D /* GLUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLUtils.cpp; sourceTree = "<group>"; };
@@ -95,6 +100,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E02EDEE41A2E51A8009467C7 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				E02EDEE61A2E58E3009467C7 /* texture.jpg */,
+				E02EDEE51A2E51B2009467C7 /* floorislava.png */,
+			);
+			name = resources;
+			sourceTree = "<group>";
+		};
 		E0484E121A27631B0032978D = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +137,7 @@
 		E0484E1D1A27631B0032978D /* GameEngine */ = {
 			isa = PBXGroup;
 			children = (
+				E02EDEE41A2E51A8009467C7 /* resources */,
 				E0AB74AC1A2D046C00FB9713 /* lights */,
 				E0969C681A2A38B00045370F /* meshes */,
 				E0969C671A2A38AA0045370F /* materials */,
@@ -137,6 +152,8 @@
 		E0484E321A2766080032978D /* GLUtils */ = {
 			isa = PBXGroup;
 			children = (
+				E02EDEE01A2E507B009467C7 /* lodepng.cpp */,
+				E02EDEE11A2E507B009467C7 /* lodepng.h */,
 				E0484E331A2766080032978D /* GLUtils.cpp */,
 				E0484E341A2766080032978D /* GLUtils.h */,
 			);
@@ -248,6 +265,7 @@
 				E0AB74AF1A2D048100FB9713 /* Light.cpp in Sources */,
 				E02EDEDB1A2E4692009467C7 /* Plane.cpp in Sources */,
 				E0969C5D1A2A2EE90045370F /* Program.cpp in Sources */,
+				E02EDEE21A2E507B009467C7 /* lodepng.cpp in Sources */,
 				E0969C6F1A2A3BF50045370F /* Engine.cpp in Sources */,
 				E0484E361A2766080032978D /* GLUtils.cpp in Sources */,
 				E0969C661A2A38380045370F /* Material.cpp in Sources */,

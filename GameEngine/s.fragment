@@ -2,6 +2,7 @@
 
 in vec3 norm;
 in vec3 pos;
+in vec2 coord;
 
 uniform vec3 light_pos;
 uniform vec3 Kd;
@@ -9,6 +10,8 @@ uniform vec3 Ks;
 uniform vec3 color_diff;
 uniform vec3 color_spec;
 uniform vec3 irr;
+
+uniform sampler2D lava_texture;
 
 out vec4 fragColor;
 
@@ -35,5 +38,6 @@ void main() {
     
     Lo += ((Kd + Ks * pow(cosTh, m)) * i * cosTi);
     
-    fragColor = vec4(Lo, 1.0f);
+    //fragColor = vec4(Lo, 1.0f);
+    fragColor = vec4(texture(lava_texture, coord).rgb, 1.0);
 }

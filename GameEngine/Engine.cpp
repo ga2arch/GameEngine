@@ -74,10 +74,11 @@ void Engine::run() {
         glViewport(0, 0, window.w, window.h);
         glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
         
-        
         draw();
         
         glfwPollEvents();
         glfwSwapBuffers(window.win);
+        
+        usleep(16 * 1000);
     }
 }

@@ -19,6 +19,7 @@ Program::Program(Shader vertex, Shader fragment) {
     
     add_attribute("position");
     add_attribute("normal");
+    add_attribute("uv");
     
     add_uniform("light_pos");
     add_uniform("irr");
@@ -26,6 +27,8 @@ Program::Program(Shader vertex, Shader fragment) {
     add_uniform("Ks");
     add_uniform("color_diff");
     add_uniform("color_spec");
+    
+    add_uniform("lava_texture");
 }
 
 void Program::use() {
