@@ -35,3 +35,34 @@ void Mesh::draw(const glm::mat4 &proj, const glm::mat4 &view) {
     glDisableVertexAttribArray(a_pos);
     glDisableVertexAttribArray(a_norm);
 }
+
+void Mesh::setup_vao() {
+    auto a_pos = get_program().get_attribute("position");
+    auto a_norm = get_program().get_attribute("normal");
+    
+    vao = GLUtils::make_vao(GL_ARRAY_BUFFER, vbo);
+    
+    GLUtils::bind_vao(a_pos, 3, 6*sizeof(GLfloat));
+    GLUtils::bind_vao(a_norm, 3, 6*sizeof(GLfloat), 3*sizeof(GLfloat));
+}
+
+void Mesh::setup_vbo() {
+    vbo = GLUtils::make_vbo(GL_ARRAY_BUFFER,
+                            buffer.data(),
+                            buffer.size()*sizeof(GLfloat));
+}
+
+void Mesh::setup_ibo() {
+    ibo = GLUtils::make_ibo(indices.data(),
+                            indices.size()*sizeof(GLushort));
+}
+
+void Mesh::update(const glm::vec3& pos) {
+    model = glm::translate(model, pos);
+}
+
+void Mesh::_draw() {
+    glDrawElements(GL_TRIANGLE_STRIP,
+                   indices.size(),
+                   GL_UNSIGNED_SHORT, nullptr);
+}

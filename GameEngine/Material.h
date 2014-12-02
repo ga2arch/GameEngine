@@ -41,7 +41,7 @@ public:
     Simple(const Program& prog): Material(prog) {
         color_diff = glm::vec3(1.0, 0.0, 0.0);
         color_spec = glm::vec3(0.5, 0.5, 0.0);
-        irr = glm::vec3(5.0);
+        irr = glm::vec3(10.0);
     };
     
     void _begin() {}

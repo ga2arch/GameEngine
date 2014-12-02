@@ -10,6 +10,7 @@
 #define __GameEngine__Mesh__
 
 #include <stdio.h>
+#include <vector>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -25,24 +26,33 @@ public:
     Program& get_program() { return material.program; };
     Material& get_material() { return material; };
     
+    void setup() {
+        setup_vbo();
+        setup_ibo();
+        setup_vao();
+    }
+    
     void draw(const glm::mat4& proj,
               const glm::mat4& view);
     
-    virtual void setup_vao() =0;
-    virtual void setup_vbo() =0;
-    virtual void setup_ibo() =0;
+    void setup_vao();
+    void setup_vbo();
+    void setup_ibo();
+    void update(const glm::vec3& pos);
     
-    virtual void update(const glm::vec3& pos) =0;
     virtual void _draw() =0;
     
 protected:
     Material material;
     
+    std::vector<GLushort> indices;
+    std::vector<GLfloat>  buffer;
+    
     GLuint vao;
     GLuint vbo;
     GLuint ibo;
     
-    glm::mat4 model;
+    glm::mat4 model = glm::mat4(1.0);
 };
 
 #endif /* defined(__GameEngine__Mesh__) */
