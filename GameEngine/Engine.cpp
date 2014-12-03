@@ -54,8 +54,7 @@ void Engine::draw() {
             
             //for (auto& l: lights) {
             auto& mat = m->get_material();
-            light->precompute(mat.color_diff, mat.color_spec);
-            
+            light->compute(mat.color_spec);
             //}
             light->upload(p);
             
@@ -73,7 +72,7 @@ void Engine::run() {
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
         glViewport(0, 0, window.w, window.h);
         glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
-        
+//        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         draw();
         
         glfwPollEvents();

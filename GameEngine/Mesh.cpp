@@ -13,10 +13,12 @@ void Mesh::draw(const glm::mat4 &proj, const glm::mat4 &view) {
     auto u_proj  = get_program().get_uniform("proj");
     auto u_view  = get_program().get_uniform("view");
     auto u_model = get_program().get_uniform("model");
-    
+    auto u_texture = get_program().get_uniform("tex");
+
     glUniformMatrix4fv(u_proj,  1, GL_FALSE, glm::value_ptr(proj));
     glUniformMatrix4fv(u_view,  1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(u_model, 1, GL_FALSE, glm::value_ptr(model));
+    glUniform1i(u_texture, 0);
     
     material.begin();
     
@@ -34,13 +36,12 @@ void Mesh::draw(const glm::mat4 &proj, const glm::mat4 &view) {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
     
-    auto u_texture = get_program().get_uniform("lava_texture");
-    glUniform1i(u_texture, 0);
     
     _draw();
     
     glDisableVertexAttribArray(a_pos);
     glDisableVertexAttribArray(a_norm);
+    glDisableVertexAttribArray(a_uv);
     //glDeleteTextures(1, &texture);
 }
 

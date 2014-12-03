@@ -23,12 +23,9 @@ Program::Program(Shader vertex, Shader fragment) {
     
     add_uniform("light_pos");
     add_uniform("irr");
-    add_uniform("Kd");
     add_uniform("Ks");
-    add_uniform("color_diff");
-    add_uniform("color_spec");
     
-    add_uniform("lava_texture");
+    add_uniform("tex");
 }
 
 void Program::use() {

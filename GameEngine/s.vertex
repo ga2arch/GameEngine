@@ -13,7 +13,7 @@ out vec3 pos;
 out vec2 coord;
 
 void main() {
-    norm = normal;
+    norm = normal;//(transpose(inverse(view*model)) * vec4(normal, 1.0)).xyz;
     pos = position;
     coord = uv;
 

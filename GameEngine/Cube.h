@@ -18,6 +18,10 @@ class Cube: public Mesh {
     
 public:
     Cube(const Material& mat);
-    
+//    
+//    void update(const glm::vec3& v) {
+//        model = glm::rotate(model, (glm::mediump_float)1.0, glm::vec3(0.0, 1.0, 0.0));
+//    }
+//    
 };
 #endif /* defined(__GameEngine__Cube__) */

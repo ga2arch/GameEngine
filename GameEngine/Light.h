@@ -24,16 +24,13 @@ class Light {
 public:
     Light(glm::vec3 p): position(p) {}
     
-    virtual void precompute(glm::vec3 color_diffuse,
-                            glm::vec3 color_specular) =0;
+    virtual void compute(glm::vec3 color_specular) =0;
     
     void upload(Program& program) {
         auto u_p = program.get_uniform("light_pos");
-        auto u_kd = program.get_uniform("Kd");
         auto u_ks = program.get_uniform("Ks");
         
         glUniform3fv(u_p,  1, glm::value_ptr(position));
-        glUniform3fv(u_kd, 1, glm::value_ptr(Kd));
         glUniform3fv(u_ks, 1, glm::value_ptr(Ks));
     }
     
@@ -49,10 +46,8 @@ class DirectionalLight: public Light {
 public:
     DirectionalLight(glm::vec3 p): Light(p) {}
     
-    void precompute(glm::vec3 color_diffuse,
-                    glm::vec3 color_specular) {
+    void compute(glm::vec3 color_specular) {
         
-        Kd = color_diffuse / (float)M_PI;
         Ks = ((10.0f + 8) / (8.0f * (float)M_PI)) * color_specular;
     }
 };

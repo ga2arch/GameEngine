@@ -18,6 +18,8 @@ class Plane: public Mesh {
 public:
     Plane(const Material& mat);
     
+//    void draw(const glm::mat4& proj,
+//              const glm::mat4& view);
 };
 
 #endif /* defined(__GameEngine__Plane__) */

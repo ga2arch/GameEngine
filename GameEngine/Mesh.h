@@ -33,15 +33,15 @@ public:
         setup_texture();
     }
     
-    void draw(const glm::mat4& proj,
-              const glm::mat4& view);
+    virtual void draw(const glm::mat4& proj,
+                      const glm::mat4& view);
     
     void setup_vao();
     void setup_vbo();
     void setup_ibo();
     void setup_texture();
 
-    void update(const glm::vec3& pos);
+    virtual void update(const glm::vec3& pos);
     
     virtual void _draw();
     
