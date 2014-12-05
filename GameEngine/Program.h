@@ -10,6 +10,9 @@
 #define GameEngine_Program_h
 
 #include <iostream>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "GLUtils.h"
 #include "Shader.h"
@@ -19,6 +22,18 @@ class Program {
 public:
     Program(Shader&& v, Shader&& f): vertex(std::move(v)), fragment(std::move(f)) {
         GLUtils::link_shaders(std::make_pair(v(), f()), program);
+    }
+    
+    void use() { glUseProgram(program); }
+    
+    void set_uniform(const char* name, const glm::mat4& v) {
+        auto u = glGetUniformLocation(program, name);
+        glUniformMatrix4fv(u, 1, GL_FALSE, glm::value_ptr(v));
+    }
+    
+    void set_uniform(const char* name, int v) {
+        auto u = glGetUniformLocation(program, name);
+        glUniform1i(u, v);
     }
     
 private:
