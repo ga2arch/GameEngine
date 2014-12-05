@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include "Program.h"
 #include "Shader.h"
+#include "Mesh.h"
 
 int main() {
     
