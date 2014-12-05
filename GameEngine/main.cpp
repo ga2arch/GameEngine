@@ -7,6 +7,7 @@
 //
 
 #include <stdio.h>
+#include "Program.h"
 #include "Shader.h"
 
 int main() {
