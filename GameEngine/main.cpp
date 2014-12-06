@@ -23,11 +23,11 @@ int main() {
     auto program = Program(Shader("shader.vertex", Shader::Vertex),
                            Shader("shader.fragment", Shader::Fragment));
     
-    auto camera = Camera(glm::vec3(0,5,30), glm::vec3(0,0,0));
+    auto camera = Camera(glm::vec3(0,5,15), glm::vec3(0,0,0));
     
     auto cube = Mesh();
     cube.load_mesh("scene.dae");
-    cube.scale(glm::vec3(8,8,1));
+    //cube.rotate(glm::vec3(1,0,0), -90);
     
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -40,7 +40,6 @@ int main() {
         glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
         
         camera.set_uniforms(program);
-        //cube.rotate(glm::vec3(0,1,0), 1.0f);
         cube.draw(program);
         
         glfwPollEvents();

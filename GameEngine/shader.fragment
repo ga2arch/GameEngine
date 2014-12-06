@@ -13,7 +13,7 @@ uniform vec3 camera;
 out vec4 fragColor;
 
 void main() {
-    vec3 light_pos = vec3(0,0,5);
+    vec3 light_pos = vec3(0,5,5);
     vec3 diff = vec3(.5);
     vec3 spec = vec3(1,1,1);
     float m = 100;
@@ -30,5 +30,5 @@ void main() {
     
     vec3 Lo = (diff/3.14 + (m+8)/(3.14*8) * pow(cosH, m)*spec) * 1.0 * cosI;
     
-    fragColor = vec4(Lo, 1.0);
+    fragColor = vec4(Lo*10, 1.0);
 }

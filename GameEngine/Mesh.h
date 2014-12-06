@@ -15,11 +15,24 @@
 
 #include "Program.h"
 
+
+
 class Mesh {
+    
+    struct MeshEntry {
+        GLuint vbo, vao;
+        std::vector<GLfloat> buffer;
+    };
+    
+    struct Node {
+        glm::mat4 model;
+        std::vector<MeshEntry> meshes;
+        std::vector<Node> nodes;
+    };
+
     
 public:
     Mesh() {};
-    Mesh(std::vector<GLfloat>&& buffer): buffer(buffer) {};
     
     void load_mesh(const char* filename) {
         auto scene = aiImportFile(filename, aiProcess_Triangulate
@@ -37,58 +50,102 @@ public:
     };
     
     void load_scene(const aiScene* scene) {
-        auto& mesh = scene->mMeshes[0];
+        for (int i=0; i < scene->mNumMeshes; i++)
+            load_mesh(scene->mMeshes[i]);
+        
+        if (scene->mRootNode != nullptr) {
+            root = load_node(scene->mRootNode);
+        }
+    }
+    
+    void load_mesh(const aiMesh* mesh) {
+        MeshEntry m;
         
         const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
-
-        for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+        
+        for (int i = 0; i < mesh->mNumVertices; i++) {
             const auto pos = &(mesh->mVertices[i]);
             const auto normal = mesh->HasNormals() ? &(mesh->mNormals[i]) : &Zero3D;
             const auto texcoord = mesh->HasTextureCoords(0) ? &(mesh->mTextureCoords[0][i]) : &Zero3D;
             
-            buffer.push_back(pos->x);
-            buffer.push_back(pos->y);
-            buffer.push_back(pos->z);
+            m.buffer.push_back(pos->x);
+            m.buffer.push_back(pos->y);
+            m.buffer.push_back(pos->z);
             
-            buffer.push_back(normal->x);
-            buffer.push_back(normal->y);
-            buffer.push_back(normal->z);
+            m.buffer.push_back(normal->x);
+            m.buffer.push_back(normal->y);
+            m.buffer.push_back(normal->z);
             
-            buffer.push_back(texcoord->x);
-            buffer.push_back(texcoord->y);
-
+            m.buffer.push_back(texcoord->x);
+            m.buffer.push_back(texcoord->y);
+            
         }
-        
-        vbo = GLUtils::make_vbo(GL_ARRAY_BUFFER,
-                                buffer.data(),
-                                static_cast<int>(buffer.size()*sizeof(GLfloat)));
-        vao = GLUtils::make_vao(GL_ARRAY_BUFFER, vbo);
+                
+        m.vbo = GLUtils::make_vbo(GL_ARRAY_BUFFER,
+                                m.buffer.data(),
+                                static_cast<int>(m.buffer.size()*sizeof(GLfloat)));
+        m.vao = GLUtils::make_vao(GL_ARRAY_BUFFER, m.vbo);
         
         GLUtils::bind_vao(0, 3, 8*sizeof(GLfloat));
         GLUtils::bind_vao(1, 3, 8*sizeof(GLfloat), 3*sizeof(GLfloat));
         GLUtils::bind_vao(2, 2, 8*sizeof(GLfloat), 6*sizeof(GLfloat));
+        
+        meshes.push_back(m);
     }
     
-    void draw(Program& program, bool shadow_pass = false) {
+    Node load_node(const aiNode* node) {
+        Node n;
+        
+        n.model = glm::transpose(glm::make_mat4(node->mTransformation[0]));
+        
+        for (int i=0; i< node->mNumMeshes; i++) {
+            n.meshes.push_back(meshes[node->mMeshes[i]]);
+        }
+        
+        for (int i=0; i< node->mNumChildren; i++) {
+            n.nodes.push_back(load_node(node->mChildren[i]));
+        }
+        
+        return n;
+    }
+    
+    void draw(const MeshEntry& m, bool shadow_pass = false) {
         glEnableVertexAttribArray(0);
         if (!shadow_pass) {
             glEnableVertexAttribArray(1);
             glEnableVertexAttribArray(2);
         }
         
-        glBindVertexArray(vao);
-        
-//        model = glm::mat4();
-//        translate(glm::vec3(0.0, 0.0, -5.0));
-//        
-        program.set_uniform("model", model);
-        glDrawArrays(GL_TRIANGLES, 0, static_cast<int>(buffer.size()/8));
+        glBindVertexArray(m.vao);
+        glDrawArrays(GL_TRIANGLES, 0, static_cast<int>(m.buffer.size()/8));
         
         glDisableVertexAttribArray(0);
         if (!shadow_pass) {
             glDisableVertexAttribArray(1);
             glDisableVertexAttribArray(2);
         }
+    }
+    
+    void draw(Program& program, bool shadow_pass = false) {
+        draw(program, root, shadow_pass);
+    }
+    
+    void draw(Program& program,
+              Node node,
+              bool shadow_pass = false) {
+        
+        glm::mat4 toggle(1, 0, 0, 0,
+                         0, 0, 1, 0,
+                         0, 1, 0, 0,
+                         0, 0, 0, 1);
+        
+        node.model = toggle * node.model * model;
+        program.set_uniform("model", node.model);
+        for (auto& m: node.meshes)
+            draw(m);
+        
+        for (auto& n: node.nodes)
+            draw(program, n);
     }
     
     void translate(const glm::vec3& v) {
@@ -104,12 +161,10 @@ public:
     }
     
 private:
-    GLuint vbo, vao;
     glm::mat4 model = glm::mat4(1.0);
     
-    std::vector<GLfloat> buffer;
-    //std::vector<GLushort> indices;
-    
+    std::vector<MeshEntry> meshes;
+    Node root;
 };
 
 #endif
