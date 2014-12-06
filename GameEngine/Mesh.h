@@ -139,7 +139,7 @@ public:
                          0, 1, 0, 0,
                          0, 0, 0, 1);
         
-        node.model = toggle * node.model * model;
+        node.model = node.model * model;
         program.set_uniform("model", node.model);
         for (auto& m: node.meshes)
             draw(m);

@@ -23,11 +23,11 @@ int main() {
     auto program = Program(Shader("shader.vertex", Shader::Vertex),
                            Shader("shader.fragment", Shader::Fragment));
     
-    auto camera = Camera(glm::vec3(0,5,15), glm::vec3(0,0,0));
+    auto camera = Camera(glm::vec3(3,5,15), glm::vec3(0,0,0));
     
     auto cube = Mesh();
-    cube.load_mesh("scene.dae");
-    //cube.rotate(glm::vec3(1,0,0), -90);
+    cube.load_mesh("scene.obj");
+    //cube.rotate(glm::vec3(1,0,0), 90);
     
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
