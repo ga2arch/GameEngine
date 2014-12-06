@@ -9,9 +9,9 @@
 #ifndef GameEngine_Camera_h
 #define GameEngine_Camera_h
 
-#include <assimp/cimport.h>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Program.h"
 

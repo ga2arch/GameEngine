@@ -26,7 +26,7 @@ int main() {
     auto camera = Camera(glm::vec3(0,5,0), glm::vec3(0, 0, -5));
     
     auto cube = Mesh();
-    cube.load_mesh("cube.dae");
+    cube.load_mesh("scene.dae");
     
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);

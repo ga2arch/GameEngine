@@ -37,7 +37,7 @@ public:
     };
     
     void load_scene(const aiScene* scene) {
-        auto& mesh = scene->mMeshes[0];
+        auto& mesh = scene->mMeshes[2];
         
         const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
 
