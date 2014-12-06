@@ -37,7 +37,7 @@ public:
     };
     
     void load_scene(const aiScene* scene) {
-        auto& mesh = scene->mMeshes[2];
+        auto& mesh = scene->mMeshes[0];
         
         const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
 
@@ -78,9 +78,9 @@ public:
         
         glBindVertexArray(vao);
         
-        model = glm::mat4();
-        translate(glm::vec3(0.0, 0.0, -5.0));
-        
+//        model = glm::mat4();
+//        translate(glm::vec3(0.0, 0.0, -5.0));
+//        
         program.set_uniform("model", model);
         glDrawArrays(GL_TRIANGLES, 0, static_cast<int>(buffer.size()/8));
         
@@ -97,6 +97,10 @@ public:
     
     void scale(const glm::vec3& v) {
         model = glm::scale(model, v);
+    }
+    
+    void rotate(const glm::vec3& v, float angle) {
+        model = glm::rotate(model, angle, v);
     }
     
 private:

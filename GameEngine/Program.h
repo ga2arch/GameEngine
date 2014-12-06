@@ -31,6 +31,11 @@ public:
         glUniformMatrix4fv(u, 1, GL_FALSE, glm::value_ptr(v));
     }
     
+    void set_uniform(const char* name, glm::vec3& v) {
+        auto u = glGetUniformLocation(program, name);
+        glUniform3fv(u, 3, glm::value_ptr(v));
+    }
+    
     void set_uniform(const char* name, int v) {
         auto u = glGetUniformLocation(program, name);
         glUniform1i(u, v);

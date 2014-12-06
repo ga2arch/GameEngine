@@ -23,7 +23,7 @@ void main() {
     
     vertex.world_coord = world_coord.xyz;
     vertex.eye_coord = eye_coord.xyz;
-    vertex.normal = mat3(view * model) * normal;
+    vertex.normal = transpose(inverse(mat3(view * model))) * normal;
     
     gl_Position = clip_pos;
     
