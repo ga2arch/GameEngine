@@ -71,18 +71,32 @@ public:
     
     void draw(Program& program, bool shadow_pass = false) {
         glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-        glEnableVertexAttribArray(2);
+        if (!shadow_pass) {
+            glEnableVertexAttribArray(1);
+            glEnableVertexAttribArray(2);
+        }
         
         glBindVertexArray(vao);
         
-        model = glm::translate(glm::mat4(), glm::vec3(0.0, 0.0, -5.0));
+        model = glm::mat4();
+        translate(glm::vec3(0.0, 0.0, -5.0));
+        
         program.set_uniform("model", model);
         glDrawArrays(GL_TRIANGLES, 0, static_cast<int>(buffer.size()/8));
         
         glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
-        glDisableVertexAttribArray(2);
+        if (!shadow_pass) {
+            glDisableVertexAttribArray(1);
+            glDisableVertexAttribArray(2);
+        }
+    }
+    
+    void translate(const glm::vec3& v) {
+        model = glm::translate(model, v);
+    }
+    
+    void scale(const glm::vec3& v) {
+        model = glm::scale(model, v);
     }
     
 private:

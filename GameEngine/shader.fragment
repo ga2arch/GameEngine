@@ -2,6 +2,7 @@
 
 in VS_FS_INTERFACE {
     
+    vec3 world_coord;
     vec3 normal;
     
 } fragment;

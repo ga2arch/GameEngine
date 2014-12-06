@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 #include "GLUtils.h"
+#include "Camera.h"
 #include "Program.h"
 #include "Shader.h"
 #include "Mesh.h"
@@ -19,12 +20,10 @@ int main() {
     
     GLFWwindow* win;
     GLUtils::create_window("test", w, h, win);
-    
-    auto proj = glm::perspective((float) 45, (float) w / (float) h, 0.1f, 100.0f);
-    auto view = glm::lookAt(glm::vec3(0,5,0), glm::vec3(0, 0, -5), glm::vec3(0,1,0));
-    
     auto program = Program(Shader("shader.vertex", Shader::Vertex),
                            Shader("shader.fragment", Shader::Fragment));
+    
+    auto camera = Camera(glm::vec3(0,5,0), glm::vec3(0, 0, -5));
     
     auto cube = Mesh();
     cube.load_mesh("cube.dae");
@@ -39,9 +38,7 @@ int main() {
         glViewport(0, 0, w, h);
         glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
         
-        program.set_uniform("proj", proj);
-        program.set_uniform("view", view);
-        
+        camera.set_uniforms(program);
         cube.draw(program);
         
         glfwPollEvents();

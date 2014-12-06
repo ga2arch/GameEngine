@@ -43,6 +43,7 @@
 		E02D2CAC1A3279D200823B2E /* shader.fragment */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shader.fragment; sourceTree = "<group>"; };
 		E02D2CAF1A327B2800823B2E /* cube.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = cube.dae; sourceTree = "<group>"; };
 		E02D2CB01A327B7B00823B2E /* libassimp.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.1.1.dylib; path = ../../../../../../usr/local/Cellar/assimp/3.1.1/lib/libassimp.3.1.1.dylib; sourceTree = "<group>"; };
+		E02D2CB51A3281F400823B2E /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		E02EDEE01A2E507B009467C7 /* lodepng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lodepng.cpp; sourceTree = "<group>"; };
 		E02EDEE11A2E507B009467C7 /* lodepng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lodepng.h; sourceTree = "<group>"; };
 		E03BF5D21A326C30001BBF38 /* Shader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
@@ -135,6 +136,7 @@
 				E03BF5D21A326C30001BBF38 /* Shader.h */,
 				E03BF5D31A326E63001BBF38 /* Program.h */,
 				E03BF5D41A32709B001BBF38 /* Mesh.h */,
+				E02D2CB51A3281F400823B2E /* Camera.h */,
 			);
 			path = GameEngine;
 			sourceTree = "<group>";
