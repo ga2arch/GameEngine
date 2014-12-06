@@ -1,0 +1,14 @@
+#version 330
+
+in VS_FS_INTERFACE {
+    
+    vec3 normal;
+    
+} fragment;
+
+out vec4 fragColor;
+
+void main() {
+    
+    fragColor = vec4(fragment.normal, 1.0);
+}

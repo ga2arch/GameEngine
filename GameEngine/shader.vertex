@@ -1,0 +1,22 @@
+#version 330
+
+layout(location = 0) in vec3 position;
+layout(location = 1) in vec3 normal;
+layout(location = 2) in vec3 textcoord;
+
+uniform mat4 proj;
+uniform mat4 view;
+uniform mat4 model;
+
+out VS_FS_INTERFACE {
+    
+    vec3 normal;
+    
+} vertex;
+
+void main() {
+    vertex.normal = normal;
+    
+    gl_Position = proj * view * model * vec4(position, 1.0);
+    
+}

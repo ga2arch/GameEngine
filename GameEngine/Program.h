@@ -26,7 +26,7 @@ public:
     
     void use() { glUseProgram(program); }
     
-    void set_uniform(const char* name, const glm::mat4& v) {
+    void set_uniform(const char* name, glm::mat4& v) {
         auto u = glGetUniformLocation(program, name);
         glUniformMatrix4fv(u, 1, GL_FALSE, glm::value_ptr(v));
     }

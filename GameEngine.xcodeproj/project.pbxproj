@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E02D2CB11A327B7B00823B2E /* libassimp.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E02D2CB01A327B7B00823B2E /* libassimp.3.1.1.dylib */; };
+		E02D2CB21A327B9600823B2E /* shader.vertex in CopyFiles */ = {isa = PBXBuildFile; fileRef = E03BF5D51A3279BA001BBF38 /* shader.vertex */; };
+		E02D2CB31A327B9800823B2E /* shader.fragment in CopyFiles */ = {isa = PBXBuildFile; fileRef = E02D2CAC1A3279D200823B2E /* shader.fragment */; };
+		E02D2CB41A327B9A00823B2E /* cube.dae in CopyFiles */ = {isa = PBXBuildFile; fileRef = E02D2CAF1A327B2800823B2E /* cube.dae */; };
 		E02EDEE21A2E507B009467C7 /* lodepng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E02EDEE01A2E507B009467C7 /* lodepng.cpp */; };
 		E0484E361A2766080032978D /* GLUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0484E331A2766080032978D /* GLUtils.cpp */; };
 		E0484E391A27662E0032978D /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0484E381A27662E0032978D /* CoreVideo.framework */; };
@@ -27,17 +31,24 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				E02D2CB21A327B9600823B2E /* shader.vertex in CopyFiles */,
+				E02D2CB31A327B9800823B2E /* shader.fragment in CopyFiles */,
+				E02D2CB41A327B9A00823B2E /* cube.dae in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E02D2CAC1A3279D200823B2E /* shader.fragment */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shader.fragment; sourceTree = "<group>"; };
+		E02D2CAF1A327B2800823B2E /* cube.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = cube.dae; sourceTree = "<group>"; };
+		E02D2CB01A327B7B00823B2E /* libassimp.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.1.1.dylib; path = ../../../../../../usr/local/Cellar/assimp/3.1.1/lib/libassimp.3.1.1.dylib; sourceTree = "<group>"; };
 		E02EDEE01A2E507B009467C7 /* lodepng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lodepng.cpp; sourceTree = "<group>"; };
 		E02EDEE11A2E507B009467C7 /* lodepng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lodepng.h; sourceTree = "<group>"; };
 		E03BF5D21A326C30001BBF38 /* Shader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		E03BF5D31A326E63001BBF38 /* Program.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Program.h; sourceTree = "<group>"; };
 		E03BF5D41A32709B001BBF38 /* Mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mesh.h; sourceTree = "<group>"; };
+		E03BF5D51A3279BA001BBF38 /* shader.vertex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shader.vertex; sourceTree = "<group>"; };
 		E0484E1B1A27631B0032978D /* GameEngine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GameEngine; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0484E331A2766080032978D /* GLUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLUtils.cpp; sourceTree = "<group>"; };
 		E0484E341A2766080032978D /* GLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLUtils.h; sourceTree = "<group>"; };
@@ -57,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E02D2CB11A327B7B00823B2E /* libassimp.3.1.1.dylib in Frameworks */,
 				E0484E471A2766790032978D /* libglfw3.3.0.dylib in Frameworks */,
 				E0484E451A2766650032978D /* libGLEW.a in Frameworks */,
 				E0484E431A2766480032978D /* Cocoa.framework in Frameworks */,
@@ -71,9 +83,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E02D2CAD1A3279DA00823B2E /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				E03BF5D51A3279BA001BBF38 /* shader.vertex */,
+				E02D2CAC1A3279D200823B2E /* shader.fragment */,
+			);
+			name = shaders;
+			sourceTree = "<group>";
+		};
+		E02D2CAE1A327B1000823B2E /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				E02D2CAF1A327B2800823B2E /* cube.dae */,
+			);
+			name = resources;
+			sourceTree = "<group>";
+		};
 		E0484E121A27631B0032978D = {
 			isa = PBXGroup;
 			children = (
+				E02D2CB01A327B7B00823B2E /* libassimp.3.1.1.dylib */,
 				E0484E461A2766790032978D /* libglfw3.3.0.dylib */,
 				E0484E441A2766650032978D /* libGLEW.a */,
 				E0484E421A2766480032978D /* Cocoa.framework */,
@@ -99,6 +129,8 @@
 		E0484E1D1A27631B0032978D /* GameEngine */ = {
 			isa = PBXGroup;
 			children = (
+				E02D2CAE1A327B1000823B2E /* resources */,
+				E02D2CAD1A3279DA00823B2E /* shaders */,
 				E0D358AE1A326BE900E1CA5F /* main.cpp */,
 				E03BF5D21A326C30001BBF38 /* Shader.h */,
 				E03BF5D31A326E63001BBF38 /* Program.h */,
@@ -266,6 +298,7 @@
 					"$(inherited)",
 					/usr/local/Cellar/glew/1.11.0/lib,
 					/usr/local/Cellar/glfw3/3.0.4/lib,
+					/usr/local/Cellar/assimp/3.1.1/lib,
 				);
 				PRODUCT_NAME = GameEngine;
 				USER_HEADER_SEARCH_PATHS = "/usr/local/include /Users/Gabriele/Esperimenti/mathfu/include /Users/Gabriele/Esperimenti/mathfu/dependencies/vectorial/include";
@@ -280,6 +313,7 @@
 					"$(inherited)",
 					/usr/local/Cellar/glew/1.11.0/lib,
 					/usr/local/Cellar/glfw3/3.0.4/lib,
+					/usr/local/Cellar/assimp/3.1.1/lib,
 				);
 				PRODUCT_NAME = GameEngine;
 				USER_HEADER_SEARCH_PATHS = "/usr/local/include /Users/Gabriele/Esperimenti/mathfu/include /Users/Gabriele/Esperimenti/mathfu/dependencies/vectorial/include";

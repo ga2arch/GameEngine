@@ -31,11 +31,13 @@ public:
         
         if (scene) {
             load_scene(scene);
+        } else {
+            throw std::runtime_error("Cannot load mesh");
         }
     };
     
     void load_scene(const aiScene* scene) {
-        auto mesh = scene->mMeshes[0];
+        auto& mesh = scene->mMeshes[0];
         
         const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
 
@@ -48,32 +50,44 @@ public:
             buffer.push_back(pos->y);
             buffer.push_back(pos->z);
             
-            buffer.push_back(texcoord->x);
-            buffer.push_back(texcoord->y);
-            
             buffer.push_back(normal->x);
             buffer.push_back(normal->y);
             buffer.push_back(normal->z);
+            
+            buffer.push_back(texcoord->x);
+            buffer.push_back(texcoord->y);
+
         }
-    }
-    
-    void draw(bool shadow_pass = false) {
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-        glEnableVertexAttribArray(2);
         
-        vbo = GLUtils::make_vbo(GL_ARRAY_BUFFER, buffer.data(), buffer.size()*sizeof(GLfloat));
+        vbo = GLUtils::make_vbo(GL_ARRAY_BUFFER,
+                                buffer.data(),
+                                static_cast<int>(buffer.size()*sizeof(GLfloat)));
         vao = GLUtils::make_vao(GL_ARRAY_BUFFER, vbo);
         
         GLUtils::bind_vao(0, 3, 8*sizeof(GLfloat));
         GLUtils::bind_vao(1, 3, 8*sizeof(GLfloat), 3*sizeof(GLfloat));
         GLUtils::bind_vao(2, 2, 8*sizeof(GLfloat), 6*sizeof(GLfloat));
+    }
+    
+    void draw(Program& program, bool shadow_pass = false) {
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
         
-        glDrawArrays(GL_TRIANGLES, 0, buffer.size()/3);
+        glBindVertexArray(vao);
+        
+        model = glm::translate(glm::mat4(), glm::vec3(0.0, 0.0, -5.0));
+        program.set_uniform("model", model);
+        glDrawArrays(GL_TRIANGLES, 0, static_cast<int>(buffer.size()/8));
+        
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+        glDisableVertexAttribArray(2);
     }
     
 private:
     GLuint vbo, vao;
+    glm::mat4 model = glm::mat4(1.0);
     
     std::vector<GLfloat> buffer;
     //std::vector<GLushort> indices;
