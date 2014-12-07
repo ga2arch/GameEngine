@@ -37,6 +37,21 @@ public:
     
     glm::vec3 pos;
     glm::vec3 dir;
+
+private:
+    bool is_enabled;
+    bool is_local;
+    bool is_spot;
+    
+    glm::vec3 ambient;
+    glm::vec3 color;
+    glm::vec3 half_vector;
+    
+    float spot_cos_cutff;
+    float spot_exp;
+    float constant_attenuation;
+    float linear_attenuation;
+    float quadratic_attenuation;
 };
 
 #endif

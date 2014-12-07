@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <array>
 
 #include "GLUtils.h"
 #include "Camera.h"
@@ -31,7 +32,10 @@ int main() {
     auto camera = Camera(glm::vec3(0,20,20), glm::vec3(0,0,0));
     auto light1  = Light(glm::vec3(5,20,20), glm::vec3(0,0,0));
     auto light2  = Light(glm::vec3(-10,20,20), glm::vec3(0,0,0));
-
+    
+    std::array<Light, 2> lights { light1, light2 };
+    std::array<GLuint, 2> shadows;
+    
     auto scene = Mesh();
     scene.load_mesh("scene2.obj");
     //cube.rotate(glm::vec3(1,0,0), 90);
@@ -42,19 +46,17 @@ int main() {
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
     
-    program.use();
-    
     while (!glfwWindowShouldClose(win)) {
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
         glViewport(0, 0, w, h);
         glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
         
         shadow_program.use();
-        light1.set_uniforms(shadow_program);
-        auto s1 = scene.shadows(shadow_program, w, h);
-
-        light2.set_uniforms(shadow_program);
-        auto s2 = scene.shadows(shadow_program, w, h);
+        
+        for (int i=0; i < lights.size(); i++) {
+            lights[i].set_uniforms(shadow_program);
+            shadows[i] = scene.shadows(shadow_program, w, h);
+        }
         
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         
@@ -65,17 +67,16 @@ int main() {
 
         program.use();
         
-        program.set_uniform("shadow_map", 1);
-        glBindTexture(GL_TEXTURE_2D, s1);
-        glActiveTexture(GL_TEXTURE0);
-
-        program.set_uniform("shadow_map", 0, 1);
-        glBindTexture(GL_TEXTURE_2D, s2);
-        glActiveTexture(GL_TEXTURE1);
+        for (int i=0; i < lights.size(); i++) {
+            glActiveTexture(GL_TEXTURE0 + i);
+            glBindTexture(GL_TEXTURE_2D, shadows[i]);
+            
+            program.set_uniform("shadow_map", i, i);
+            lights[i].set_uniforms(program, i);
+        }
         
         camera.set_uniforms(program);
-        light1.set_uniforms(program);
-        light2.set_uniforms(program, 1);
+        program.set_uniform("lights_num", lights.size());
         scene.draw(program);
         
         glfwPollEvents();

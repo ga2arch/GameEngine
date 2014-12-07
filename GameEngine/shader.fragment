@@ -1,20 +1,23 @@
 #version 330
 
+const int MAX_LIGHTS = 10;
+
 in VS_FS_INTERFACE {
     
     vec3 world_coord;
     vec3 eye_coord;
-    vec4 shadow_coord[2];
+    vec4 shadow_coord[MAX_LIGHTS];
     vec3 normal;
     
 } fragment;
 
-uniform sampler2DShadow shadow_map[2];
+uniform sampler2DShadow shadow_map[MAX_LIGHTS];
 
 uniform vec3 camera;
+uniform int lights_num;
 
-uniform vec3 light_pos[2];
-uniform vec3 light_dir[2];
+uniform vec3 light_pos[MAX_LIGHTS];
+uniform vec3 light_dir[MAX_LIGHTS];
 
 out vec4 fragColor;
  
@@ -25,7 +28,7 @@ void main() {
     float m = 40;
    
     vec3 Lo = vec3(.1,.1,.1);
-    for (int i=0; i < 2; i++) {
+    for (int i=0; i < lights_num; i++) {
         
         vec3 L = normalize(light_pos[i] - fragment.eye_coord);
         vec3 V = normalize(camera - fragment.eye_coord);
