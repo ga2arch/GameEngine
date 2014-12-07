@@ -31,7 +31,7 @@ int main() {
     
     auto camera = Camera(glm::vec3(0,20,20), glm::vec3(0,0,0));
     auto light1  = Light(glm::vec3(5,20,20), glm::vec3(0,0,0));
-    auto light2  = Light(glm::vec3(-10,20,20), glm::vec3(0,0,0));
+    auto light2  = Light(glm::vec3(-14,20,20), glm::vec3(0,0,0));
     
     std::array<Light, 2> lights { light1, light2 };
     std::array<GLuint, 2> shadows;
@@ -54,7 +54,7 @@ int main() {
         shadow_program.use();
         
         for (int i=0; i < lights.size(); i++) {
-            lights[i].set_uniforms(shadow_program);
+            lights[i].set_uniforms(shadow_program, 0, true);
             shadows[i] = scene.shadows(shadow_program, w, h);
         }
         
@@ -76,7 +76,7 @@ int main() {
         }
         
         camera.set_uniforms(program);
-        program.set_uniform("lights_num", lights.size());
+        program.set_uniform("lights_num", (int)lights.size());
         scene.draw(program);
         
         glfwPollEvents();

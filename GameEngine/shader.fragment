@@ -16,49 +16,79 @@ uniform sampler2DShadow shadow_map[MAX_LIGHTS];
 uniform vec3 camera;
 uniform int lights_num;
 
-uniform vec3 light_pos[MAX_LIGHTS];
-uniform vec3 light_dir[MAX_LIGHTS];
+struct LightProperty {
+    bool is_enabled;
+    bool is_local;
+    bool is_spot;
+    
+    vec3 pos;
+    vec3 dir;
+    vec3 ambient;
+    vec3 color;
+    vec3 half_vector;
+    
+    vec3 irradiance;
+    float spot_cos_cutff;
+    float spot_exp;
+    float constant_attenuation;
+    float linear_attenuation;
+    float quadratic_attenuation;
+};
+
+uniform LightProperty lights[MAX_LIGHTS];
 
 out vec4 fragColor;
  
 void main() {
     vec3 diff = vec3(.5, .8, .3);
     vec3 spec = vec3(1,1,1);
-    vec3 irr = vec3(45);
     float m = 40;
    
-    vec3 Lo = vec3(.1,.1,.1);
+    vec3 Lo = vec3(0);
+    
     for (int i=0; i < lights_num; i++) {
         
-        vec3 L = normalize(light_pos[i] - fragment.eye_coord);
-        vec3 V = normalize(camera - fragment.eye_coord);
-        vec3 H = normalize(L + V);
+        if (!lights[i].is_enabled) continue;
         
-        float cosH = clamp(dot(H, fragment.normal), 0, 1);
-        float cosI = clamp(dot(fragment.normal, L), 0, 1);
-        
-        float cosS = dot(normalize(light_dir[i]), L);
-        float cosU = cos(50 * 0.01745);
-        float cosP = cos(30 * 0.01745);
-        
-        float r = length(light_pos[i] - fragment.eye_coord);
-        irr = irr / (r);
-        
-        if (cosU < cosS && cosS < cosP)
-            irr = irr * pow ((cosS - cosU) / (cosP - cosU), 2.0);
-    
-        if (cosS <= cosU)
-            irr = vec3(0.0);
-        
-        float shadow = 0.0;
-        shadow += textureProjOffset(shadow_map[i], fragment.shadow_coord[i], ivec2(-1,  1));
-        shadow += textureProjOffset(shadow_map[i], fragment.shadow_coord[i], ivec2( 1,  1));
-        shadow += textureProjOffset(shadow_map[i], fragment.shadow_coord[i], ivec2(-1, -1));
-        shadow += textureProjOffset(shadow_map[i], fragment.shadow_coord[i], ivec2( 1, -1));
-        float f = shadow / 4.0;
-    
-        Lo += (diff/3.14 + (m+8)/(3.14*8) * pow(cosH, m)*spec) * irr * cosI;
-        Lo *= f;
+        if (lights[i].is_local) {
+            vec3 L = normalize(lights[i].pos - fragment.eye_coord);
+            vec3 V = normalize(camera - fragment.eye_coord);
+            vec3 H = normalize(L + V);
+            
+            float cosH = clamp(dot(H, fragment.normal), 0, 1);
+            float cosI = clamp(dot(fragment.normal, L), 0, 1);
+            
+            float r = length(lights[i].pos - fragment.eye_coord);
+            float attenuation = 1.0 / (lights[i].constant_attenuation
+                                       + lights[i].linear_attenuation * r
+                                       + lights[i].quadratic_attenuation * r * r);
+            
+            vec3 irr = lights[i].irradiance * attenuation;
+            
+            if (lights[i].is_spot) {
+                float cosS = dot(normalize(lights[i].dir), L);
+                float cosU = cos(10 * 0.01745);
+                float cosP = cos(05 * 0.01745);
+                
+                if (cosU < cosS && cosS < cosP)
+                    irr = irr * pow ((cosS - cosU) / (cosP - cosU), 1.0);
+                
+                if (cosS <= cosU)
+                    irr = vec3(0.0);
+            }
+            
+            float shadow = 0.0;
+            shadow += textureProjOffset(shadow_map[i], fragment.shadow_coord[i], ivec2(-1,  1));
+            shadow += textureProjOffset(shadow_map[i], fragment.shadow_coord[i], ivec2( 1,  1));
+            shadow += textureProjOffset(shadow_map[i], fragment.shadow_coord[i], ivec2(-1, -1));
+            shadow += textureProjOffset(shadow_map[i], fragment.shadow_coord[i], ivec2( 1, -1));
+            float f = shadow / 4.0;
+            
+            //f = textureProj(shadow_map[0], fragment.shadow_coord[0]);
+            
+            Lo += lights[i].ambient * attenuation;
+            Lo += f * (diff /3.14 + (m+8)/(3.14*8) * pow(cosH, m)*spec) * irr * cosI;
+        }
     }
 
     fragColor = vec4(Lo, 1.0);

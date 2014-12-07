@@ -41,6 +41,16 @@ public:
         glUniform1i(u+i, v);
     }
     
+    void set_uniform(const char* name, float v, int i = 0) {
+        auto u = glGetUniformLocation(program, name);
+        glUniform1f(u+i, v);
+    }
+    
+    void set_uniform(const char* name, bool v, int i = 0) {
+        auto u = glGetUniformLocation(program, name);
+        glUniform1i(u+i, v ? 1 : 0);
+    }
+    
 private:
     Shader vertex;
     Shader fragment;
