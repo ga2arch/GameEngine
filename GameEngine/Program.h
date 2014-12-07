@@ -33,7 +33,7 @@ public:
     
     void set_uniform(const char* name, glm::vec3& v) {
         auto u = glGetUniformLocation(program, name);
-        glUniform3fv(u, 3, glm::value_ptr(v));
+        glUniform3fv(u, 1, glm::value_ptr(v));
     }
     
     void set_uniform(const char* name, int v) {

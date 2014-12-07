@@ -28,11 +28,11 @@ int main() {
     auto shadow_program = Program(Shader("shadow.vertex", Shader::Vertex),
                                   Shader("shadow.fragment", Shader::Fragment));
     
-    auto camera = Camera(glm::vec3(3,5,10), glm::vec3(0,0,0));
-    auto light  = Light(glm::vec3(0,5,5), glm::vec3(0,2,-5));
+    auto camera = Camera(glm::vec3(5,5,9), glm::vec3(0,0,0));
+    auto light  = Light(glm::vec3(9,5,9), glm::vec3(.1,.1,.1));
     
     auto scene = Mesh();
-    scene.load_mesh("scene.obj");
+    scene.load_mesh("scene2.obj");
     //cube.rotate(glm::vec3(1,0,0), 90);
     
     glEnable(GL_DEPTH_TEST);

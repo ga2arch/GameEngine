@@ -21,7 +21,7 @@ public:
     Light(const glm::vec3& pos, const glm::vec3& dir): pos(pos), dir(dir) {}
     
     glm::mat4 light_view() {
-        auto light_view = glm::perspective(60.0f, 1.0f, 1.0f, 10.0f);
+        auto light_view = glm::perspective(45.0f, 1.0f, 1.0f, 100.0f);
         light_view *= glm::lookAt(pos, dir, glm::vec3(0,1,0));
         
         return light_view;

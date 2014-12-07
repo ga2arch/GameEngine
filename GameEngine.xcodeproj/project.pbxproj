@@ -23,6 +23,7 @@
 		E08F89681A336FD700C8967F /* scene.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = E08F89671A336FD200C8967F /* scene.obj */; };
 		E0A1AD051A33E4AB00BFB014 /* shadow.vertex in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0147ED61A337CCE009D9439 /* shadow.vertex */; };
 		E0A1AD061A33E4AC00BFB014 /* shadow.fragment in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0147ED71A337CD4009D9439 /* shadow.fragment */; };
+		E0A1AD0A1A33EFB000BFB014 /* scene2.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0A1AD091A33EFAC00BFB014 /* scene2.obj */; };
 		E0D358AF1A326BE900E1CA5F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0D358AE1A326BE900E1CA5F /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,7 @@
 			dstSubfolderSpec = 16;
 			files = (
 				E0A1AD061A33E4AC00BFB014 /* shadow.fragment in CopyFiles */,
+				E0A1AD0A1A33EFB000BFB014 /* scene2.obj in CopyFiles */,
 				E0A1AD051A33E4AB00BFB014 /* shadow.vertex in CopyFiles */,
 				E02D2CB21A327B9600823B2E /* shader.vertex in CopyFiles */,
 				E02D2CB31A327B9800823B2E /* shader.fragment in CopyFiles */,
@@ -68,6 +70,7 @@
 		E0484E461A2766790032978D /* libglfw3.3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw3.3.0.dylib; path = ../../../../../../usr/local/Cellar/glfw3/3.0.4/lib/libglfw3.3.0.dylib; sourceTree = "<group>"; };
 		E08F89671A336FD200C8967F /* scene.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scene.obj; path = ../../../../../scene.obj; sourceTree = "<group>"; };
 		E0A1AD041A33DB3E00BFB014 /* Light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
+		E0A1AD091A33EFAC00BFB014 /* scene2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scene2.obj; path = ../../../../../scene2.obj; sourceTree = "<group>"; };
 		E0D358AE1A326BE900E1CA5F /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -105,6 +108,7 @@
 		E02D2CAE1A327B1000823B2E /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				E0A1AD091A33EFAC00BFB014 /* scene2.obj */,
 				E08F89671A336FD200C8967F /* scene.obj */,
 			);
 			name = resources;
