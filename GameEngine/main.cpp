@@ -28,9 +28,10 @@ int main() {
     auto shadow_program = Program(Shader("shadow.vertex", Shader::Vertex),
                                   Shader("shadow.fragment", Shader::Fragment));
     
-    auto camera = Camera(glm::vec3(5,5,9), glm::vec3(0,0,0));
-    auto light  = Light(glm::vec3(9,5,9), glm::vec3(.1,.1,.1));
-    
+    auto camera = Camera(glm::vec3(0,20,20), glm::vec3(0,0,0));
+    auto light1  = Light(glm::vec3(5,20,20), glm::vec3(0,0,0));
+    auto light2  = Light(glm::vec3(-10,1,1), glm::vec3(0,0,0));
+
     auto scene = Mesh();
     scene.load_mesh("scene2.obj");
     //cube.rotate(glm::vec3(1,0,0), 90);
@@ -49,11 +50,12 @@ int main() {
         glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
         
         shadow_program.use();
-        light.set_uniforms(shadow_program);
+        light1.set_uniforms(shadow_program);
         scene.shadows(shadow_program, program, w, h);
         
         camera.set_uniforms(program);
-        light.set_uniforms(program);
+        light1.set_uniforms(program);
+        light2.set_uniforms(program, 1);
         scene.draw(program);
         
         glfwPollEvents();

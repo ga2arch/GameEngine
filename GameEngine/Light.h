@@ -27,12 +27,12 @@ public:
         return light_view;
     }
     
-    void set_uniforms(Program& program) {
+    void set_uniforms(Program& program, int i = 0) {
         auto lv = light_view();
         
-        program.set_uniform("light_view", lv);
-        program.set_uniform("light_pos", pos);
-        program.set_uniform("light_dir", dir);
+        program.set_uniform("light_view", lv, i);
+        program.set_uniform("light_pos", pos, i);
+        program.set_uniform("light_dir", dir, i);
     }
     
     glm::vec3 pos;

@@ -26,14 +26,14 @@ public:
     
     void use() { glUseProgram(program); }
     
-    void set_uniform(const char* name, glm::mat4& v) {
+    void set_uniform(const char* name, glm::mat4& v, int i = 0) {
         auto u = glGetUniformLocation(program, name);
-        glUniformMatrix4fv(u, 1, GL_FALSE, glm::value_ptr(v));
+        glUniformMatrix4fv(u+i, 1, GL_FALSE, glm::value_ptr(v));
     }
     
-    void set_uniform(const char* name, glm::vec3& v) {
+    void set_uniform(const char* name, glm::vec3& v, int i = 0) {
         auto u = glGetUniformLocation(program, name);
-        glUniform3fv(u, 1, glm::value_ptr(v));
+        glUniform3fv(u+i, 1, glm::value_ptr(v));
     }
     
     void set_uniform(const char* name, int v) {
