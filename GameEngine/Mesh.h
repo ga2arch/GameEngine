@@ -9,13 +9,14 @@
 #ifndef GameEngine_Mesh_h
 #define GameEngine_Mesh_h
 
+#include <iostream>
+
 #include <assimp/cimport.h>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "GLUtils.h"
 #include "Program.h"
-
-
 
 class Mesh {
     
@@ -134,11 +135,6 @@ public:
               Node node,
               bool shadow_pass = false) {
         
-        glm::mat4 toggle(1, 0, 0, 0,
-                         0, 0, 1, 0,
-                         0, 1, 0, 0,
-                         0, 0, 0, 1);
-        
         node.model = node.model * model;
         program.set_uniform("model", node.model);
         for (auto& m: node.meshes)
@@ -159,6 +155,68 @@ public:
     void rotate(const glm::vec3& v, float angle) {
         model = glm::rotate(model, angle, v);
     }
+    
+    void shadows(Program& shadow_program, Program& program, int w, int h) {
+        GLuint shadow_map_tex, fbo;
+        
+        glGenTextures(1, &shadow_map_tex);
+        glBindTexture(GL_TEXTURE_2D, shadow_map_tex);
+        glTexImage2D(GL_TEXTURE_2D, 0,
+                     GL_DEPTH_COMPONENT32, w, h, 0,
+                     GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+        
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        
+        // ShadowMap-FBO
+        glGenFramebuffers(1, &fbo);
+        glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+        glFramebufferTexture2D(GL_FRAMEBUFFER,
+                               GL_DEPTH_ATTACHMENT,
+                               GL_TEXTURE_2D,
+                               shadow_map_tex, 0);
+        
+        glDrawBuffer(GL_NONE);
+        GLenum result = glCheckFramebufferStatus (GL_FRAMEBUFFER);
+        
+        if (GL_FRAMEBUFFER_COMPLETE != result) {
+            throw std::runtime_error("ERROR: Framebuffer not complete.\n");
+        }
+        
+        glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+        
+        glClearDepth(1.0f);
+        glClear(GL_DEPTH_BUFFER_BIT);
+
+        glViewport(0, 0, w, h);
+        glEnable(GL_POLYGON_OFFSET_FILL);
+        glPolygonOffset(2.0f, 4.0f);
+
+        glCullFace(GL_FRONT);
+        draw(shadow_program, true);
+        
+        glDisable(GL_POLYGON_OFFSET_FILL);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        
+        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+        glViewport(0, 0, w, h);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
+        
+        program.use();
+        program.set_uniform("shadow_map", 0);
+        
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, shadow_map_tex);
+        
+        glCullFace(GL_BACK);
+
+     }
     
 private:
     glm::mat4 model = glm::mat4(1.0);

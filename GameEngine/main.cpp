@@ -7,12 +7,14 @@
 //
 
 #include <stdio.h>
+#include <unistd.h>
 
 #include "GLUtils.h"
 #include "Camera.h"
 #include "Program.h"
 #include "Shader.h"
 #include "Mesh.h"
+#include "Light.h"
 
 int main() {
     int w = 800;
@@ -23,14 +25,21 @@ int main() {
     auto program = Program(Shader("shader.vertex", Shader::Vertex),
                            Shader("shader.fragment", Shader::Fragment));
     
-    auto camera = Camera(glm::vec3(3,5,15), glm::vec3(0,0,0));
+    auto shadow_program = Program(Shader("shadow.vertex", Shader::Vertex),
+                                  Shader("shadow.fragment", Shader::Fragment));
     
-    auto cube = Mesh();
-    cube.load_mesh("scene.obj");
+    auto camera = Camera(glm::vec3(3,5,10), glm::vec3(0,0,0));
+    auto light  = Light(glm::vec3(0,5,5), glm::vec3(0,2,-5));
+    
+    auto scene = Mesh();
+    scene.load_mesh("scene.obj");
     //cube.rotate(glm::vec3(1,0,0), 90);
     
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
     
     program.use();
     
@@ -39,11 +48,18 @@ int main() {
         glViewport(0, 0, w, h);
         glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
         
+        shadow_program.use();
+        light.set_uniforms(shadow_program);
+        scene.shadows(shadow_program, program, w, h);
+        
         camera.set_uniforms(program);
-        cube.draw(program);
+        light.set_uniforms(program);
+        scene.draw(program);
         
         glfwPollEvents();
         glfwSwapBuffers(win);
+        
+        usleep(16 * 1000);
     }
     
 }
