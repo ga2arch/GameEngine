@@ -28,7 +28,7 @@ public:
     
     void set_uniform(const char* name, glm::mat4& v, int i = 0) {
         auto u = glGetUniformLocation(program, name);
-        glUniformMatrix4fv(u+i, 1, GL_FALSE, glm::value_ptr(v));
+        glUniformMatrix4fv(u+i*4, 1, GL_FALSE, glm::value_ptr(v));
     }
     
     void set_uniform(const char* name, glm::vec3& v, int i = 0) {
@@ -36,9 +36,9 @@ public:
         glUniform3fv(u+i, 1, glm::value_ptr(v));
     }
     
-    void set_uniform(const char* name, int v) {
+    void set_uniform(const char* name, int v, int i = 0) {
         auto u = glGetUniformLocation(program, name);
-        glUniform1i(u, v);
+        glUniform1i(u+i, v);
     }
     
 private:

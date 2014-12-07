@@ -156,7 +156,8 @@ public:
         model = glm::rotate(model, angle, v);
     }
     
-    void shadows(Program& shadow_program, Program& program, int w, int h) {
+    GLuint shadows(Program& shadow_program,
+                   int w, int h) {
         GLuint shadow_map_tex, fbo;
         
         glGenTextures(1, &shadow_map_tex);
@@ -202,20 +203,8 @@ public:
         draw(shadow_program, true);
         
         glDisable(GL_POLYGON_OFFSET_FILL);
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
         
-        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-        glViewport(0, 0, w, h);
-        glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
-        
-        program.use();
-        program.set_uniform("shadow_map", 0);
-        
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, shadow_map_tex);
-        
-        glCullFace(GL_BACK);
-
+        return shadow_map_tex;
      }
     
 private:
