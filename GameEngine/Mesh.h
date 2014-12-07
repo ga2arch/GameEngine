@@ -17,6 +17,7 @@
 
 #include "GLUtils.h"
 #include "Program.h"
+#include "Material.h"
 
 class Mesh {
     
@@ -137,6 +138,8 @@ public:
         
         node.model = node.model * model;
         program.set_uniform("model", node.model);
+        if (!shadow_pass) material.set_uniforms(program);
+        
         for (auto& m: node.meshes)
             draw(m);
         
@@ -207,7 +210,12 @@ public:
         return shadow_map_tex;
      }
     
+    void use_material(Material m) {
+        material = m;
+    }
+    
 private:
+    Material material;
     glm::mat4 model = glm::mat4(1.0);
     
     std::vector<MeshEntry> meshes;

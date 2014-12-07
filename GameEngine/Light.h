@@ -24,7 +24,7 @@ public:
         is_spot = false;
         
         ambient = glm::vec3(.1, .1, .1);
-        color = glm::vec3(1, 1, 1);
+        color = glm::vec3(.2, .8, 1);
         irradiance = glm::vec3(30);
         
         spot_exp = 2.0;

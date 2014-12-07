@@ -48,6 +48,7 @@
 /* Begin PBXFileReference section */
 		E0147ED61A337CCE009D9439 /* shadow.vertex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shadow.vertex; sourceTree = "<group>"; };
 		E0147ED71A337CD4009D9439 /* shadow.fragment */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shadow.fragment; sourceTree = "<group>"; };
+		E01FB2FE1A350EEC0061B5AD /* Material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Material.h; sourceTree = "<group>"; };
 		E02D2CAC1A3279D200823B2E /* shader.fragment */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shader.fragment; sourceTree = "<group>"; };
 		E02D2CB01A327B7B00823B2E /* libassimp.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.1.1.dylib; path = ../../../../../../usr/local/Cellar/assimp/3.1.1/lib/libassimp.3.1.1.dylib; sourceTree = "<group>"; };
 		E02D2CB51A3281F400823B2E /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
@@ -151,6 +152,7 @@
 				E03BF5D41A32709B001BBF38 /* Mesh.h */,
 				E02D2CB51A3281F400823B2E /* Camera.h */,
 				E0A1AD041A33DB3E00BFB014 /* Light.h */,
+				E01FB2FE1A350EEC0061B5AD /* Material.h */,
 			);
 			path = GameEngine;
 			sourceTree = "<group>";
