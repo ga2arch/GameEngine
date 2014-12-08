@@ -46,6 +46,12 @@ public:
         view = glm::lookAt(pos, dir, up);
     }
     
+    void update(const glm::vec3& d,
+                const glm::vec3& u) {
+        
+        view = glm::lookAt(pos, d, u);
+    }
+    
     glm::vec3 pos;
     glm::vec3 dir;
     glm::vec3 up = glm::vec3(0,1,0);

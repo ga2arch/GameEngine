@@ -198,11 +198,12 @@ public:
         glClearDepth(1.0f);
         glClear(GL_DEPTH_BUFFER_BIT);
 
+        glDisable(GL_CULL_FACE);
         glViewport(0, 0, w, h);
         glEnable(GL_POLYGON_OFFSET_FILL);
         glPolygonOffset(2.0f, 4.0f);
 
-        glCullFace(GL_FRONT);
+        //glCullFace(GL_FRONT);
         draw(shadow_program, true);
         
         glDisable(GL_POLYGON_OFFSET_FILL);

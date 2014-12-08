@@ -22,7 +22,8 @@ int main() {
     int h = 600;
     float last_time = 0.0;
     float speed = 2.0;
-    int xpos, ypos;
+    double xpos, ypos;
+    float h_angle = 3.14f, v_angle = 0;
     
     GLFWwindow* win;
     GLUtils::create_window("test", w, h, win);
@@ -45,11 +46,9 @@ int main() {
     
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-    glFrontFace(GL_CCW);
-    
+
     while (!glfwWindowShouldClose(win)) {
+
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
         glViewport(0, 0, w, h);
         glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
@@ -66,7 +65,9 @@ int main() {
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
         glViewport(0, 0, w, h);
         glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
+        glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
+        glFrontFace(GL_CCW);
 
         program.use();
         
@@ -83,30 +84,44 @@ int main() {
         scene.draw(program);
         
         
-        // Camera
-        double current_time = glfwGetTime();
-        float delta_time = float(current_time - last_time);
-        last_time = current_time;
-        
-        glm::vec3 direction = glm::vec3(0,1,0);
-        glm::vec3 right = glm::vec3(1,0,0);
-        
-        if (glfwGetKey(win, GLFW_KEY_UP ) == GLFW_PRESS){
-            camera.move(direction * delta_time * speed);
-        }
-        // Move backward
-        if (glfwGetKey(win, GLFW_KEY_DOWN ) == GLFW_PRESS){
-            camera.move(-direction * delta_time * speed);
-        }
-        // Strafe right
-        if (glfwGetKey(win, GLFW_KEY_RIGHT ) == GLFW_PRESS){
-            camera.move(right * delta_time * speed);
-        }
-        // Strafe left
-        if (glfwGetKey(win, GLFW_KEY_LEFT ) == GLFW_PRESS){
-            camera.move(-right * delta_time * speed);
-        }
-        
+//        // Camera
+//        double current_time = glfwGetTime();
+//        float delta_time = float(current_time - last_time);
+//        last_time = current_time;
+//        
+//        glfwGetCursorPos(win, &xpos, &ypos);
+//        
+//        h_angle += .005 * delta_time * float(w/2 - xpos );
+//        v_angle += .005 * delta_time * float(h/2 - ypos );
+//        
+//        glm::vec3 direction(cos(v_angle) * sin(h_angle),
+//                            sin(v_angle),
+//                            cos(v_angle) * cos(h_angle));
+//        
+//        glm::vec3 right = glm::vec3(sin(h_angle - 3.14f/2.0f),
+//                                    0,
+//                                    cos(h_angle - 3.14f/2.0f));
+//        
+//        glm::vec3 up = glm::cross( right, direction );
+//        
+//        camera.update(direction, up);
+////        
+//        if (glfwGetKey(win, GLFW_KEY_UP ) == GLFW_PRESS){
+//            camera.move(direction * delta_time * speed);
+//        }
+//        // Move backward
+//        if (glfwGetKey(win, GLFW_KEY_DOWN ) == GLFW_PRESS){
+//            camera.move(-direction * delta_time * speed);
+//        }
+//        // Strafe right
+//        if (glfwGetKey(win, GLFW_KEY_RIGHT ) == GLFW_PRESS){
+//            camera.move(right * delta_time * speed);
+//        }
+//        // Strafe left
+//        if (glfwGetKey(win, GLFW_KEY_LEFT ) == GLFW_PRESS){
+//            camera.move(-right * delta_time * speed);
+//        }
+////
         glfwPollEvents();
         glfwSwapBuffers(win);
         
