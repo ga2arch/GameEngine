@@ -22,6 +22,7 @@ int main() {
     int h = 600;
     float last_time = 0.0;
     float speed = 2.0;
+    int xpos, ypos;
     
     GLFWwindow* win;
     GLUtils::create_window("test", w, h, win);
