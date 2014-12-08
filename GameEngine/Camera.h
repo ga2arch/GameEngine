@@ -25,7 +25,7 @@ public:
            int h = 600,
            float fov = 45.0f,
            float near = 0.1f,
-           float far  = 100.0f): pos(pos) {
+           float far  = 100.0f): pos(pos), dir(dir) {
         
         proj = glm::perspective(fov,
                                 (float) w / (float) h,
@@ -40,12 +40,15 @@ public:
         program.set_uniform("camera", pos);
     }
     
-    void translate(const glm::vec3& pos) {
-        view = glm::translate(view, pos);
+    void move(const glm::vec3& v) {
+        pos += v;
+        dir += v;
+        view = glm::lookAt(pos, dir, up);
     }
     
-private:
     glm::vec3 pos;
+    glm::vec3 dir;
+    glm::vec3 up = glm::vec3(0,1,0);
     
     glm::mat4 proj;
     glm::mat4 view;

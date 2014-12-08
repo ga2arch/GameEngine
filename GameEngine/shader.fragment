@@ -52,6 +52,8 @@ uniform MaterialProperty material;
 out vec4 fragColor;
 
 vec3 fresnel(vec3 v1, vec3 v2, vec3 color) {
+    // http://seblagarde.wordpress.com/2012/06/03/spherical-gaussien-approximation-for-blinn-phong-phong-and-fresnel/
+    // pow(..) = exp2(-8.35 * dot(v1, v2))
     return color + (1 - color) * pow((1 - dot(v1, v2)), 5);
 }
 

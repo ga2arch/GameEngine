@@ -20,6 +20,8 @@
 int main() {
     int w = 800;
     int h = 600;
+    float last_time = 0.0;
+    float speed = 2.0;
     
     GLFWwindow* win;
     GLUtils::create_window("test", w, h, win);
@@ -79,10 +81,35 @@ int main() {
         program.set_uniform("lights_num", (int)lights.size());
         scene.draw(program);
         
+        
+        // Camera
+        double current_time = glfwGetTime();
+        float delta_time = float(current_time - last_time);
+        last_time = current_time;
+        
+        glm::vec3 direction = glm::vec3(0,1,0);
+        glm::vec3 right = glm::vec3(1,0,0);
+        
+        if (glfwGetKey(win, GLFW_KEY_UP ) == GLFW_PRESS){
+            camera.move(direction * delta_time * speed);
+        }
+        // Move backward
+        if (glfwGetKey(win, GLFW_KEY_DOWN ) == GLFW_PRESS){
+            camera.move(-direction * delta_time * speed);
+        }
+        // Strafe right
+        if (glfwGetKey(win, GLFW_KEY_RIGHT ) == GLFW_PRESS){
+            camera.move(right * delta_time * speed);
+        }
+        // Strafe left
+        if (glfwGetKey(win, GLFW_KEY_LEFT ) == GLFW_PRESS){
+            camera.move(-right * delta_time * speed);
+        }
+        
         glfwPollEvents();
         glfwSwapBuffers(win);
         
-        usleep(5 * 1000);
+        //usleep(5 * 1000);
     }
     
 }
