@@ -5,4 +5,4 @@ OpenGL GameEngine (experiments)
 
 working on shadows
 
-![](http://i.imgur.com/RRGafZg.png)
+![](http://i.imgur.com/lrQFiIq.png)
