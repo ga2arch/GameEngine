@@ -50,7 +50,11 @@ uniform LightProperty lights[MAX_LIGHTS];
 uniform MaterialProperty material;
 
 out vec4 fragColor;
- 
+
+vec3 fresnel(vec3 v1, vec3 v2, vec3 color) {
+    return color + (1 - color) * pow((1 - dot(v1, v2)), 5);
+}
+
 void main() {
     vec3 Lo = vec3(0);
     
@@ -92,11 +96,10 @@ void main() {
             shadow += textureProjOffset(shadow_map[i], fragment.shadow_coord[i], ivec2( 1, -1));
             float f = shadow / 4.0;
             
-            float fresnel = .5 + (1 - .5) * pow((1 - cosI), 5);
             
             Lo += lights[i].ambient * material.ambient * attenuation;
             Lo += f * (lights[i].color * material.kd
-                       + material.ks * pow(cosH, material.shininess) * fresnel)
+                       + material.ks * pow(cosH, material.shininess) * fresnel(material.specular, L, H))
                     * irr * cosI;
         }
     }
