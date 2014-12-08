@@ -28,8 +28,8 @@ public:
         irradiance = glm::vec3(30);
         
         spot_exp = 2.0;
-        constant_attenuation = 1.0;
-        linear_attenuation = 0.8;
+        constant_attenuation = 0.5;
+        linear_attenuation = 0.3;
         quadratic_attenuation = 0.0;
     }
     

@@ -82,7 +82,7 @@ int main() {
         glfwPollEvents();
         glfwSwapBuffers(win);
         
-        //usleep(16 * 1000);
+        usleep(5 * 1000);
     }
     
 }
