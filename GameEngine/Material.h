@@ -18,7 +18,21 @@
 class Material {
     
 public:
-    Material() {
+    glm::vec3 emission;
+    glm::vec3 ambient;
+    glm::vec3 diffuse;
+    glm::vec3 specular;
+
+    glm::vec3 kd;
+    float shininess;
+    float ks;
+    
+};
+
+class TestMaterial: public Material {
+    
+public:
+    TestMaterial() {
         emission = glm::vec3(0.0);
         ambient = glm::vec3(.1);
         diffuse = glm::vec3(.5);
@@ -29,16 +43,6 @@ public:
         ks = (float)(shininess+2)/(8);
         kd = diffuse/ (float)3.14;
     }
-    
-    
-    glm::vec3 emission;
-    glm::vec3 ambient;
-    glm::vec3 diffuse;
-    glm::vec3 specular;
-    float shininess;
-    
-    float ks;
-    glm::vec3 kd;
     
 };
 

@@ -211,7 +211,7 @@ public:
         return shadow_map_tex;
      }
     
-    void use_material(Material m) {
+    void use_material(const Material& m) {
         material = m;
     }
     

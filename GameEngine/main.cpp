@@ -44,6 +44,9 @@ int main() {
     
     auto scene = Mesh();
     scene.load_mesh("scene2.obj");
+    
+    TestMaterial mat;
+    scene.use_material(mat);
     //cube.rotate(glm::vec3(1,0,0), 90);
     
     glEnable(GL_DEPTH_TEST);
