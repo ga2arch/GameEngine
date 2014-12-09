@@ -20,12 +20,14 @@
 int main() {
     int w = 800;
     int h = 600;
-    float last_time = 0.0;
-    float speed = 2.0;
-    double xpos, ypos;
-    float h_angle = 3.14f, v_angle = 0;
+//    float last_time = 0.0;
+//    float speed = 2.0;
+//    double xpos, ypos;
+//    float h_angle = 3.14f, v_angle = 0;
+//    
     
     GLFWwindow* win;
+    
     GLUtils::create_window("test", w, h, win);
     auto program = Program(Shader("shader.vertex", Shader::Vertex),
                            Shader("shader.fragment", Shader::Fragment));
@@ -34,10 +36,10 @@ int main() {
                                   Shader("shadow.fragment", Shader::Fragment));
     
     auto camera = Camera(glm::vec3(0,20,20), glm::vec3(0,0,0));
-    auto light1  = Light(glm::vec3(5,20,20), glm::vec3(0,0,0));
-    auto light2  = Light(glm::vec3(-14,20,20), glm::vec3(0,0,0));
+    std::array<std::unique_ptr<Light>, 2> lights {
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(5,20,20), glm::vec3(0,0,0))),
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(-14,20,20), glm::vec3(0,0,0))) };
     
-    std::array<Light, 2> lights { light1, light2 };
     std::array<GLuint, 2> shadows;
     
     auto scene = Mesh();
@@ -46,9 +48,10 @@ int main() {
     
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+    glEnable(GL_MULTISAMPLE);
 
     while (!glfwWindowShouldClose(win)) {
-
+        
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
         glViewport(0, 0, w, h);
         glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
@@ -56,7 +59,7 @@ int main() {
         shadow_program.use();
         
         for (int i=0; i < lights.size(); i++) {
-            lights[i].set_uniforms(shadow_program, 0, true);
+            shadow_program.set_uniforms(*lights[i], 0, true);
             shadows[i] = scene.shadows(shadow_program, w, h);
         }
         
@@ -76,7 +79,7 @@ int main() {
             glBindTexture(GL_TEXTURE_2D, shadows[i]);
             
             program.set_uniform("shadow_map", i, i);
-            lights[i].set_uniforms(program, i);
+            program.set_uniforms(*lights[i], i);
         }
         
         camera.set_uniforms(program);
