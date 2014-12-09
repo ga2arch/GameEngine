@@ -15,6 +15,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "GLUtils.h"
+#include "Material.h"
 #include "Light.h"
 #include "Shader.h"
 
@@ -82,6 +83,19 @@ public:
             
         }
     }
+    
+    void set_uniforms(const Material& material, int i = 0) {
+        std::string s = "material.";
+        
+        set_uniform((s+"emission").c_str(), material.emission);
+        set_uniform((s+"ambient").c_str(), material.ambient);
+        set_uniform((s+"diffuse").c_str(), material.diffuse);
+        set_uniform((s+"specular").c_str(), material.specular);
+        set_uniform((s+"shininess").c_str(), material.shininess);
+        set_uniform((s+"ks").c_str(), material.ks);
+        set_uniform((s+"kd").c_str(), material.kd);
+    }
+
     
 private:
     Shader vertex;

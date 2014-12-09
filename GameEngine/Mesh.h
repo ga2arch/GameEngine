@@ -138,7 +138,7 @@ public:
         
         node.model = node.model * model;
         program.set_uniform("model", node.model);
-        if (!shadow_pass) material.set_uniforms(program);
+        if (!shadow_pass) program.set_uniforms(material);
         
         for (auto& m: node.meshes)
             draw(m);

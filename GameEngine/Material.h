@@ -30,17 +30,6 @@ public:
         kd = diffuse/ (float)3.14;
     }
     
-    void set_uniforms(Program& program, int i = 0) {
-        std::string s = "material.";
-        
-        program.set_uniform((s+"emission").c_str(), emission);
-        program.set_uniform((s+"ambient").c_str(), ambient);
-        program.set_uniform((s+"diffuse").c_str(), diffuse);
-        program.set_uniform((s+"specular").c_str(), specular);
-        program.set_uniform((s+"shininess").c_str(), shininess);
-        program.set_uniform((s+"ks").c_str(), ks);
-        program.set_uniform((s+"kd").c_str(), kd);
-    }
     
     glm::vec3 emission;
     glm::vec3 ambient;
