@@ -52,10 +52,13 @@ uniform MaterialProperty material;
 
 out vec4 fragColor;
 
-vec3 fresnel(vec3 v1, vec3 v2, vec3 color) {
+vec3 fresnel(vec3 ior, vec3 color, vec3 v1, vec3 v2) {
     // http://seblagarde.wordpress.com/2012/06/03/spherical-gaussien-approximation-for-blinn-phong-phong-and-fresnel/
     // pow(..) = exp2(-8.35 * dot(v1, v2))
-    return color + (1 - color) * pow((1 - dot(v1, v2)), 5);
+    vec3 F0 = abs ((1.0 - ior) / (1.0 + ior));
+    F0 = F0 * F0;
+    F0 = mix(F0, color, .5);
+    return F0 + (1 - F0) * pow((1 - dot(v1, v2)), 5);
 }
 
 void main() {
@@ -102,7 +105,7 @@ void main() {
             
             Lo += lights[i].ambient * material.ambient * attenuation;
             Lo += f * (lights[i].color * material.kd
-                       + material.ks * pow(cosH, material.shininess) * fresnel(material.specular, L, H))
+                       + material.ks * pow(cosH, material.shininess) * fresnel(vec3(.47), material.specular, L, H))
                     * irr * cosI;
         }
     }

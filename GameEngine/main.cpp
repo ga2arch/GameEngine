@@ -39,7 +39,7 @@ int main() {
     std::array<std::unique_ptr<Light>, 3> lights {
         std::unique_ptr<Light>(new SpotLight(glm::vec3(5,20,20), glm::vec3(0,0,0))),
         std::unique_ptr<Light>(new SpotLight(glm::vec3(-14,20,20), glm::vec3(0,0,0))),
-        std::unique_ptr<Light>(new DirectionalLight(glm::vec3(20,20,20), glm::vec3(0,0,0)))
+        std::unique_ptr<Light>(new DirectionalLight(glm::vec3(20,10,-10), glm::vec3(0,0,0)))
     };
     
     std::array<GLuint, 2> shadows;
