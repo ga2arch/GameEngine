@@ -36,9 +36,11 @@ int main() {
                                   Shader("shadow.fragment", Shader::Fragment));
     
     auto camera = Camera(glm::vec3(0,20,20), glm::vec3(0,0,0));
-    std::array<std::unique_ptr<Light>, 2> lights {
+    std::array<std::unique_ptr<Light>, 3> lights {
         std::unique_ptr<Light>(new SpotLight(glm::vec3(5,20,20), glm::vec3(0,0,0))),
-        std::unique_ptr<Light>(new SpotLight(glm::vec3(-14,20,20), glm::vec3(0,0,0))) };
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(-14,20,20), glm::vec3(0,0,0))),
+        std::unique_ptr<Light>(new DirectionalLight(glm::vec3(20,20,20), glm::vec3(0,0,0)))
+    };
     
     std::array<GLuint, 2> shadows;
     

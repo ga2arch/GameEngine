@@ -42,6 +42,41 @@ public:
     float quadratic_attenuation;
 };
 
+class DirectionalLight: public Light {
+    
+public:
+    DirectionalLight(const glm::vec3& p,
+              const glm::vec3& d) {
+        
+        pos = p;
+        dir = d;
+        
+        is_enabled = true;
+        is_local = true;
+        is_spot = false;
+        
+        ambient = glm::vec3(.1, .1, .1);
+        color = glm::vec3(.2, .8, 1);
+        irradiance = glm::vec3(30);
+        
+        spot_exp = 2.0;
+        spot_umbra = cos(60 * 0.0174532925);
+        spot_penumbra = cos(50 * 0.0174532925);
+        
+        constant_attenuation = 0.5;
+        linear_attenuation = 0.3;
+        quadratic_attenuation = 0.0;
+    }
+    
+    glm::mat4 light_view() const override {
+        auto light_view = glm::ortho<float>(-10,10,-10,10,-10,50);//glm::perspective(45.0f, 1.33f, 1.0f, 100.0f);
+        light_view *= glm::lookAt(pos, dir, glm::vec3(0,1,0));
+        
+        return light_view;
+    }
+    
+};
+
 class SpotLight: public Light {
     
 public:
