@@ -28,7 +28,8 @@ struct LightProperty {
     vec3 half_vector;
     
     vec3 irradiance;
-    float spot_cos_cutff;
+    float spot_umbra;
+    float spot_penumbra;
     float spot_exp;
     float constant_attenuation;
     float linear_attenuation;
@@ -81,8 +82,8 @@ void main() {
             
             if (lights[i].is_spot) {
                 float cosS = dot(normalize(lights[i].dir), L);
-                float cosU = cos(80 * 0.01745);
-                float cosP = cos(70 * 0.01745);
+                float cosU = lights[i].spot_umbra;
+                float cosP = lights[i].spot_penumbra;
                 
                 if (cosU < cosS && cosS < cosP)
                     irr = irr * pow ((cosS - cosU) / (cosP - cosU), lights[i].spot_exp);

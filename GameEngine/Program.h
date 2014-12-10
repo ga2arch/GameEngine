@@ -75,7 +75,8 @@ public:
             set_uniform((s+"half_vector").c_str(), light.half_vector);
             
             set_uniform((s+"irradiance").c_str(), light.irradiance);
-            set_uniform((s+"spot_cos_cutff").c_str(), light.spot_cos_cutff);
+            set_uniform((s+"spot_umbra").c_str(), light.spot_umbra);
+            set_uniform((s+"spot_penumbra").c_str(), light.spot_penumbra);
             set_uniform((s+"spot_exp").c_str(), light.spot_exp);
             set_uniform((s+"constant_attenuation").c_str(), light.constant_attenuation);
             set_uniform((s+"linear_attenuation").c_str(), light.linear_attenuation);

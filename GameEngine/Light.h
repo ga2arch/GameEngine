@@ -13,6 +13,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <cmath>
 #include "Program.h"
 
 class Light {
@@ -33,8 +34,9 @@ public:
     glm::vec3 half_vector;
     glm::vec3 irradiance;
 
-    float spot_cos_cutff;
     float spot_exp;
+    float spot_umbra;
+    float spot_penumbra;
     float constant_attenuation;
     float linear_attenuation;
     float quadratic_attenuation;
@@ -58,6 +60,9 @@ public:
         irradiance = glm::vec3(30);
         
         spot_exp = 2.0;
+        spot_umbra = cos(60 * 0.0174532925);
+        spot_penumbra = cos(50 * 0.0174532925);
+        
         constant_attenuation = 0.5;
         linear_attenuation = 0.3;
         quadratic_attenuation = 0.0;
