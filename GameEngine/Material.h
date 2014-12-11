@@ -9,6 +9,7 @@
 #ifndef GameEngine_Material_h
 #define GameEngine_Material_h
 
+#include <cmath>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -41,7 +42,7 @@ public:
         shininess = 80;
         
         ks = (float)(shininess+2)/(8);
-        kd = diffuse/ (float)3.14;
+        kd = diffuse/ (float)M_PI;
     }
     
 };
