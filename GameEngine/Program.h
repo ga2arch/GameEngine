@@ -54,10 +54,11 @@ public:
     }
     
     void set_uniforms(const Light& light,
+                      int w, int h,
                       int i = 0,
                       bool shadow_pass = false) {
         
-        auto lv = light.light_view();
+        auto lv = light.light_view(w, h);
         
         set_uniform("light_view", lv, i);
         

@@ -21,7 +21,7 @@ class Light {
 public:
     virtual ~Light() {};
     
-    virtual glm::mat4 light_view() const =0;
+    virtual glm::mat4 light_view(int w, int h) const =0;
 
     bool is_enabled;
     bool is_local;
@@ -46,7 +46,7 @@ class DirectionalLight: public Light {
     
 public:
     DirectionalLight(const glm::vec3& p,
-              const glm::vec3& d) {
+                     const glm::vec3& d) {
         
         pos = p;
         dir = d;
@@ -68,7 +68,7 @@ public:
         quadratic_attenuation = 0.0;
     }
     
-    glm::mat4 light_view() const override {
+    glm::mat4 light_view(int w, int h) const override {
         auto light_view = glm::ortho<float>(-10,10,-10,10,-10,50);//glm::perspective(45.0f, 1.33f, 1.0f, 100.0f);
         light_view *= glm::lookAt(pos, dir, glm::vec3(0,1,0));
         
@@ -103,8 +103,8 @@ public:
         quadratic_attenuation = 0.0;
     }
     
-    glm::mat4 light_view() const override {
-        auto light_view = glm::perspective(45.0f, 1.33f, 1.0f, 100.0f);
+    glm::mat4 light_view(int w, int h) const override {
+        auto light_view = glm::perspective(45.0f, (float)w/(float)h, 1.0f, 100.0f);
         light_view *= glm::lookAt(pos, dir, glm::vec3(0,1,0));
         
         return light_view;

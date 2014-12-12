@@ -39,7 +39,7 @@ int main() {
     std::array<std::unique_ptr<Light>, 3> lights {
         std::unique_ptr<Light>(new SpotLight(glm::vec3(5,20,20), glm::vec3(0,0,0))),
         std::unique_ptr<Light>(new SpotLight(glm::vec3(-14,20,20), glm::vec3(0,0,0))),
-        std::unique_ptr<Light>(new DirectionalLight(glm::vec3(20,10,-10), glm::vec3(0,0,0)))
+        std::unique_ptr<Light>(new DirectionalLight(glm::vec3(20,10,10), glm::vec3(0,0,0)))
     };
     
     std::array<GLuint, 2> shadows;
@@ -64,7 +64,7 @@ int main() {
         shadow_program.use();
         
         for (int i=0; i < lights.size(); i++) {
-            shadow_program.set_uniforms(*lights[i], 0, true);
+            shadow_program.set_uniforms(*lights[i], w, h, 0, true);
             shadows[i] = scene.shadows(shadow_program, w, h);
         }
         
@@ -84,7 +84,7 @@ int main() {
             glBindTexture(GL_TEXTURE_2D, shadows[i]);
             
             program.set_uniform("shadow_map", i, i);
-            program.set_uniforms(*lights[i], i);
+            program.set_uniforms(*lights[i], w, h, i);
         }
         
         camera.set_uniforms(program);
@@ -133,7 +133,7 @@ int main() {
         glfwPollEvents();
         glfwSwapBuffers(win);
         
-        //usleep(5 * 1000);
+        usleep(5 * 1000);
     }
     
 }
