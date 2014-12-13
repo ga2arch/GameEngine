@@ -72,9 +72,10 @@ int main() {
     while (!glfwWindowShouldClose(win)) {
 
         gbuffer.bind_writing();
-        //glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClearColor (0.0f, 0.0f, 0.0f, 1.0f);
+
         glDisable(GL_BLEND);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
@@ -82,9 +83,13 @@ int main() {
         
         defer_program.use();
         defer_program.set_uniforms(camera);
+        
         scene.draw(defer_program);
         
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glDrawBuffer(GL_BACK);
+        glReadBuffer(GL_BACK);
+        
         glClear (GL_COLOR_BUFFER_BIT);
         glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
 
@@ -99,7 +104,7 @@ int main() {
         
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, gbuffer.textures[1]);
-
+ 
         program.use();
         program.set_uniform("p_tex", 0);
         program.set_uniform("n_tex", 1);
@@ -109,9 +114,9 @@ int main() {
         //for (int i=0; i < lights.size(); i++) {
             program.set_uniforms(*lights[0], w, h, 0);
             program.set_uniforms(scene.material);
-            sphere.draw(program, true);
+            sphere.draw(program);
         //}
-       
+         
         glfwPollEvents();
         glfwSwapBuffers(win);
         

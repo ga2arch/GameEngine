@@ -13,7 +13,6 @@ out VS_FS_INTERFACE {
     vec3 world_coord;
     vec3 eye_coord;
     vec3 normal;
-    vec2 textcoord;
     
 } vertex;
 
@@ -25,7 +24,6 @@ void main() {
     vertex.world_coord = world_coord.xyz;
     vertex.eye_coord = eye_coord.xyz;
     vertex.normal = transpose(inverse(mat3(view * model))) * normal;
-    vertex.textcoord = textcoord;
     
     gl_Position = clip_pos;
     

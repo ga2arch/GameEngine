@@ -50,8 +50,10 @@ vec3 fresnel(vec3 ior, vec3 color, vec3 v1, vec3 v2) {
 }
 
 void main() {
-    vec3 eye_coord = texture(p_tex, vec2(gl_FragCoord.x/800, gl_FragCoord.y/600)).xyz;
-    vec3 normal = texture(n_tex, vec2(gl_FragCoord.x/800, gl_FragCoord.y/600)).xyz;
+    vec2 st = gl_FragCoord.xy / vec2(800, 600);
+    
+    vec3 eye_coord = texture(p_tex, st).xyz;
+    vec3 normal = texture(n_tex, st).xyz;
     
     vec3 Lo = vec3(0);
     int i = 0;
@@ -95,5 +97,5 @@ void main() {
     //}
 
     
-    fragColor = vec4(vec3(V), 1.0);
+    fragColor = vec4(vec3(Lo), 1.0);
 }

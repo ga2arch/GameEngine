@@ -24,7 +24,8 @@
 		E0A189FF1A3C7DF1001B9A52 /* sphere.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0A189FE1A3C7D93001B9A52 /* sphere.obj */; };
 		E0A18A001A3C8009001B9A52 /* deferred.vertex in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0F7E75D1A3C607400A708D6 /* deferred.vertex */; };
 		E0A18A011A3C800A001B9A52 /* deferred.fragment in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0A189FD1A3C608C001B9A52 /* deferred.fragment */; };
-		E0A18A031A3CA2CB001B9A52 /* scene3.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0A18A021A3CA2C7001B9A52 /* scene3.obj */; };
+		E0A18A071A3CBBE1001B9A52 /* scene3.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0A18A061A3CBBDE001B9A52 /* scene3.obj */; };
+		E0A18A0A1A3CBD40001B9A52 /* scene.3ds in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0A18A091A3CBD3C001B9A52 /* scene.3ds */; };
 		E0A1AD051A33E4AB00BFB014 /* shadow.vertex in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0147ED61A337CCE009D9439 /* shadow.vertex */; };
 		E0A1AD061A33E4AC00BFB014 /* shadow.fragment in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0147ED71A337CD4009D9439 /* shadow.fragment */; };
 		E0A1AD0A1A33EFB000BFB014 /* scene2.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0A1AD091A33EFAC00BFB014 /* scene2.obj */; };
@@ -39,7 +40,8 @@
 			dstSubfolderSpec = 16;
 			files = (
 				E0A1AD061A33E4AC00BFB014 /* shadow.fragment in CopyFiles */,
-				E0A18A031A3CA2CB001B9A52 /* scene3.obj in CopyFiles */,
+				E0A18A071A3CBBE1001B9A52 /* scene3.obj in CopyFiles */,
+				E0A18A0A1A3CBD40001B9A52 /* scene.3ds in CopyFiles */,
 				E0A1AD0A1A33EFB000BFB014 /* scene2.obj in CopyFiles */,
 				E0A189FF1A3C7DF1001B9A52 /* sphere.obj in CopyFiles */,
 				E0A18A001A3C8009001B9A52 /* deferred.vertex in CopyFiles */,
@@ -80,7 +82,8 @@
 		E08F89671A336FD200C8967F /* scene.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scene.obj; path = ../../../../../scene.obj; sourceTree = "<group>"; };
 		E0A189FD1A3C608C001B9A52 /* deferred.fragment */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = deferred.fragment; sourceTree = "<group>"; };
 		E0A189FE1A3C7D93001B9A52 /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sphere.obj; path = ../../../../../sphere.obj; sourceTree = "<group>"; };
-		E0A18A021A3CA2C7001B9A52 /* scene3.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scene3.obj; path = ../../../../../scene3.obj; sourceTree = "<group>"; };
+		E0A18A061A3CBBDE001B9A52 /* scene3.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scene3.obj; path = ../../../../../scene3.obj; sourceTree = "<group>"; };
+		E0A18A091A3CBD3C001B9A52 /* scene.3ds */ = {isa = PBXFileReference; lastKnownFileType = file; name = scene.3ds; path = ../../../../../scene.3ds; sourceTree = "<group>"; };
 		E0A1AD041A33DB3E00BFB014 /* Light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 		E0A1AD091A33EFAC00BFB014 /* scene2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scene2.obj; path = ../../../../../scene2.obj; sourceTree = "<group>"; };
 		E0D358AE1A326BE900E1CA5F /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -124,7 +127,8 @@
 		E02D2CAE1A327B1000823B2E /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				E0A18A021A3CA2C7001B9A52 /* scene3.obj */,
+				E0A18A091A3CBD3C001B9A52 /* scene.3ds */,
+				E0A18A061A3CBBDE001B9A52 /* scene3.obj */,
 				E0A189FE1A3C7D93001B9A52 /* sphere.obj */,
 				E0A1AD091A33EFAC00BFB014 /* scene2.obj */,
 				E08F89671A336FD200C8967F /* scene.obj */,
