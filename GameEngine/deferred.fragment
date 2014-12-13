@@ -1,0 +1,21 @@
+#version 330
+
+in VS_FS_INTERFACE {
+    
+    vec3 world_coord;
+    vec3 eye_coord;
+    vec3 normal;
+    vec2 textcoord;
+    
+} fragment;
+
+layout (location = 0) out vec3 eye_coord;
+layout (location = 1) out vec3 normal;
+
+
+void main() {
+    
+    eye_coord = fragment.eye_coord;
+    normal = fragment.normal;
+    
+}

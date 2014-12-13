@@ -138,7 +138,7 @@ public:
         
         node.model = node.model * model;
         program.set_uniform("model", node.model);
-        if (!shadow_pass) program.set_uniforms(material);
+        //if (!shadow_pass) program.set_uniforms(material);
         
         for (auto& m: node.meshes)
             draw(m);
@@ -215,7 +215,6 @@ public:
         material = m;
     }
     
-private:
     Material material;
     glm::mat4 model = glm::mat4(1.0);
     

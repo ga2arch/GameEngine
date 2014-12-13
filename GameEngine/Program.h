@@ -15,6 +15,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "GLUtils.h"
+#include "Camera.h"
 #include "Material.h"
 #include "Light.h"
 #include "Shader.h"
@@ -97,7 +98,12 @@ public:
         set_uniform((s+"ks").c_str(), material.ks);
         set_uniform((s+"kd").c_str(), material.kd);
     }
-
+    
+    void set_uniforms(Camera& cam) {
+        set_uniform("proj", cam.proj);
+        set_uniform("view", cam.view);
+        set_uniform("camera", cam.pos);
+    }
     
 private:
     Shader vertex;

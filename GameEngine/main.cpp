@@ -16,6 +16,7 @@
 #include "Shader.h"
 #include "Mesh.h"
 #include "Light.h"
+#include "GBuffer.h"
 
 int main() {
     int w = 800;
@@ -29,15 +30,20 @@ int main() {
     GLFWwindow* win;
     
     GLUtils::create_window("test", w, h, win);
+    GBuffer gbuffer;
+    
     auto program = Program(Shader("shader.vertex", Shader::Vertex),
                            Shader("shader.fragment", Shader::Fragment));
     
     auto shadow_program = Program(Shader("shadow.vertex", Shader::Vertex),
                                   Shader("shadow.fragment", Shader::Fragment));
     
+    auto defer_program = Program(Shader("deferred.vertex", Shader::Vertex),
+                                 Shader("deferred.fragment", Shader::Fragment));
+    
     auto camera = Camera(glm::vec3(0,20,20), glm::vec3(0,0,0));
     std::array<std::unique_ptr<Light>, 3> lights {
-        std::unique_ptr<Light>(new SpotLight(glm::vec3(5,20,20), glm::vec3(0,0,0))),
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(5,5,5), glm::vec3(0,0,0))),
         std::unique_ptr<Light>(new SpotLight(glm::vec3(-14,20,20), glm::vec3(0,0,0))),
         std::unique_ptr<Light>(new DirectionalLight(glm::vec3(20,10,10), glm::vec3(0,0,0)))
     };
@@ -47,93 +53,69 @@ int main() {
     auto scene = Mesh();
     scene.load_mesh("scene2.obj");
     
+    auto sphere = Mesh();
+    sphere.load_mesh("sphere.obj");
+    sphere.translate(lights[0]->pos);
+    sphere.scale(glm::vec3(10,10,10));
+
     TestMaterial mat;
     scene.use_material(mat);
     //cube.rotate(glm::vec3(1,0,0), 90);
     
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-    glEnable(GL_MULTISAMPLE);
+    gbuffer.init(w, h);
+
+    glEnable (GL_CULL_FACE); // cull face
+    glCullFace (GL_BACK); // cull back face
+    glFrontFace (GL_CCW); // GL_CCW for counter clock-wise
+    glViewport(0, 0, w, h);
 
     while (!glfwWindowShouldClose(win)) {
+
+        gbuffer.bind_writing();
+        //glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glDisable(GL_BLEND);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+        glDepthMask(GL_TRUE);
         
-        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-        glViewport(0, 0, w, h);
-        glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
-        
-        shadow_program.use();
-        
-        for (int i=0; i < lights.size(); i++) {
-            shadow_program.set_uniforms(*lights[i], w, h, 0, true);
-            shadows[i] = scene.shadows(shadow_program, w, h);
-        }
+        defer_program.use();
+        defer_program.set_uniforms(camera);
+        scene.draw(defer_program);
         
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        
-        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-        glViewport(0, 0, w, h);
+        glClear (GL_COLOR_BUFFER_BIT);
         glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
-        glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
-        glFrontFace(GL_CCW);
+
+        glEnable (GL_BLEND); // --- could reject background frags!
+        glBlendEquation (GL_FUNC_ADD);
+        glBlendFunc (GL_ONE, GL_ONE); // addition each time
+        glDisable (GL_DEPTH_TEST);
+        glDepthMask (GL_FALSE);
+     
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, gbuffer.textures[0]);
+        
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, gbuffer.textures[1]);
 
         program.use();
+        program.set_uniform("p_tex", 0);
+        program.set_uniform("n_tex", 1);
         
-        for (int i=0; i < lights.size(); i++) {
-            glActiveTexture(GL_TEXTURE0 + i);
-            glBindTexture(GL_TEXTURE_2D, shadows[i]);
-            
-            program.set_uniform("shadow_map", i, i);
-            program.set_uniforms(*lights[i], w, h, i);
-        }
-        
-        camera.set_uniforms(program);
-        program.set_uniform("lights_num", (int)lights.size());
-        scene.draw(program);
-        
-        
-//        // Camera
-//        double current_time = glfwGetTime();
-//        float delta_time = float(current_time - last_time);
-//        last_time = current_time;
-//        
-//        glfwGetCursorPos(win, &xpos, &ypos);
-//        
-//        h_angle += .005 * delta_time * float(w/2 - xpos );
-//        v_angle += .005 * delta_time * float(h/2 - ypos );
-//        
-//        glm::vec3 direction(cos(v_angle) * sin(h_angle),
-//                            sin(v_angle),
-//                            cos(v_angle) * cos(h_angle));
-//        
-//        glm::vec3 right = glm::vec3(sin(h_angle - 3.14f/2.0f),
-//                                    0,
-//                                    cos(h_angle - 3.14f/2.0f));
-//        
-//        glm::vec3 up = glm::cross( right, direction );
-//        
-//        camera.update(direction, up);
-////        
-//        if (glfwGetKey(win, GLFW_KEY_UP ) == GLFW_PRESS){
-//            camera.move(direction * delta_time * speed);
-//        }
-//        // Move backward
-//        if (glfwGetKey(win, GLFW_KEY_DOWN ) == GLFW_PRESS){
-//            camera.move(-direction * delta_time * speed);
-//        }
-//        // Strafe right
-//        if (glfwGetKey(win, GLFW_KEY_RIGHT ) == GLFW_PRESS){
-//            camera.move(right * delta_time * speed);
-//        }
-//        // Strafe left
-//        if (glfwGetKey(win, GLFW_KEY_LEFT ) == GLFW_PRESS){
-//            camera.move(-right * delta_time * speed);
-//        }
-////
+        program.set_uniforms(camera);
+
+        //for (int i=0; i < lights.size(); i++) {
+            program.set_uniforms(*lights[0], w, h, 0);
+            program.set_uniforms(scene.material);
+            sphere.draw(program, true);
+        //}
+       
         glfwPollEvents();
         glfwSwapBuffers(win);
         
-        usleep(5 * 1000);
+        glfwSwapInterval(1);
     }
     
 }

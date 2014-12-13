@@ -21,6 +21,10 @@
 		E0484E451A2766650032978D /* libGLEW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0484E441A2766650032978D /* libGLEW.a */; };
 		E0484E471A2766790032978D /* libglfw3.3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E0484E461A2766790032978D /* libglfw3.3.0.dylib */; };
 		E08F89681A336FD700C8967F /* scene.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = E08F89671A336FD200C8967F /* scene.obj */; };
+		E0A189FF1A3C7DF1001B9A52 /* sphere.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0A189FE1A3C7D93001B9A52 /* sphere.obj */; };
+		E0A18A001A3C8009001B9A52 /* deferred.vertex in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0F7E75D1A3C607400A708D6 /* deferred.vertex */; };
+		E0A18A011A3C800A001B9A52 /* deferred.fragment in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0A189FD1A3C608C001B9A52 /* deferred.fragment */; };
+		E0A18A031A3CA2CB001B9A52 /* scene3.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0A18A021A3CA2C7001B9A52 /* scene3.obj */; };
 		E0A1AD051A33E4AB00BFB014 /* shadow.vertex in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0147ED61A337CCE009D9439 /* shadow.vertex */; };
 		E0A1AD061A33E4AC00BFB014 /* shadow.fragment in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0147ED71A337CD4009D9439 /* shadow.fragment */; };
 		E0A1AD0A1A33EFB000BFB014 /* scene2.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = E0A1AD091A33EFAC00BFB014 /* scene2.obj */; };
@@ -35,7 +39,11 @@
 			dstSubfolderSpec = 16;
 			files = (
 				E0A1AD061A33E4AC00BFB014 /* shadow.fragment in CopyFiles */,
+				E0A18A031A3CA2CB001B9A52 /* scene3.obj in CopyFiles */,
 				E0A1AD0A1A33EFB000BFB014 /* scene2.obj in CopyFiles */,
+				E0A189FF1A3C7DF1001B9A52 /* sphere.obj in CopyFiles */,
+				E0A18A001A3C8009001B9A52 /* deferred.vertex in CopyFiles */,
+				E0A18A011A3C800A001B9A52 /* deferred.fragment in CopyFiles */,
 				E0A1AD051A33E4AB00BFB014 /* shadow.vertex in CopyFiles */,
 				E02D2CB21A327B9600823B2E /* shader.vertex in CopyFiles */,
 				E02D2CB31A327B9800823B2E /* shader.fragment in CopyFiles */,
@@ -70,9 +78,14 @@
 		E0484E441A2766650032978D /* libGLEW.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLEW.a; path = ../../../../../../usr/local/Cellar/glew/1.11.0/lib/libGLEW.a; sourceTree = "<group>"; };
 		E0484E461A2766790032978D /* libglfw3.3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw3.3.0.dylib; path = ../../../../../../usr/local/Cellar/glfw3/3.0.4/lib/libglfw3.3.0.dylib; sourceTree = "<group>"; };
 		E08F89671A336FD200C8967F /* scene.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scene.obj; path = ../../../../../scene.obj; sourceTree = "<group>"; };
+		E0A189FD1A3C608C001B9A52 /* deferred.fragment */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = deferred.fragment; sourceTree = "<group>"; };
+		E0A189FE1A3C7D93001B9A52 /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sphere.obj; path = ../../../../../sphere.obj; sourceTree = "<group>"; };
+		E0A18A021A3CA2C7001B9A52 /* scene3.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scene3.obj; path = ../../../../../scene3.obj; sourceTree = "<group>"; };
 		E0A1AD041A33DB3E00BFB014 /* Light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 		E0A1AD091A33EFAC00BFB014 /* scene2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scene2.obj; path = ../../../../../scene2.obj; sourceTree = "<group>"; };
 		E0D358AE1A326BE900E1CA5F /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		E0F7E75C1A3C5BDC00A708D6 /* GBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBuffer.h; sourceTree = "<group>"; };
+		E0F7E75D1A3C607400A708D6 /* deferred.vertex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = deferred.vertex; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +115,8 @@
 				E02D2CAC1A3279D200823B2E /* shader.fragment */,
 				E0147ED61A337CCE009D9439 /* shadow.vertex */,
 				E0147ED71A337CD4009D9439 /* shadow.fragment */,
+				E0F7E75D1A3C607400A708D6 /* deferred.vertex */,
+				E0A189FD1A3C608C001B9A52 /* deferred.fragment */,
 			);
 			name = shaders;
 			sourceTree = "<group>";
@@ -109,6 +124,8 @@
 		E02D2CAE1A327B1000823B2E /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				E0A18A021A3CA2C7001B9A52 /* scene3.obj */,
+				E0A189FE1A3C7D93001B9A52 /* sphere.obj */,
 				E0A1AD091A33EFAC00BFB014 /* scene2.obj */,
 				E08F89671A336FD200C8967F /* scene.obj */,
 			);
@@ -147,6 +164,7 @@
 				E02D2CAE1A327B1000823B2E /* resources */,
 				E02D2CAD1A3279DA00823B2E /* shaders */,
 				E0D358AE1A326BE900E1CA5F /* main.cpp */,
+				E0F7E75C1A3C5BDC00A708D6 /* GBuffer.h */,
 				E03BF5D21A326C30001BBF38 /* Shader.h */,
 				E03BF5D31A326E63001BBF38 /* Program.h */,
 				E03BF5D41A32709B001BBF38 /* Mesh.h */,

@@ -1,21 +1,5 @@
 #version 330
 
-const int MAX_LIGHTS = 10;
-
-in VS_FS_INTERFACE {
-    
-    vec3 world_coord;
-    vec3 eye_coord;
-    vec4 shadow_coord[MAX_LIGHTS];
-    vec3 normal;
-    
-} fragment;
-
-uniform sampler2DShadow shadow_map[MAX_LIGHTS];
-
-uniform vec3 camera;
-uniform int lights_num;
-
 struct LightProperty {
     bool is_enabled;
     bool is_local;
@@ -47,8 +31,12 @@ struct MaterialProperty {
     float ks;
 };
 
-uniform LightProperty lights[MAX_LIGHTS];
+uniform LightProperty lights[10];
 uniform MaterialProperty material;
+uniform vec3 camera;
+
+uniform sampler2D p_tex;
+uniform sampler2D n_tex;
 
 out vec4 fragColor;
 
@@ -62,54 +50,50 @@ vec3 fresnel(vec3 ior, vec3 color, vec3 v1, vec3 v2) {
 }
 
 void main() {
+    vec3 eye_coord = texture(p_tex, vec2(gl_FragCoord.x/800, gl_FragCoord.y/600)).xyz;
+    vec3 normal = texture(n_tex, vec2(gl_FragCoord.x/800, gl_FragCoord.y/600)).xyz;
+    
     vec3 Lo = vec3(0);
-    
-    for (int i=0; i < lights_num; i++) {
+    int i = 0;
+    //for (int i=0; i < lights_num; i++) {
         
-        if (!lights[i].is_enabled) continue;
+        //if (!lights[i].is_enabled) continue;
     
-        if (lights[i].is_local) {
-            vec3 L = normalize(lights[i].pos - fragment.eye_coord);
-            vec3 V = normalize(camera - fragment.eye_coord);
+        //if (lights[i].is_local) {
+            vec3 L = normalize(lights[i].pos - eye_coord);
+            vec3 V = normalize(camera - eye_coord);
             vec3 H = normalize(L + V);
             
-            float cosH = clamp(dot(H, fragment.normal), 0, 1);
-            float cosI = clamp(dot(fragment.normal, L), 0, 1);
+            float cosH = clamp(dot(H, normal), 0, 1);
+            float cosI = clamp(dot(normal, L), 0, 1);
             
-            float r = length(lights[i].pos - fragment.eye_coord);
+            float r = length(lights[i].pos - eye_coord);
             float attenuation = 1.0 / (lights[i].constant_attenuation
                                        + lights[i].linear_attenuation * r
                                        + lights[i].quadratic_attenuation * r * r);
             
             vec3 irr = lights[i].irradiance * attenuation;
             
-            if (lights[i].is_spot) {
-                float cosS = dot(normalize(lights[i].dir), L);
-                float cosU = lights[i].spot_umbra;
-                float cosP = lights[i].spot_penumbra;
-                
-                if (cosU < cosS && cosS < cosP)
-                    irr = irr * pow ((cosS - cosU) / (cosP - cosU), lights[i].spot_exp);
-                
-                if (cosS <= cosU)
-                    irr = vec3(0.0);
-            }
-            
-            float shadow = 0.0;
-            shadow += textureProjOffset(shadow_map[i], fragment.shadow_coord[i], ivec2(-1,  1));
-            shadow += textureProjOffset(shadow_map[i], fragment.shadow_coord[i], ivec2( 1,  1));
-            shadow += textureProjOffset(shadow_map[i], fragment.shadow_coord[i], ivec2(-1, -1));
-            shadow += textureProjOffset(shadow_map[i], fragment.shadow_coord[i], ivec2( 1, -1));
-            float f = shadow / 4.0;
-            
+//            if (lights[i].is_spot) {
+//                float cosS = dot(normalize(lights[i].dir), L);
+//                float cosU = lights[i].spot_umbra;
+//                float cosP = lights[i].spot_penumbra;
+//                
+//                if (cosU < cosS && cosS < cosP)
+//                    irr = irr * pow ((cosS - cosU) / (cosP - cosU), lights[i].spot_exp);
+//                
+//                if (cosS <= cosU)
+//                    irr = vec3(0.0);
+//            }
+            float f = 1;
             
             Lo += lights[i].ambient * material.ambient * attenuation;
             Lo += f * (lights[i].color * material.kd
                        + material.ks * pow(cosH, material.shininess) * fresnel(vec3(.47), material.specular, L, H))
                     * irr * cosI;
-        }
-    }
+        //}
+    //}
 
     
-    fragColor = vec4(vec3(Lo), 1.0);
+    fragColor = vec4(vec3(V), 1.0);
 }

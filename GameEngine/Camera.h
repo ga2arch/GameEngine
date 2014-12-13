@@ -13,8 +13,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Program.h"
-
 class Camera {
     
 public:
@@ -33,13 +31,7 @@ public:
         
         view = glm::lookAt(pos, dir, up);
     }
-    
-    void set_uniforms(Program& program) {
-        program.set_uniform("proj", proj);
-        program.set_uniform("view", view);
-        program.set_uniform("camera", pos);
-    }
-    
+        
     void move(const glm::vec3& v) {
         pos += v;
         dir += v;
