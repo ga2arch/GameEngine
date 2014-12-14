@@ -136,8 +136,7 @@ public:
               Node node,
               bool shadow_pass = false) {
         
-        node.model = node.model * model;
-        program.set_uniform("model", node.model);
+        program.set_uniform("model", node.model * model);
         //if (!shadow_pass) program.set_uniforms(material);
         
         for (auto& m: node.meshes)

@@ -52,6 +52,7 @@ int main() {
     
     auto scene = Mesh();
     scene.load_mesh("scene2.obj");
+   // scene.translate(glm::vec3(1,1,1));
     
     auto sphere = Mesh();
     sphere.load_mesh("sphere.obj");
@@ -62,19 +63,20 @@ int main() {
     scene.use_material(mat);
     //cube.rotate(glm::vec3(1,0,0), 90);
     
-    gbuffer.init(w, h);
 
     glEnable (GL_CULL_FACE); // cull face
     glCullFace (GL_BACK); // cull back face
     glFrontFace (GL_CCW); // GL_CCW for counter clock-wise
     glViewport(0, 0, w, h);
 
+    gbuffer.init(w, h);
+
     while (!glfwWindowShouldClose(win)) {
-
-        gbuffer.bind_writing();
-
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+       
+        glClearDepth(1.0f);
         glClearColor (0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        gbuffer.bind_writing();
 
         glDisable(GL_BLEND);
         glEnable(GL_DEPTH_TEST);
@@ -83,15 +85,12 @@ int main() {
         
         defer_program.use();
         defer_program.set_uniforms(camera);
-        
         scene.draw(defer_program);
         
+
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glDrawBuffer(GL_BACK);
-        glReadBuffer(GL_BACK);
-        
-        glClear (GL_COLOR_BUFFER_BIT);
         glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
+        glClear (GL_COLOR_BUFFER_BIT);
 
         glEnable (GL_BLEND); // --- could reject background frags!
         glBlendEquation (GL_FUNC_ADD);
@@ -99,15 +98,15 @@ int main() {
         glDisable (GL_DEPTH_TEST);
         glDepthMask (GL_FALSE);
      
-        glActiveTexture(GL_TEXTURE0);
+        glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, gbuffer.textures[0]);
         
-        glActiveTexture(GL_TEXTURE1);
+        glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, gbuffer.textures[1]);
  
         program.use();
-        program.set_uniform("p_tex", 0);
-        program.set_uniform("n_tex", 1);
+        program.set_uniform("p_tex", 1);
+        program.set_uniform("n_tex", 2);
         
         program.set_uniforms(camera);
 
@@ -116,11 +115,10 @@ int main() {
             program.set_uniforms(scene.material);
             sphere.draw(program);
         //}
-         
+                
         glfwPollEvents();
         glfwSwapBuffers(win);
         
         glfwSwapInterval(1);
     }
-    
 }
