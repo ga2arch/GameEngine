@@ -137,7 +137,7 @@ public:
               bool shadow_pass = false) {
         
         program.set_uniform("model", node.model * model);
-        //if (!shadow_pass) program.set_uniforms(material);
+        if (!shadow_pass) program.set_uniforms(material);
         
         for (auto& m: node.meshes)
             draw(m);
@@ -148,6 +148,10 @@ public:
     
     void translate(const glm::vec3& v) {
         model = glm::translate(model, v);
+    }
+    
+    void move(const glm::vec3& v) {
+        model = glm::translate(glm::mat4(), v);
     }
     
     void scale(const glm::vec3& v) {

@@ -10,9 +10,12 @@ in VS_FS_INTERFACE {
 
 layout (location = 0) out vec3 eye_coord;
 layout (location = 1) out vec3 normal;
+layout (location = 2) out vec3 world_coord;
 
 void main() {
     
     eye_coord = fragment.eye_coord;
     normal = fragment.normal;
+    world_coord = fragment.world_coord;
+    
 }
