@@ -42,13 +42,13 @@ int main() {
                                  Shader("deferred.fragment", Shader::Fragment));
     
     auto camera = Camera(glm::vec3(0,25,25), glm::vec3(0,0,0));
-    std::array<std::unique_ptr<Light>, 1> lights {
+    std::array<std::unique_ptr<Light>, 2> lights {
         std::unique_ptr<Light>(new SpotLight(glm::vec3(-3,15,15), glm::vec3(0,0,0))),
-        //std::unique_ptr<Light>(new SpotLight(glm::vec3(-3,3,3), glm::vec3(0,0,0)))
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(5,15,15), glm::vec3(0,0,0)))
         //std::unique_ptr<Light>(new DirectionalLight(glm::vec3(20,10,10), glm::vec3(0,0,0)))
     };
     
-    std::array<GLuint, 1> shadows;
+    std::array<GLuint, 2> shadows;
     
     auto scene = Mesh();
     scene.load_mesh("scene2.obj");
@@ -56,8 +56,7 @@ int main() {
     
     auto sphere = Mesh();
     sphere.load_mesh("sphere.obj");
-    sphere.model = glm::translate(glm::mat4(), lights[0]->pos);
-    sphere.scale(glm::vec3(15,15,15));
+
     
     TestMaterial mat;
     scene.use_material(mat);
@@ -132,7 +131,11 @@ int main() {
             
             program.set_uniforms(*lights[i], w, h, 0);
             
+            sphere.translate(lights[i]->pos);
+            sphere.scale(glm::vec3(15,15,15));
             sphere.draw(program);
+            
+            sphere.model = glm::mat4();
         }
                 
         glfwPollEvents();
