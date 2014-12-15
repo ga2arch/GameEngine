@@ -67,6 +67,7 @@ public:
         if(status != GL_FRAMEBUFFER_COMPLETE) {
             printf("GL_FRAMEBUFFER_COMPLETE failed, CANNOT use FBO[0]\n");
         }
+         
         glBindFramebuffer (GL_FRAMEBUFFER, 0);
     };
     
