@@ -14,19 +14,7 @@
 class GBuffer {
     
 public:
-    
-    enum GBUFFER_TEXTURE_TYPE {
-        GBUFFER_TEXTURE_TYPE_POSITION,
-        GBUFFER_TEXTURE_TYPE_DIFFUSE,
-        GBUFFER_TEXTURE_TYPE_NORMAL,
-        GBUFFER_TEXTURE_TYPE_TEXCOORD,
-        GBUFFER_NUM_TEXTURES
-    };
-    
-    void init(int w, int h) {
-//        glDeleteFramebuffers(1, &fbo);
-//        glDeleteTextures(2, textures.data());
-        
+     void init(int w, int h) {
         glGenFramebuffers(1, &fbo);
         
         glGenTextures(1, &textures[0]);
@@ -79,22 +67,13 @@ public:
         if(status != GL_FRAMEBUFFER_COMPLETE) {
             printf("GL_FRAMEBUFFER_COMPLETE failed, CANNOT use FBO[0]\n");
         }
-        
-        glBindFramebuffer (GL_FRAMEBUFFER, fbo);
+        glBindFramebuffer (GL_FRAMEBUFFER, 0);
     };
     
     void bind_writing() {
         glBindFramebuffer (GL_FRAMEBUFFER, fbo);
     };
     
-    void bind_reading() {
-        glBindFramebuffer(GL_READ_FRAMEBUFFER, fbo);
-    };
-    
-    void set_read_buffer(GBUFFER_TEXTURE_TYPE texture_type) {
-        glReadBuffer(GL_COLOR_ATTACHMENT0 + texture_type);
-    };
-
     GLuint fbo;
     std::array<GLuint, 3> textures;
     GLuint depth_texture;
