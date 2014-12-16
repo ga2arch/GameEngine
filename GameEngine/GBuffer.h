@@ -67,7 +67,7 @@ public:
         if(status != GL_FRAMEBUFFER_COMPLETE)
             throw std::runtime_error("GL_FRAMEBUFFER_COMPLETE failed, CANNOT use FBO[0]\n");
          
-        glBindFramebuffer (GL_FRAMEBUFFER, fbo);
+        glBindFramebuffer (GL_FRAMEBUFFER, 0);
     };
     
     void bind_writing() {

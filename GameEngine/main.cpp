@@ -44,7 +44,7 @@ int main() {
     auto defer_program = Program(Shader("deferred.vertex", Shader::Vertex),
                                  Shader("deferred.fragment", Shader::Fragment));
     
-    auto camera = Camera(glm::vec3(0,10,10), glm::vec3(0,0,0));
+    auto camera = Camera(glm::vec3(0,10,10), glm::vec3(0,10,10));
     position = camera.pos;
     std::array<std::unique_ptr<Light>, 2> lights {
         std::unique_ptr<Light>(new SpotLight(glm::vec3(-3,15,15), glm::vec3(0,0,0))),
@@ -86,7 +86,6 @@ int main() {
         glClearColor (0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        
         defer_program.use();
         defer_program.set_uniforms(camera);
         scene.draw(defer_program);
@@ -173,7 +172,7 @@ int main() {
         camera.dir = camera.pos + lookat;
         
         float time = glfwGetTime();
-        float delta_time = (time - prev_time);// * 1.0e-3;
+        float delta_time = (time - prev_time);
         prev_time = time;
         
         auto right_dir = glm::vec3(sinf(angles.x - 3.14f/2.0f),
