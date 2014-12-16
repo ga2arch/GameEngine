@@ -64,11 +64,10 @@ public:
         glDrawBuffers(3, buffs);
         
         auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-        if(status != GL_FRAMEBUFFER_COMPLETE) {
-            printf("GL_FRAMEBUFFER_COMPLETE failed, CANNOT use FBO[0]\n");
-        }
+        if(status != GL_FRAMEBUFFER_COMPLETE)
+            throw std::runtime_error("GL_FRAMEBUFFER_COMPLETE failed, CANNOT use FBO[0]\n");
          
-        glBindFramebuffer (GL_FRAMEBUFFER, 0);
+        glBindFramebuffer (GL_FRAMEBUFFER, fbo);
     };
     
     void bind_writing() {

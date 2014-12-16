@@ -21,11 +21,11 @@
 int main() {
     int w = 800;
     int h = 600;
-//    float last_time = 0.0;
-//    float speed = 2.0;
-//    double xpos, ypos;
-//    float h_angle = 3.14f, v_angle = 0;
-//    
+    
+//    glm::vec3 position;
+//    glm::vec2 angles;
+//    bool wrap = false;
+//    const float mousespeed = 0.001;
     
     GLFWwindow* win;
     
@@ -76,7 +76,7 @@ int main() {
         glClearColor (0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         gbuffer.bind_writing();
-        
+
         glDisable(GL_BLEND);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
@@ -137,7 +137,43 @@ int main() {
             
             sphere.model = glm::mat4();
         }
-                
+        
+        // Camera movements
+        
+//        double xpos, ypos;
+//        
+//        glfwGetCursorPos(win, &xpos, &ypos);
+//        if(!wrap) {
+//            int dx = xpos - w / 2;
+//            int dy = ypos - h / 2;
+//
+//            // Do something with dx and dy here
+//            angles.x += dx * mousespeed;
+//            angles.y += dy * mousespeed;
+//            
+//            if(angles.x < -M_PI)
+//                angles.x += M_PI * 2;
+//            else if(angles.x > M_PI)
+//                angles.x -= M_PI * 2;
+//            
+//            if(angles.y < -M_PI / 2)
+//                angles.y = -M_PI / 2;
+//            if(angles.y > M_PI / 2)
+//                angles.y = M_PI / 2;
+//            // move mouse pointer back to the center of the window
+//            wrap = true;
+//            glfwSetCursorPos(win, w / 2, h / 2);
+//        } else {
+//            wrap = false;
+//        }
+//        
+//        glm::vec3 lookat;
+//        lookat.x = sinf(angles.x) * cosf(angles.y);
+//        lookat.y = sinf(angles.y);
+//        lookat.z = cosf(angles.x) * cosf(angles.y);
+//        
+//        camera.dir = camera.pos + lookat;
+        
         glfwPollEvents();
         glfwSwapBuffers(win);
         
