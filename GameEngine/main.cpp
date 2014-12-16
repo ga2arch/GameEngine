@@ -23,9 +23,12 @@ int main() {
     int h = 600;
     
     glm::vec3 position;
-    glm::vec2 angles;
-    bool wrap = false;
+    glm::vec2 angles(-.5 * 3.14f, 0.0f);
+    float prev_time = 0.0f;
+    
     const float mousespeed = 0.001;
+    const float movespeed  = 10;
+    
     
     GLFWwindow* win;
     
@@ -41,7 +44,8 @@ int main() {
     auto defer_program = Program(Shader("deferred.vertex", Shader::Vertex),
                                  Shader("deferred.fragment", Shader::Fragment));
     
-    auto camera = Camera(glm::vec3(0,25,25), glm::vec3(0,0,0));
+    auto camera = Camera(glm::vec3(0,10,10), glm::vec3(0,0,0));
+    position = camera.pos;
     std::array<std::unique_ptr<Light>, 2> lights {
         std::unique_ptr<Light>(new SpotLight(glm::vec3(-3,15,15), glm::vec3(0,0,0))),
         std::unique_ptr<Light>(new SpotLight(glm::vec3(5,15,15), glm::vec3(0,0,0)))
@@ -151,18 +155,16 @@ int main() {
         angles.x += dx * mousespeed;
         angles.y += dy * mousespeed;
         
-        if(angles.x < -M_PI)
-            angles.x += M_PI * 2;
-        else if(angles.x > M_PI)
-            angles.x -= M_PI * 2;
-        
-        if(angles.y < -M_PI / 2)
-            angles.y = -M_PI / 2;
-        if(angles.y > M_PI / 2)
-            angles.y = M_PI / 2;
+//        if(angles.x < -M_PI)
+//            angles.x += M_PI * 2;
+//        else if(angles.x > M_PI)
+//            angles.x -= M_PI * 2;
+//        
+//        if(angles.y < -M_PI / 2)
+//            angles.y = -M_PI / 2;
+//        if(angles.y > M_PI / 2)
+//            angles.y = M_PI / 2;
         // move mouse pointer back to the center of the window
-        glfwSetCursorPos(win, w / 2, h / 2);
-
         
         glm::vec3 lookat;
         lookat.x = sinf(angles.x) * cosf(angles.y);
@@ -170,7 +172,41 @@ int main() {
         lookat.z = cosf(angles.x) * cosf(angles.y);
         
         camera.dir = camera.pos + lookat;
+        
+        float time = glfwGetTime();
+        float delta_time = (time - prev_time);// * 1.0e-3;
+        prev_time = time;
+        
+        auto right_dir = glm::vec3(sinf(angles.x - 3.14f/2.0f),
+                                   0,
+                                   cosf(angles.y - 3.14f/2.0f));
+                                   
+        auto up_dir = glm::cross(right_dir, lookat);
+        
+        // Update camera position
+        if(glfwGetKey(win, GLFW_KEY_D))
+            position -= right_dir * movespeed * delta_time;
+        
+        if(glfwGetKey(win, GLFW_KEY_A))
+            position += right_dir * movespeed * delta_time;
+        
+        if(glfwGetKey(win, GLFW_KEY_W))
+            position += lookat * movespeed * delta_time;
+        
+        if(glfwGetKey(win, GLFW_KEY_S))
+            position -= lookat * movespeed * delta_time;
+        
+        if (glfwGetKey(win, GLFW_KEY_SPACE))
+            position.y += movespeed * delta_time;
+        
+        if (glfwGetKey(win, GLFW_KEY_LEFT_ALT))
+            position.y -= movespeed * delta_time;
+
+        camera.up = up_dir;
+        camera.pos = position;
         camera.view = glm::lookAt(camera.pos, camera.dir, camera.up);
+        
+        glfwSetCursorPos(win, w / 2, h / 2);
         
         glfwPollEvents();
         glfwSwapBuffers(win);
