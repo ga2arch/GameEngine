@@ -76,11 +76,24 @@ int main() {
 
     while (!glfwWindowShouldClose(win)) {
        
+        float time = glfwGetTime();
+        float delta_time = (time - prev_time);
+        prev_time = time;
+
+        // Update
+        
+        camera.update(win, delta_time);
+        
+        // Render
+        
         // Deferred pass
         gbuffer.start();
+        
         defer_program.use();
         defer_program.set_uniforms(camera);
         scene.draw(defer_program);
+        
+        gbuffer.stop();
         
         // Shadow pass
         shadow_program.use();
@@ -122,69 +135,7 @@ int main() {
             
             sphere.model = glm::mat4();
         }
-        
-        // Camera movements
-        
-        double xpos, ypos;
-        
-        glfwGetCursorPos(win, &xpos, &ypos);
-        int dx = xpos - w / 2;
-        int dy = ypos - h / 2;
 
-        // Do something with dx and dy here
-        angles.x += dx * mousespeed;
-        angles.y += dy * mousespeed;
-        
-        if(angles.x < -M_PI)
-            angles.x += M_PI * 2;
-        else if(angles.x > M_PI)
-            angles.x -= M_PI * 2;
-        
-        if(angles.y < -M_PI / 2)
-            angles.y = -M_PI / 2;
-        if(angles.y > M_PI / 2)
-            angles.y = M_PI / 2;
-        
-        glm::vec3 lookat;
-        lookat.x = sinf(angles.x) * cosf(angles.y);
-        lookat.y = sinf(angles.y);
-        lookat.z = cosf(angles.x) * cosf(angles.y);
-        
-        camera.dir = camera.pos + lookat;
-        
-        float time = glfwGetTime();
-        float delta_time = (time - prev_time);
-        prev_time = time;
-        
-        auto right_dir = glm::vec3(sinf(angles.x - 3.14f/2.0f),
-                                   0,
-                                   cosf(angles.x - 3.14f/2.0f));
-                                   
-        auto up_dir = glm::cross(right_dir, lookat);
-        
-        // Update camera position
-        if(glfwGetKey(win, GLFW_KEY_D))
-            position += right_dir * movespeed * delta_time;
-        
-        if(glfwGetKey(win, GLFW_KEY_A))
-            position -= right_dir * movespeed * delta_time;
-        
-        if(glfwGetKey(win, GLFW_KEY_W))
-            position += lookat * movespeed * delta_time;
-        
-        if(glfwGetKey(win, GLFW_KEY_S))
-            position -= lookat * movespeed * delta_time;
-        
-        if (glfwGetKey(win, GLFW_KEY_SPACE))
-            position.y += movespeed * delta_time;
-        
-        if (glfwGetKey(win, GLFW_KEY_LEFT_ALT))
-            position.y -= movespeed * delta_time;
-
-        camera.up = up_dir;
-        camera.pos = position;
-        camera.view = glm::lookAt(camera.pos, camera.dir, camera.up);
-        
         glfwSetCursorPos(win, w / 2, h / 2);
         
         glfwPollEvents();
