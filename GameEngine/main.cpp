@@ -76,31 +76,20 @@ int main() {
 
     while (!glfwWindowShouldClose(win)) {
        
-        gbuffer.bind_writing();
-        glDisable(GL_BLEND);
-        glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LESS);
-        glDepthMask(GL_TRUE);
-
-        glClearDepth(1.0f);
-        glClearColor (0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+        // Deferred pass
+        gbuffer.start();
         defer_program.use();
         defer_program.set_uniforms(camera);
         scene.draw(defer_program);
         
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
-        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-
+        // Shadow pass
         shadow_program.use();
-        
         for (int i=0; i < lights.size(); i++) {
             shadow_program.set_uniforms(*lights[i], w, h, 0, true);
             shadows[i] = scene.shadows(shadow_program, w, h);
         }
         
+        // Final pass
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
         glClear (GL_COLOR_BUFFER_BIT);
@@ -111,26 +100,18 @@ int main() {
         glDisable (GL_DEPTH_TEST);
         glDepthMask (GL_FALSE);
      
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, gbuffer.textures[0]);
-        
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, gbuffer.textures[1]);
-        
-        glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, gbuffer.textures[2]);
+        gbuffer.activate_textures();
  
         program.use();
-        program.set_uniform("p_tex", 1);
-        program.set_uniform("n_tex", 2);
-        program.set_uniform("w_tex", 3);
-
-        program.set_uniform("shadow_map", 4);
+        program.set_uniform("p_tex", 0);
+        program.set_uniform("n_tex", 1);
+        program.set_uniform("w_tex", 2);
+        program.set_uniform("shadow_map", (int)gbuffer.textures.size());
         
         program.set_uniforms(camera);
 
         for (int i=0; i < lights.size(); i++) {
-            glActiveTexture(GL_TEXTURE4);
+            glActiveTexture(GL_TEXTURE0 + gbuffer.textures.size());
             glBindTexture(GL_TEXTURE_2D, shadows[i]);
             
             program.set_uniforms(*lights[i], w, h, 0);

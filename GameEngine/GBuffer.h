@@ -70,9 +70,28 @@ public:
         glBindFramebuffer (GL_FRAMEBUFFER, 0);
     };
     
-    void bind_writing() {
+    void start() {
         glBindFramebuffer (GL_FRAMEBUFFER, fbo);
-    };
+        glDisable(GL_BLEND);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+        glDepthMask(GL_TRUE);
+        
+        glClearDepth(1.0f);
+        glClearColor (0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+    
+    void stop() {
+        glBindFramebuffer (GL_FRAMEBUFFER, 0);
+    }
+    
+    void activate_textures() {
+        for (int i=0; i < textures.size(); i++) {
+            glActiveTexture(GL_TEXTURE0 + i);
+            glBindTexture(GL_TEXTURE_2D, textures[i]);
+        }
+    }
     
     GLuint fbo;
     std::array<GLuint, 3> textures;
