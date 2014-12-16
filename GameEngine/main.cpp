@@ -22,10 +22,10 @@ int main() {
     int w = 800;
     int h = 600;
     
-//    glm::vec3 position;
-//    glm::vec2 angles;
-//    bool wrap = false;
-//    const float mousespeed = 0.001;
+    glm::vec3 position;
+    glm::vec2 angles;
+    bool wrap = false;
+    const float mousespeed = 0.001;
     
     GLFWwindow* win;
     
@@ -72,15 +72,16 @@ int main() {
 
     while (!glfwWindowShouldClose(win)) {
        
-        glClearDepth(1.0f);
-        glClearColor (0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         gbuffer.bind_writing();
-
         glDisable(GL_BLEND);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
         glDepthMask(GL_TRUE);
+
+        glClearDepth(1.0f);
+        glClearColor (0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
         
         defer_program.use();
         defer_program.set_uniforms(camera);
@@ -140,39 +141,36 @@ int main() {
         
         // Camera movements
         
-//        double xpos, ypos;
-//        
-//        glfwGetCursorPos(win, &xpos, &ypos);
-//        if(!wrap) {
-//            int dx = xpos - w / 2;
-//            int dy = ypos - h / 2;
-//
-//            // Do something with dx and dy here
-//            angles.x += dx * mousespeed;
-//            angles.y += dy * mousespeed;
-//            
-//            if(angles.x < -M_PI)
-//                angles.x += M_PI * 2;
-//            else if(angles.x > M_PI)
-//                angles.x -= M_PI * 2;
-//            
-//            if(angles.y < -M_PI / 2)
-//                angles.y = -M_PI / 2;
-//            if(angles.y > M_PI / 2)
-//                angles.y = M_PI / 2;
-//            // move mouse pointer back to the center of the window
-//            wrap = true;
-//            glfwSetCursorPos(win, w / 2, h / 2);
-//        } else {
-//            wrap = false;
-//        }
-//        
-//        glm::vec3 lookat;
-//        lookat.x = sinf(angles.x) * cosf(angles.y);
-//        lookat.y = sinf(angles.y);
-//        lookat.z = cosf(angles.x) * cosf(angles.y);
-//        
-//        camera.dir = camera.pos + lookat;
+        double xpos, ypos;
+        
+        glfwGetCursorPos(win, &xpos, &ypos);
+        int dx = xpos - w / 2;
+        int dy = ypos - h / 2;
+
+        // Do something with dx and dy here
+        angles.x += dx * mousespeed;
+        angles.y += dy * mousespeed;
+        
+        if(angles.x < -M_PI)
+            angles.x += M_PI * 2;
+        else if(angles.x > M_PI)
+            angles.x -= M_PI * 2;
+        
+        if(angles.y < -M_PI / 2)
+            angles.y = -M_PI / 2;
+        if(angles.y > M_PI / 2)
+            angles.y = M_PI / 2;
+        // move mouse pointer back to the center of the window
+        glfwSetCursorPos(win, w / 2, h / 2);
+
+        
+        glm::vec3 lookat;
+        lookat.x = sinf(angles.x) * cosf(angles.y);
+        lookat.y = sinf(angles.y);
+        lookat.z = cosf(angles.x) * cosf(angles.y);
+        
+        camera.dir = camera.pos + lookat;
+        camera.view = glm::lookAt(camera.pos, camera.dir, camera.up);
         
         glfwPollEvents();
         glfwSwapBuffers(win);
