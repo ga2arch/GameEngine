@@ -71,6 +71,7 @@ public:
             set_uniform((s+"is_spot").c_str(), light.is_spot);
             
             set_uniform((s+"pos").c_str(), light.pos);
+            set_uniform((s+"eye_pos").c_str(), light.eye_pos);
             set_uniform((s+"dir").c_str(), light.dir);
             set_uniform((s+"ambient").c_str(), light.ambient);
             set_uniform((s+"color").c_str(), light.color);

@@ -28,6 +28,7 @@ public:
     bool is_spot;
     
     glm::vec3 pos;
+    glm::vec3 eye_pos;
     glm::vec3 dir;
     glm::vec3 ambient;
     glm::vec3 color;
@@ -50,7 +51,7 @@ public:
         
         pos = p;
         dir = d;
-        
+
         is_enabled = true;
         is_local = true;
         is_spot = false;

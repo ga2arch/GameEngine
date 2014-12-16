@@ -22,19 +22,13 @@ int main() {
     int w = 800;
     int h = 600;
     
-    glm::vec3 position;
-    glm::vec2 angles(3.14f, 0.0f);
     float prev_time = 0.0f;
-    
-    const float mousespeed = 0.001;
-    const float movespeed  = 10;
-    
-    
     GLFWwindow* win;
     
     GLUtils::create_window("test", w, h, win);
     GBuffer gbuffer;
-    
+    gbuffer.init(w, h);
+
     auto program = Program(Shader("shader.vertex", Shader::Vertex),
                            Shader("shader.fragment", Shader::Fragment));
     
@@ -45,7 +39,6 @@ int main() {
                                  Shader("deferred.fragment", Shader::Fragment));
     
     auto camera = Camera(glm::vec3(0,10,10), glm::vec3(0,10,10));
-    position = camera.pos;
     std::array<std::unique_ptr<Light>, 2> lights {
         std::unique_ptr<Light>(new SpotLight(glm::vec3(-3,15,15), glm::vec3(0,0,0))),
         std::unique_ptr<Light>(new SpotLight(glm::vec3(5,15,15), glm::vec3(0,0,0)))
@@ -72,8 +65,8 @@ int main() {
     glFrontFace (GL_CCW); // GL_CCW for counter clock-wise
     glViewport(0, 0, w, h);
 
-    gbuffer.init(w, h);
 
+    glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     while (!glfwWindowShouldClose(win)) {
        
         float time = glfwGetTime();
@@ -83,6 +76,7 @@ int main() {
         // Update
         
         camera.update(win, delta_time);
+        scene.rotate(glm::vec3(0,1,0), 1);
         
         // Render
         
@@ -98,6 +92,7 @@ int main() {
         // Shadow pass
         shadow_program.use();
         for (int i=0; i < lights.size(); i++) {
+            lights[i]->eye_pos = glm::vec3(camera.view * glm::vec4(lights[i]->pos, 1.0));
             shadow_program.set_uniforms(*lights[i], w, h, 0, true);
             shadows[i] = scene.shadows(shadow_program, w, h);
         }
