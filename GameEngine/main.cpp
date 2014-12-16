@@ -23,7 +23,7 @@ int main() {
     int h = 600;
     
     glm::vec3 position;
-    glm::vec2 angles(-.5 * 3.14f, 0.0f);
+    glm::vec2 angles(3.14f, 0.0f);
     float prev_time = 0.0f;
     
     const float mousespeed = 0.001;
@@ -155,16 +155,15 @@ int main() {
         angles.x += dx * mousespeed;
         angles.y += dy * mousespeed;
         
-//        if(angles.x < -M_PI)
-//            angles.x += M_PI * 2;
-//        else if(angles.x > M_PI)
-//            angles.x -= M_PI * 2;
-//        
-//        if(angles.y < -M_PI / 2)
-//            angles.y = -M_PI / 2;
-//        if(angles.y > M_PI / 2)
-//            angles.y = M_PI / 2;
-        // move mouse pointer back to the center of the window
+        if(angles.x < -M_PI)
+            angles.x += M_PI * 2;
+        else if(angles.x > M_PI)
+            angles.x -= M_PI * 2;
+        
+        if(angles.y < -M_PI / 2)
+            angles.y = -M_PI / 2;
+        if(angles.y > M_PI / 2)
+            angles.y = M_PI / 2;
         
         glm::vec3 lookat;
         lookat.x = sinf(angles.x) * cosf(angles.y);
@@ -179,16 +178,16 @@ int main() {
         
         auto right_dir = glm::vec3(sinf(angles.x - 3.14f/2.0f),
                                    0,
-                                   cosf(angles.y - 3.14f/2.0f));
+                                   cosf(angles.x - 3.14f/2.0f));
                                    
         auto up_dir = glm::cross(right_dir, lookat);
         
         // Update camera position
         if(glfwGetKey(win, GLFW_KEY_D))
-            position -= right_dir * movespeed * delta_time;
+            position += right_dir * movespeed * delta_time;
         
         if(glfwGetKey(win, GLFW_KEY_A))
-            position += right_dir * movespeed * delta_time;
+            position -= right_dir * movespeed * delta_time;
         
         if(glfwGetKey(win, GLFW_KEY_W))
             position += lookat * movespeed * delta_time;
