@@ -14,7 +14,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <cmath>
-#include "Program.h"
+#include "Mesh.h"
 
 class Light {
     
@@ -23,6 +23,8 @@ public:
     
     virtual glm::mat4 light_view(int w, int h) const =0;
 
+    Mesh mesh;
+    
     bool is_enabled;
     bool is_local;
     bool is_spot;

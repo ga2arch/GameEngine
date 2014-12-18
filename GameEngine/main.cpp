@@ -12,8 +12,6 @@
 
 #include "GLUtils.h"
 #include "Camera.h"
-#include "Program.h"
-#include "Shader.h"
 #include "Mesh.h"
 #include "Light.h"
 #include "GBuffer.h"
