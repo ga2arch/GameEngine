@@ -36,7 +36,7 @@ int main() {
     auto defer_program = Program(Shader("deferred.vertex", Shader::Vertex),
                                  Shader("deferred.fragment", Shader::Fragment));
     
-    auto camera = Camera(glm::vec3(0,10,10), glm::vec3(0,10,10));
+    auto camera = Camera(glm::vec3(0,10,10), glm::vec3(0,0,0));
     std::array<std::unique_ptr<Light>, 2> lights {
         std::unique_ptr<Light>(new SpotLight(glm::vec3(-3,15,15), glm::vec3(0,0,0))),
         std::unique_ptr<Light>(new SpotLight(glm::vec3(5,15,15), glm::vec3(0,0,0)))
@@ -131,9 +131,8 @@ int main() {
 
         glfwSetCursorPos(win, w / 2, h / 2);
         
+        glfwSwapInterval(1);
         glfwPollEvents();
         glfwSwapBuffers(win);
-        
-        glfwSwapInterval(1);
     }
 }

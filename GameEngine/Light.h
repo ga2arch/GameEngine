@@ -23,7 +23,7 @@ public:
     
     virtual glm::mat4 light_view(int w, int h) const =0;
 
-    Mesh mesh;
+    //Mesh mesh;
     
     bool is_enabled;
     bool is_local;
