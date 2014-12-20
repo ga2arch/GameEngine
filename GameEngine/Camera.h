@@ -79,7 +79,7 @@ public:
         if(glfwGetKey(win, GLFW_KEY_SPACE))
             pos += up * movespeed * delta_time;
         
-        //view = glm::lookAt(pos, pos + forward, up);
+        view = glm::lookAt(pos, pos + forward, up);
     }
     
     glm::vec3 pos;

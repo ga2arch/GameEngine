@@ -60,14 +60,10 @@ public:
         
         ambient = glm::vec3(.1, .1, .1);
         color = glm::vec3(.2, .8, 1);
-        irradiance = glm::vec3(30);
+        irradiance = glm::vec3(10);
         
-        spot_exp = 2.0;
-        spot_umbra = cos(60 * 0.0174532925);
-        spot_penumbra = cos(50 * 0.0174532925);
-        
-        constant_attenuation = 0.5;
-        linear_attenuation = 0.3;
+        constant_attenuation = 0.2;
+        linear_attenuation = 0.1;
         quadratic_attenuation = 0.0;
     }
     
@@ -95,11 +91,11 @@ public:
         
         ambient = glm::vec3(.1, .1, .1);
         color = glm::vec3(.2, .8, 1);
-        irradiance = glm::vec3(30);
+        irradiance = glm::vec3(60);
         
         spot_exp = 2.0;
-        spot_umbra = cos(60 * 0.0174532925);
-        spot_penumbra = cos(50 * 0.0174532925);
+        spot_umbra = cos(30 * 0.0174532925);
+        spot_penumbra = cos(20 * 0.0174532925);
         
         constant_attenuation = 0.5;
         linear_attenuation = 0.3;

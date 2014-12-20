@@ -36,14 +36,14 @@ int main() {
     auto defer_program = Program(Shader("deferred.vertex", Shader::Vertex),
                                  Shader("deferred.fragment", Shader::Fragment));
     
-    auto camera = Camera(glm::vec3(0,10,10), glm::vec3(0,0,0));
-    std::array<std::unique_ptr<Light>, 2> lights {
-        std::unique_ptr<Light>(new SpotLight(glm::vec3(-3,15,15), glm::vec3(0,0,0))),
-        std::unique_ptr<Light>(new SpotLight(glm::vec3(5,15,15), glm::vec3(0,0,0)))
+    auto camera = Camera(glm::vec3(0,15,15), glm::vec3(0,0,0));
+    std::array<std::unique_ptr<Light>, 1> lights {
+        std::unique_ptr<Light>(new DirectionalLight(glm::vec3(-3,15,15), glm::vec3(0,0,0)))
+        //std::unique_ptr<Light>(new SpotLight(glm::vec3(5,15,15), glm::vec3(0,0,0)))
         //std::unique_ptr<Light>(new DirectionalLight(glm::vec3(20,10,10), glm::vec3(0,0,0)))
     };
     
-    std::array<GLuint, 2> shadows;
+    std::array<GLuint, 1> shadows;
     
     auto scene = Mesh();
     scene.load_mesh("scene2.obj");
@@ -63,8 +63,12 @@ int main() {
     glFrontFace (GL_CCW); // GL_CCW for counter clock-wise
     glViewport(0, 0, w, h);
 
-
     glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+    
+    std::vector<glm::ivec2> tiles;
+    
+    
+    
     while (!glfwWindowShouldClose(win)) {
         GLUtils::update_fps_counter(win);
         
@@ -72,6 +76,10 @@ int main() {
         float delta_time = (time - prev_time);
         prev_time = time;
 
+        tiles.clear();
+        for (int i=0; i < (w/32)*(h/32); i++) {
+            tiles.emplace_back(0,0);
+        }
         // Update
         
         //camera.update(win, delta_time);
@@ -79,57 +87,65 @@ int main() {
         
         // Render
         
-        // Deferred pass
-        gbuffer.start();
+//        shadow_program.use();
+//        for (int i=0; i < lights.size(); i++) {
+////            lights[i]->eye_pos = glm::vec3(camera.view * glm::vec4(lights[i]->pos, 1.0));
+//            shadow_program.set_uniforms(*lights[i], w, h, 0, true);
+//            shadows[i] = scene.shadows(shadow_program, w, h);
+//        }
         
-        defer_program.use();
-        defer_program.set_uniforms(camera);
-        scene.draw(defer_program);
-
-        gbuffer.stop();
-        
-        // Shadow pass
-        shadow_program.use();
-        for (int i=0; i < lights.size(); i++) {
-            lights[i]->eye_pos = glm::vec3(camera.view * glm::vec4(lights[i]->pos, 1.0));
-            shadow_program.set_uniforms(*lights[i], w, h, 0, true);
-            shadows[i] = scene.shadows(shadow_program, w, h);
-        }
-        
-        // Final pass
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glClearColor(0.0f, 0.0f, 0.0f, 0.8f);
-        glClear (GL_COLOR_BUFFER_BIT);
-
-        glEnable (GL_BLEND); // --- could reject background frags!
-        glBlendEquation (GL_FUNC_ADD);
-        glBlendFunc (GL_ONE, GL_ONE); // addition each time
-        glDisable (GL_DEPTH_TEST);
-        glDepthMask (GL_FALSE);
-     
-        gbuffer.activate_textures();
- 
-        program.use();
-        program.set_uniform("p_tex", 0);
-        program.set_uniform("n_tex", 1);
-        program.set_uniform("w_tex", 2);
-        program.set_uniform("shadow_map", (int)gbuffer.textures.size());
+        glClearColor(0, 0, 0, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        program.set_uniforms(camera);
-
-        for (int i=0; i < lights.size(); i++) {
-            glActiveTexture(GL_TEXTURE0 + gbuffer.textures.size());
-            glBindTexture(GL_TEXTURE_2D, shadows[i]);
-            
-            program.set_uniforms(*lights[i], w, h, 0);
-            
-            sphere.translate(lights[i]->pos);
-            sphere.scale(glm::vec3(15,15,15));
-            sphere.draw(program);
-            
-            sphere.model = glm::mat4();
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+        glDepthMask(GL_TRUE);
+        
+        glm::vec2 bbox[2] = {
+            glm::vec2(0,0),
+            glm::vec2(800, 600)
+        };
+       
+        auto v1 = bbox[0]/32.0f;
+        auto v2 = bbox[1]/32.0f;
+        
+        int offset = 0;
+        std::vector<int> tile_lights;
+        
+        for (int i=0; i < tiles.size(); i++) {
+            for (int l=0; l < lights.size(); l++) {
+                int start_tile_index = v1.x + v1.y * 800/32;
+                int end_tile_index = v2.x + v2.y * 800/32;
+                
+                if (i >= start_tile_index && i <= end_tile_index) {
+                    tile_lights.push_back(l);
+                    
+                    tiles[i].x += 1;
+                    tiles[i].y = offset;
+                }
+            }
+            offset += tiles[i].x;
         }
-
+        
+        program.use();
+        program.set_uniforms(camera);
+        program.set_uniform("shadow_map", 0);
+        
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, shadows[0]);
+        
+        for (int i=0; i < tiles.size(); i++) {
+            program.set_uniform("tiles", tiles[i], i);
+        }
+        
+        for (int i=0; i < tile_lights.size(); i++) {
+            program.set_uniform("tile_lights", tile_lights[i], i);
+        }
+        
+        program.set_uniforms(*lights[0], w, h);
+        scene.draw(program);
+        
         glfwSetCursorPos(win, w / 2, h / 2);
         
         glfwSwapInterval(1);

@@ -1,5 +1,14 @@
 #version 330
 
+in VS_FS_INTERFACE {
+    
+    vec3 world_coord;
+    vec3 eye_coord;
+    vec3 normal;
+    vec4 shadow_coord;
+    
+} fragment;
+
 struct LightProperty {
     bool is_enabled;
     bool is_local;
@@ -35,13 +44,10 @@ struct MaterialProperty {
 uniform LightProperty lights[1];
 uniform MaterialProperty material;
 
-uniform vec3 camera;
-uniform mat4 view;
-uniform mat4 light_view;
+uniform ivec2 tiles[500];
+uniform int tile_lights[500];
 
-uniform sampler2D p_tex;
-uniform sampler2D n_tex;
-uniform sampler2D w_tex;
+uniform vec3 camera;
 
 uniform sampler2DShadow shadow_map;
 
@@ -62,56 +68,62 @@ vec3 fresnel(vec3 ior, vec3 color, vec3 v1, vec3 v2) {
 }
 
 void main() {
-    vec2 st = gl_FragCoord.xy / vec2(800, 600);
+    ivec2 st = ivec2(gl_FragCoord.xy) / ivec2(32, 32);
+    int tile_index = st.x + st.y * 800/32;
     
-    vec3 eye_coord = texture(p_tex, st).xyz;
-    vec3 normal = texture(n_tex, st).xyz;
-    vec3 world_coord = texture(w_tex, st).xyz;
-
-    vec4 shadow_coord = bias * light_view * vec4(world_coord, 1.0);
+    if (tiles[tile_index].x == 0)
+        discard;
+    
+    int l_num = tiles[tile_index].x;
+    int l_offset = tiles[tile_index].y;
     
     vec3 Lo = vec3(0);
     
-    if (lights[0].is_local) {
-        vec3 pos = lights[0].eye_pos;
+    for (int i=0; i < l_num; i++) {
+        LightProperty light = lights[tile_lights[l_offset+i]];
         
-        vec3 L = normalize(pos - eye_coord);
-        vec3 V = normalize(camera - eye_coord);
-        vec3 H = normalize(L + V);
-        
-        float cosH = clamp(dot(H, normal), 0, 1);
-        float cosI = clamp(dot(normal, L), 0, 1);
-        
-        float r = length(pos - eye_coord);
-        float attenuation = 1.0 / (lights[0].constant_attenuation
-                                   + lights[0].linear_attenuation * r
-                                   + lights[0].quadratic_attenuation * r * r);
-        
-        vec3 irr = lights[0].irradiance * attenuation;
-        
-        if (lights[0].is_spot) {
-            float cosS = dot(normalize(lights[0].dir), L);
-            float cosU = lights[0].spot_umbra;
-            float cosP = lights[0].spot_penumbra;
+        if (light.is_local) {
+            vec3 pos = light.eye_pos;
             
-            if (cosU < cosS && cosS < cosP)
-                irr = irr * pow ((cosS - cosU) / (cosP - cosU), lights[0].spot_exp);
+            vec3 L = normalize(pos - fragment.eye_coord);
+            vec3 V = normalize(camera - fragment.eye_coord);
+            vec3 H = normalize(L + V);
             
-            if (cosS <= cosU)
-                irr = vec3(0.0);
+            float cosH = clamp(dot(H, fragment.normal), 0, 1);
+            float cosI = clamp(dot(fragment.normal, L), 0, 1);
+            
+            float r = length(pos - fragment.eye_coord);
+            float attenuation = 1.0 / (light.constant_attenuation
+                                       + light.linear_attenuation * r
+                                       + light.quadratic_attenuation * r * r);
+            
+            vec3 irr = light.irradiance * attenuation;
+            
+//            if (lights[0].is_spot) {
+//                float cosS = dot(normalize(light.dir), L);
+//                float cosU = lights[0].spot_umbra;
+//                float cosP = lights[0].spot_penumbra;
+//                
+//                if (cosU < cosS && cosS < cosP)
+//                    irr = irr * pow ((cosS - cosU) / (cosP - cosU), lights[0].spot_exp);
+//                
+//                if (cosS <= cosU)
+//                    irr = vec3(0.0);
+//            }
+            //
+            //        float shadow = 0.0;
+            //        shadow += textureProjOffset(shadow_map, fragment.shadow_coord, ivec2(-1,  1));
+            //        shadow += textureProjOffset(shadow_map, fragment.shadow_coord, ivec2( 1,  1));
+            //        shadow += textureProjOffset(shadow_map, fragment.shadow_coord, ivec2(-1, -1));
+            //        shadow += textureProjOffset(shadow_map, fragment.shadow_coord, ivec2( 1, -1));
+            //        float f = shadow / 4.0;
+            
+            Lo += light.ambient * material.ambient * attenuation;
+            Lo +=  (light.color * material.kd
+                    + material.ks * pow(cosH, material.shininess) * fresnel(vec3(.47), material.specular, L, H))
+                    * irr * cosI;
+            
         }
-        
-        float shadow = 0.0;
-        shadow += textureProjOffset(shadow_map, shadow_coord, ivec2(-1,  1));
-        shadow += textureProjOffset(shadow_map, shadow_coord, ivec2( 1,  1));
-        shadow += textureProjOffset(shadow_map, shadow_coord, ivec2(-1, -1));
-        shadow += textureProjOffset(shadow_map, shadow_coord, ivec2( 1, -1));
-        float f = shadow / 4.0;
-        
-        Lo += lights[0].ambient * material.ambient * attenuation;
-        Lo += f * (lights[0].color * material.kd
-                   + material.ks * pow(cosH, material.shininess) * fresnel(vec3(.47), material.specular, L, H))
-                * irr * cosI;
     }
 
     fragColor = vec4(vec3(Lo), 1.0);

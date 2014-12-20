@@ -39,6 +39,11 @@ public:
         glUniform3fv(u+i, 1, glm::value_ptr(v));
     }
     
+    void set_uniform(const char* name, const glm::ivec2& v, int i = 0) {
+        auto u = glGetUniformLocation(program, name);
+        glUniform2iv(u+i, 1, glm::value_ptr(v));
+    }
+    
     void set_uniform(const char* name, int v, int i = 0) {
         auto u = glGetUniformLocation(program, name);
         glUniform1i(u+i, v);
