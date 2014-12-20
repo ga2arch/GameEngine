@@ -22,8 +22,9 @@
 class Mesh {
     
     struct MeshEntry {
-        GLuint vbo, vao;
+        GLuint vbo, vao, ibo;
         std::vector<GLfloat> buffer;
+        std::vector<GLushort> indices;
     };
     
     struct Node {
@@ -80,9 +81,17 @@ public:
             
             m.buffer.push_back(texcoord->x);
             m.buffer.push_back(texcoord->y);
-            
         }
-                
+        
+        for (int i = 0; i < mesh->mNumFaces; i++) {
+            auto face = &mesh->mFaces[i];
+            assert(face->mNumIndices == 3);
+
+            m.indices.push_back(face->mIndices[0]);
+            m.indices.push_back(face->mIndices[1]);
+            m.indices.push_back(face->mIndices[2]);
+        }
+        
         m.vbo = GLUtils::make_vbo(GL_ARRAY_BUFFER,
                                 m.buffer.data(),
                                 static_cast<int>(m.buffer.size()*sizeof(GLfloat)));
@@ -91,6 +100,9 @@ public:
         GLUtils::bind_vao(0, 3, 8*sizeof(GLfloat));
         GLUtils::bind_vao(1, 3, 8*sizeof(GLfloat), 3*sizeof(GLfloat));
         GLUtils::bind_vao(2, 2, 8*sizeof(GLfloat), 6*sizeof(GLfloat));
+        
+        m.ibo = GLUtils::make_ibo(m.indices.data(),
+                                  static_cast<int>(m.indices.size()*sizeof(GLushort)));
         
         meshes.push_back(m);
     }
@@ -119,7 +131,10 @@ public:
         }
         
         glBindVertexArray(m.vao);
-        glDrawArrays(GL_TRIANGLES, 0, static_cast<int>(m.buffer.size()/8));
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.ibo);
+
+//        glDrawArrays(GL_TRIANGLES, 0, static_cast<int>(m.buffer.size()/8));
+        glDrawElements(GL_TRIANGLES, m.indices.size(), GL_UNSIGNED_SHORT, nullptr);
         
         glDisableVertexAttribArray(0);
         if (!shadow_pass) {

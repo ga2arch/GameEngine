@@ -66,15 +66,16 @@ int main() {
 
     glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     while (!glfwWindowShouldClose(win)) {
-       
+        GLUtils::update_fps_counter(win);
+        
         float time = glfwGetTime();
         float delta_time = (time - prev_time);
         prev_time = time;
 
         // Update
         
-        camera.update(win, delta_time);
-        scene.rotate(glm::vec3(0,1,0), 1);
+        //camera.update(win, delta_time);
+        //scene.rotate(glm::vec3(0,1,0), 1);
         
         // Render
         
@@ -84,7 +85,7 @@ int main() {
         defer_program.use();
         defer_program.set_uniforms(camera);
         scene.draw(defer_program);
-        
+
         gbuffer.stop();
         
         // Shadow pass

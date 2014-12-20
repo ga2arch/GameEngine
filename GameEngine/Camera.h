@@ -12,6 +12,7 @@
 #include <cmath>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 #include "GLUtils.h"
@@ -36,74 +37,62 @@ public:
                                 near, far);
         
         view = glm::lookAt(pos, dir, up);
+        yaw = pitch = 0.0f;
     }
         
     void update(GLFWwindow* win, float delta_time) {
         double xpos, ypos;
         
         glfwGetCursorPos(win, &xpos, &ypos);
-        int dx = xpos - w / 2;
-        int dy = ypos - h / 2;
         
-        // Do something with dx and dy here
-        angles.x += dx * mousespeed;
-        angles.y += dy * mousespeed;
+        int dx = (xpos - w / 2);
+        int dy = (ypos - h / 2);
         
-//        if(angles.x < -M_PI)
-//            angles.x += M_PI * 2;
-//        else if(angles.x > M_PI)
-//            angles.x -= M_PI * 2;
-//        
-//        if(angles.y < -M_PI / 2)
-//            angles.y = -M_PI / 2;
-//        if(angles.y > M_PI / 2)
-//            angles.y = M_PI / 2;
-//        
-//        glm::vec3 lookat;
-//        lookat.x = sinf(angles.x) * cosf(angles.y);
-//        lookat.y = sinf(angles.y);
-//        lookat.z = cosf(angles.x) * cosf(angles.y);
-//        
-//        dir = pos + lookat;
-//
-//        auto right_dir = glm::vec3(sinf(angles.x - 3.14f/2.0f),
-//                                   0,
-//                                   cosf(angles.x - 3.14f/2.0f));
-//        
-//        up = glm::cross(right_dir, lookat);
-//        
-//        // Update camera position
+        pitch += mousespeed * dy;
+        yaw   += mousespeed * dx;
+
+        if (pitch < -80) pitch = -80;
+        if (pitch > +80) pitch = +80;
         
+        forward.x = cosf(pitch)*sinf(yaw);
+        forward.y = sinf(pitch);
+        forward.z = cosf(pitch)*cosf(yaw);
+        
+        auto right = glm::vec3(sinf(yaw-3.14f/2.0f),0,cosf(yaw-3.14f/2.0f));
+        up = glm::cross(right, forward);
+
         if(glfwGetKey(win, GLFW_KEY_W))
-            view = glm::translate(view, glm::vec3(0,0,1)  * movespeed * delta_time);
+            pos += forward * movespeed * delta_time;
         
         if(glfwGetKey(win, GLFW_KEY_A))
-            view = glm::translate(view, glm::vec3(1,0,0)  * movespeed * delta_time);
+            pos += -right  * movespeed * delta_time;
         
         if(glfwGetKey(win, GLFW_KEY_S))
-            view = glm::translate(view, glm::vec3(0,0,-1)  * movespeed * delta_time);
+            pos += -forward * movespeed * delta_time;
         
         if(glfwGetKey(win, GLFW_KEY_D))
-            view = glm::translate(view, glm::vec3(-1,0,0)  * movespeed * delta_time);
+            pos += right * movespeed * delta_time;
 
         if(glfwGetKey(win, GLFW_KEY_LEFT_ALT))
-            view = glm::translate(view, glm::vec3(0,1,0)  * movespeed * delta_time);
+            pos += -up  * movespeed * delta_time;
         
         if(glfwGetKey(win, GLFW_KEY_SPACE))
-            view = glm::translate(view, glm::vec3(0,-1,0)  * movespeed * delta_time);
+            pos += up * movespeed * delta_time;
+        
+        //view = glm::lookAt(pos, pos + forward, up);
     }
-    
-    glm::vec2 angles = glm::vec2(-M_PI/2.0f, 0.0f);
     
     glm::vec3 pos;
     glm::vec3 dir;
     glm::vec3 up = glm::vec3(0,1,0);
+    glm::vec3 forward;
     
     glm::mat4 proj;
     glm::mat4 view;
     
     int w, h;
-    float mousespeed = 0.001;
+    float yaw, pitch;
+    float mousespeed = .001;
     float movespeed = 10;
 };
 
