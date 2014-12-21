@@ -40,10 +40,12 @@ int main() {
                                  Shader("deferred.fragment", Shader::Fragment));
     
     auto camera = Camera(glm::vec3(0,15,15), glm::vec3(0,0,0));
-    std::array<std::unique_ptr<Light>, 1> lights {
-        std::unique_ptr<Light>(new SpotLight(glm::vec3(-3,5,5), glm::vec3(0,2,0)))
-        //std::unique_ptr<Light>(new SpotLight(glm::vec3(5,15,15), glm::vec3(0,0,0)))
-        //std::unique_ptr<Light>(new DirectionalLight(glm::vec3(20,10,10), glm::vec3(0,0,0)))
+    std::array<std::unique_ptr<Light>, 5> lights {
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(-5,10,-5), glm::vec3(-5,0,-5), glm::vec3(.5))),
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(5,10,-5), glm::vec3(-5,0,-5))),
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(0,10,-5), glm::vec3(0,0,-5))),
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(2,6,3), glm::vec3(2,0,3))),
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(-8,3,3), glm::vec3(-8,0,3)))
     };
     
     std::array<GLuint, 1> shadows;
@@ -68,11 +70,10 @@ int main() {
 
     glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     
-    std::vector<glm::vec2> tiles;
+    std::vector<glm::ivec2> tiles;
     
     GLuint tex_tile_lights;
     glGenTextures(1, &tex_tile_lights);
-    glBindTexture(GL_TEXTURE_BUFFER, 0);
     
     GLuint buffer_lights;
     glGenBuffers(1,&buffer_lights);
@@ -94,7 +95,7 @@ int main() {
 
         tiles.clear();
         for (int i=0; i < (w/32)*(h/32); i++) {
-            tiles.push_back(glm::vec2(0, 0));
+            tiles.push_back(glm::ivec2(0, 0));
         }
         // Update
         
@@ -127,7 +128,7 @@ int main() {
         auto v2 = bbox[1]/32.0f;
         
         int offset = 0;
-        std::vector<int> tile_lights;
+        std::vector<float> tile_lights;
         
         for (int i=0; i < tiles.size(); i++) {
             for (int l=0; l < lights.size(); l++) {
@@ -148,17 +149,31 @@ int main() {
         program.set_uniforms(camera);
         
         glBindBuffer(GL_TEXTURE_BUFFER, buffer_lights);
-        glBufferData(GL_TEXTURE_BUFFER, tile_lights.size()*sizeof(int),
+        glBufferData(GL_TEXTURE_BUFFER, tile_lights.size()*sizeof(float),
                      tile_lights.data(), GL_STATIC_DRAW);
-
+        //glBindBuffer(GL_TEXTURE_BUFFER, 0);
+        
         glBindTexture(GL_TEXTURE_BUFFER, tex_tile_lights);
-        glTexBuffer(GL_TEXTURE_BUFFER, GL_R8I, buffer_lights);
+        glTexBuffer(GL_TEXTURE_BUFFER, GL_R32F, buffer_lights);
+        
+        GLenum errCode;
+        const GLubyte *errString;
+        
+        if ((errCode = glGetError()) != GL_NO_ERROR) {
+            errString = gluErrorString(errCode);
+            fprintf (stderr, "OpenGL Error: %s\n", errString);
+        }
+        
+        program.set_uniform("tex_tile_lights", 0);
         
         for (int i=0; i < tiles.size(); i++) {
             program.set_uniform("tiles", tiles[i], i);
         }
         
-        program.set_uniforms(*lights[0], camera, w, h);
+        for (int i=0; i < lights.size(); i++) {
+            program.set_uniforms(*lights[i], camera, w, h, i);
+        }
+        
         scene.draw(program);
         
         glfwSetCursorPos(win, w / 2, h / 2);

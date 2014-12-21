@@ -131,10 +131,10 @@ public:
         }
         
         glBindVertexArray(m.vao);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.ibo);
+        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.ibo);
 
-//        glDrawArrays(GL_TRIANGLES, 0, static_cast<int>(m.buffer.size()/8));
-        glDrawElements(GL_TRIANGLES, m.indices.size(), GL_UNSIGNED_SHORT, nullptr);
+        glDrawArrays(GL_TRIANGLES, 0, static_cast<int>(m.buffer.size()/8));
+//        glDrawElements(GL_TRIANGLES, m.indices.size(), GL_UNSIGNED_SHORT, nullptr);
         
         glDisableVertexAttribArray(0);
         if (!shadow_pass) {

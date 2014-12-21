@@ -65,9 +65,9 @@ public:
                       int i = 0,
                       bool shadow_pass = false) {
         
-        auto lv = light.light_view(w, h);
-        
-        set_uniform("light_view", lv, i);
+//        auto lv = light.light_view(w, h);
+//        
+//        set_uniform("light_view", lv, i);
         
         if (!shadow_pass) {
             std::string s = "lights["+ std::to_string(i) +"].";

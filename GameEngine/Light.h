@@ -80,7 +80,8 @@ class SpotLight: public Light {
     
 public:
     SpotLight(const glm::vec3& p,
-              const glm::vec3& d) {
+              const glm::vec3& d,
+              glm::vec3 color_ = glm::vec3(.8, .5, 1)) {
         
         pos = p;
         dir = d;
@@ -90,7 +91,7 @@ public:
         is_spot = true;
         
         ambient = glm::vec3(.1, .1, .1);
-        color = glm::vec3(.2, .8, 1);
+        color = color_;
         irradiance = glm::vec3(20);
         
         spot_exp = 1.0;
