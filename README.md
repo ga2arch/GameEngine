@@ -9,3 +9,5 @@ OpenGL GameEngine (experiments)
 - Model loading (TODO: load materials)
 
 ![](http://i.imgur.com/CbfuQ3d.png)
+
+![](http://g.recordit.co/qMeI5HWpM2.gif)
