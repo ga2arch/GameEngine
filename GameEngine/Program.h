@@ -76,9 +76,9 @@ public:
             set_uniform((s+"is_local").c_str(), light.is_local);
             set_uniform((s+"is_spot").c_str(), light.is_spot);
             
-            set_uniform((s+"pos").c_str(), glm::vec3(camera.view * glm::vec4(light.pos, 1.0)));
+            set_uniform((s+"pos").c_str(), glm::vec3(camera.view * light.model * glm::vec4(light.pos, 1.0)));
 //            set_uniform((s+"eye_pos").c_str(), light.eye_pos);
-            set_uniform((s+"dir").c_str(), glm::vec3(camera.view * glm::vec4(light.dir, 1.0)));
+            set_uniform((s+"dir").c_str(), glm::vec3(camera.view * light.model * glm::vec4(light.dir, 1.0)));
             set_uniform((s+"ambient").c_str(), light.ambient);
             set_uniform((s+"color").c_str(), light.color);
             set_uniform((s+"half_vector").c_str(), light.half_vector);

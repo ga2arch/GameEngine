@@ -22,8 +22,12 @@ public:
     virtual ~Light() {};
     
     virtual glm::mat4 light_view(int w, int h) const =0;
-
-    //Mesh mesh;
+    
+    virtual void update(glm::mat4& m) {
+        model = m;
+    }
+    
+    glm::mat4 model = glm::mat4();
     
     bool is_enabled;
     bool is_local;

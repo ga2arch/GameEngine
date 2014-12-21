@@ -40,12 +40,17 @@ int main() {
                                  Shader("deferred.fragment", Shader::Fragment));
     
     auto camera = Camera(glm::vec3(0,15,15), glm::vec3(0,0,0));
-    std::array<std::unique_ptr<Light>, 5> lights {
-        std::unique_ptr<Light>(new SpotLight(glm::vec3(-5,10,-5), glm::vec3(-5,0,-5), glm::vec3(.5))),
+    std::array<std::unique_ptr<Light>, 9> lights {
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(-4,8,0), glm::vec3(0,0,0), glm::vec3(.2, .4, .9))),
         std::unique_ptr<Light>(new SpotLight(glm::vec3(5,10,-5), glm::vec3(-5,0,-5))),
-        std::unique_ptr<Light>(new SpotLight(glm::vec3(0,10,-5), glm::vec3(0,0,-5))),
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(0,10,-5), glm::vec3(0,0,-5), glm::vec3(.2, .3, .9))),
         std::unique_ptr<Light>(new SpotLight(glm::vec3(2,6,3), glm::vec3(2,0,3))),
-        std::unique_ptr<Light>(new SpotLight(glm::vec3(-8,3,3), glm::vec3(-8,0,3)))
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(-8,3,3), glm::vec3(-8,0,3))),
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(-8,9,3), glm::vec3(-8,0,3))),
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(-1,3,3), glm::vec3(-8,0,3))),
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(8,3,3), glm::vec3(-8,0,3))),
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(2,3,3), glm::vec3(-8,0,3))),
+
     };
     
     std::array<GLuint, 1> shadows;
@@ -61,6 +66,8 @@ int main() {
     TestMaterial mat;
     scene.use_material(mat);
     //cube.rotate(glm::vec3(1,0,0), 90);
+    
+    mat.emission = glm::vec3(1.0);
     sphere.use_material(mat);
     
     glEnable (GL_CULL_FACE); // cull face
@@ -171,7 +178,12 @@ int main() {
         }
         
         for (int i=0; i < lights.size(); i++) {
+            lights[i]->model = glm::rotate(lights[i]->model, 2.0f, glm::vec3(0,1,0));
             program.set_uniforms(*lights[i], camera, w, h, i);
+            
+            sphere.move(glm::vec3(lights[i]->model * glm::vec4(lights[i]->pos, 1.0)));
+            sphere.scale(glm::vec3(.1,.1,.1));
+            sphere.draw(program);
         }
         
         scene.draw(program);

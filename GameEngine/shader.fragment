@@ -111,10 +111,10 @@ void main() {
             //        shadow += textureProjOffset(shadow_map, fragment.shadow_coord, ivec2( 1, -1));
             //        float f = shadow / 4.0;
             
-            Lo += light.ambient * material.ambient * attenuation;
+            Lo += light.ambient * material.ambient;
             Lo +=  (light.color * material.kd
                     + 0*material.ks * pow(cosH, material.shininess) * fresnel(vec3(.47), material.specular, L, H))
-                    * irr * cosI;
+                    * irr * cosI + material.emission;
             
         }
     }
