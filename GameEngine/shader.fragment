@@ -45,10 +45,9 @@ uniform LightProperty lights[1];
 uniform MaterialProperty material;
 
 uniform ivec2 tiles[500];
-uniform int tile_lights[500];
-
 uniform vec3 camera;
 
+uniform isamplerBuffer tex_tile_lights;
 uniform sampler2DShadow shadow_map;
 
 out vec4 fragColor;
@@ -80,7 +79,9 @@ void main() {
     vec3 Lo = vec3(0);
     
     for (int i=0; i < l_num; i++) {
-        LightProperty light = lights[tile_lights[l_offset+i]];
+        int light_index = l_offset+i;
+        int light_id = texelFetch(tex_tile_lights, light_index).x;
+        LightProperty light = lights[light_id];
         
         if (light.is_local) {
             vec3 pos = light.eye_pos;

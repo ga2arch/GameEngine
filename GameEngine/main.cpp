@@ -16,6 +16,9 @@
 #include "Light.h"
 #include "GBuffer.h"
 
+#include <chrono>
+#include <OpenGL/OpenGL.h>
+
 int main() {
     int w = 800;
     int h = 600;
@@ -37,9 +40,9 @@ int main() {
                                  Shader("deferred.fragment", Shader::Fragment));
     
     auto camera = Camera(glm::vec3(0,15,15), glm::vec3(0,0,0));
-    std::array<std::unique_ptr<Light>, 1> lights {
-        std::unique_ptr<Light>(new DirectionalLight(glm::vec3(-3,15,15), glm::vec3(0,0,0)))
-        //std::unique_ptr<Light>(new SpotLight(glm::vec3(5,15,15), glm::vec3(0,0,0)))
+    std::array<std::unique_ptr<Light>, 2> lights {
+        std::unique_ptr<Light>(new DirectionalLight(glm::vec3(-3,15,15), glm::vec3(0,0,0))),
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(5,15,15), glm::vec3(0,0,0)))
         //std::unique_ptr<Light>(new DirectionalLight(glm::vec3(20,10,10), glm::vec3(0,0,0)))
     };
     
@@ -65,12 +68,24 @@ int main() {
 
     glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     
-    std::vector<glm::ivec2> tiles;
+    std::vector<glm::vec2> tiles;
     
+    GLuint tex_tile_lights;
+    glGenTextures(1, &tex_tile_lights);
+    glBindTexture(GL_TEXTURE_BUFFER, 0);
     
+    GLuint buffer_lights;
+    glGenBuffers(1,&buffer_lights);
     
     while (!glfwWindowShouldClose(win)) {
         GLUtils::update_fps_counter(win);
+        
+        GLint VS_GPU, FS_GPU;
+        
+        CGLGetParameter(CGLGetCurrentContext(), kCGLCPGPUVertexProcessing,   &VS_GPU);
+        CGLGetParameter(CGLGetCurrentContext(), kCGLCPGPUFragmentProcessing, &FS_GPU);
+        
+        printf("%s: Found %s vertex processing and %s fragment processing.\n", __FUNCTION__, (VS_GPU ? "GPU" : "CPU"), (FS_GPU ? "GPU" : "CPU"));
         
         float time = glfwGetTime();
         float delta_time = (time - prev_time);
@@ -78,7 +93,7 @@ int main() {
 
         tiles.clear();
         for (int i=0; i < (w/32)*(h/32); i++) {
-            tiles.emplace_back(0,0);
+            tiles.push_back(glm::vec2(0, 0));
         }
         // Update
         
@@ -130,18 +145,20 @@ int main() {
         
         program.use();
         program.set_uniforms(camera);
-        program.set_uniform("shadow_map", 0);
         
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, shadows[0]);
+        glBindBuffer(GL_TEXTURE_BUFFER, buffer_lights);
+        glBufferData(GL_TEXTURE_BUFFER, tile_lights.size()*sizeof(int),
+                     tile_lights.data(), GL_STATIC_DRAW);
+
+        glBindTexture(GL_TEXTURE_BUFFER, tex_tile_lights);
+        glTexBuffer(GL_TEXTURE_BUFFER, GL_R8I, buffer_lights);
+
         
         for (int i=0; i < tiles.size(); i++) {
             program.set_uniform("tiles", tiles[i], i);
         }
         
-        for (int i=0; i < tile_lights.size(); i++) {
-            program.set_uniform("tile_lights", tile_lights[i], i);
-        }
+        program.set_uniform("tex_tile_lights", 0);
         
         program.set_uniforms(*lights[0], w, h);
         scene.draw(program);
