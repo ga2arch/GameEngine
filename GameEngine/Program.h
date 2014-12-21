@@ -60,6 +60,7 @@ public:
     }
     
     void set_uniforms(const Light& light,
+                      const Camera& camera,
                       int w, int h,
                       int i = 0,
                       bool shadow_pass = false) {
@@ -75,9 +76,9 @@ public:
             set_uniform((s+"is_local").c_str(), light.is_local);
             set_uniform((s+"is_spot").c_str(), light.is_spot);
             
-            set_uniform((s+"pos").c_str(), light.pos);
-            set_uniform((s+"eye_pos").c_str(), light.eye_pos);
-            set_uniform((s+"dir").c_str(), light.dir);
+            set_uniform((s+"pos").c_str(), glm::vec3(camera.view * glm::vec4(light.pos, 1.0)));
+//            set_uniform((s+"eye_pos").c_str(), light.eye_pos);
+            set_uniform((s+"dir").c_str(), glm::vec3(camera.view * glm::vec4(light.dir, 1.0)));
             set_uniform((s+"ambient").c_str(), light.ambient);
             set_uniform((s+"color").c_str(), light.color);
             set_uniform((s+"half_vector").c_str(), light.half_vector);
@@ -108,7 +109,7 @@ public:
     void set_uniforms(Camera& cam) {
         set_uniform("proj", cam.proj);
         set_uniform("view", cam.view);
-        set_uniform("camera", cam.pos);
+        set_uniform("camera", glm::vec3(cam.view * glm::vec4(cam.pos, 1.0)));
     }
     
 private:

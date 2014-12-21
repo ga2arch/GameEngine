@@ -336,12 +336,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = "";
+				ICC_CXX_LANG_DIALECT = "c++0x";
+				ICC_CXX_LIBRARY = "libc++";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glew/1.11.0/lib,
 					/usr/local/Cellar/glfw3/3.0.4/lib,
 					/usr/local/Cellar/assimp/3.1.1/lib,
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = GameEngine;
 				USER_HEADER_SEARCH_PATHS = "/usr/local/include /Users/Gabriele/Esperimenti/mathfu/include /Users/Gabriele/Esperimenti/mathfu/dependencies/vectorial/include";
 			};
@@ -351,12 +356,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				GCC_VERSION = "";
+				ICC_CXX_LANG_DIALECT = "c++0x";
+				ICC_CXX_LIBRARY = "libc++";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glew/1.11.0/lib,
 					/usr/local/Cellar/glfw3/3.0.4/lib,
 					/usr/local/Cellar/assimp/3.1.1/lib,
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = GameEngine;
 				USER_HEADER_SEARCH_PATHS = "/usr/local/include /Users/Gabriele/Esperimenti/mathfu/include /Users/Gabriele/Esperimenti/mathfu/dependencies/vectorial/include";
 			};

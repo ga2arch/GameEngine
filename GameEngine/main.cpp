@@ -40,9 +40,9 @@ int main() {
                                  Shader("deferred.fragment", Shader::Fragment));
     
     auto camera = Camera(glm::vec3(0,15,15), glm::vec3(0,0,0));
-    std::array<std::unique_ptr<Light>, 2> lights {
-        std::unique_ptr<Light>(new DirectionalLight(glm::vec3(-3,15,15), glm::vec3(0,0,0))),
-        std::unique_ptr<Light>(new SpotLight(glm::vec3(5,15,15), glm::vec3(0,0,0)))
+    std::array<std::unique_ptr<Light>, 1> lights {
+        std::unique_ptr<Light>(new SpotLight(glm::vec3(-3,5,5), glm::vec3(0,2,0)))
+        //std::unique_ptr<Light>(new SpotLight(glm::vec3(5,15,15), glm::vec3(0,0,0)))
         //std::unique_ptr<Light>(new DirectionalLight(glm::vec3(20,10,10), glm::vec3(0,0,0)))
     };
     
@@ -85,7 +85,8 @@ int main() {
         CGLGetParameter(CGLGetCurrentContext(), kCGLCPGPUVertexProcessing,   &VS_GPU);
         CGLGetParameter(CGLGetCurrentContext(), kCGLCPGPUFragmentProcessing, &FS_GPU);
         
-        printf("%s: Found %s vertex processing and %s fragment processing.\n", __FUNCTION__, (VS_GPU ? "GPU" : "CPU"), (FS_GPU ? "GPU" : "CPU"));
+        printf("%s: Found %s vertex processing and %s fragment processing.\n",
+               __FUNCTION__, (VS_GPU ? "GPU" : "CPU"), (FS_GPU ? "GPU" : "CPU"));
         
         float time = glfwGetTime();
         float delta_time = (time - prev_time);
@@ -152,15 +153,12 @@ int main() {
 
         glBindTexture(GL_TEXTURE_BUFFER, tex_tile_lights);
         glTexBuffer(GL_TEXTURE_BUFFER, GL_R8I, buffer_lights);
-
         
         for (int i=0; i < tiles.size(); i++) {
             program.set_uniform("tiles", tiles[i], i);
         }
         
-        program.set_uniform("tex_tile_lights", 0);
-        
-        program.set_uniforms(*lights[0], w, h);
+        program.set_uniforms(*lights[0], camera, w, h);
         scene.draw(program);
         
         glfwSetCursorPos(win, w / 2, h / 2);
