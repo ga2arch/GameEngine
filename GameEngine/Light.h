@@ -27,6 +27,99 @@ public:
         model = m;
     }
     
+    virtual std::pair<glm::vec2,glm::vec2> bounding_box(int w, int h) {
+        int rect[4] = { 0, 0, w, h };
+        float d;
+        
+        float r  = radius;
+        float r2 = r * r;
+        
+        auto l  = pos;
+        auto l2 = pos*pos;
+        
+        float e1 = 1.2f;
+        float e2 = 1.2f * w/h;
+        
+        d = r2 * l2.x - (l2.x + l2.z) * (r2 - l2.z);
+        if (d >= 0) {
+            d = sqrtf(d);
+            
+            float nx1 = (r*l.x + d) / (l2.x + l2.z);
+            float nx2=(r*l.x - d)/(l2.x+l2.z);
+            
+            float nz1=(r-nx1*l.x)/l.z;
+            float nz2=(r-nx2*l.x)/l.z;
+            
+            float e=1.25f;
+            float a=w/h;
+            
+            float pz1=(l2.x+l2.z-r2)/(l.z-(nz1/nx1)*l.x);
+            float pz2=(l2.x+l2.z-r2)/(l.z-(nz2/nx2)*l.x);
+            
+            if (pz1<0) {
+                float fx=nz1*e1/nx1;
+                int ix=(int)((fx+1.0f)*w*0.5f);
+                
+                float px=-pz1*nz1/nx1;
+                if (px<l.x)
+                    rect[0]=fmax(rect[0],ix);
+                else
+                    rect[2]=fmin(rect[2],ix);
+            }
+            
+            if (pz2 < 0) {
+                float fx=nz2*e1/nx2;
+                int ix=(int)((fx+1.0f)*w*0.5f);
+                
+                float px=-pz2*nz2/nx2;
+                if (px<l.x)
+                    rect[0]=fmax(rect[0],ix);
+                else
+                    rect[2]=fmin(rect[2],ix);
+                
+            }
+        }
+        
+        d=r2*l2.y - (l2.y+l2.z)*(r2-l2.z);
+        if (d >= 0) {
+            d=sqrtf(d);
+            
+            float ny1=(r*l.y + d)/(l2.y+l2.z);
+            float ny2=(r*l.y - d)/(l2.y+l2.z);
+            
+            float nz1=(r-ny1*l.y)/l.z;
+            float nz2=(r-ny2*l.y)/l.z;
+            
+            float pz1=(l2.y+l2.z-r2)/(l.z-(nz1/ny1)*l.y);
+            float pz2=(l2.y+l2.z-r2)/(l.z-(nz2/ny2)*l.y);
+            
+            if (pz1 < 0) {
+                float fy=nz1*e2/ny1;
+                int iy=(int)((fy+1.0f)*h*0.5f);
+                
+                float py=-pz1*nz1/ny1;
+                if (py<l.y)
+                    rect[1]=fmax(rect[1],iy);
+                else
+                    rect[3]=fmin(rect[3],iy);
+            }
+            
+            if (pz2 < 0) {
+                float fy=nz2*e2/ny2;
+                int iy=(int)((fy+1.0f)*h*0.5f);
+                
+                float py=-pz2*nz2/ny2;
+                if (py<l.y)
+                    rect[1]=fmax(rect[1],iy);
+                else
+                    rect[3]=fmin(rect[3],iy);
+            }
+        }
+        
+        return std::pair<glm::vec2,glm::vec2>(glm::vec2(rect[0], rect[1]),
+                                              glm::vec2(rect[2], rect[3]));
+    }
+    
     glm::mat4 model = glm::mat4();
     
     bool is_enabled;
@@ -47,6 +140,8 @@ public:
     float constant_attenuation;
     float linear_attenuation;
     float quadratic_attenuation;
+    
+    float radius = 1;
 };
 
 class DirectionalLight: public Light {
