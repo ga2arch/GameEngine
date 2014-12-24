@@ -3,8 +3,8 @@ GameEngine
 
 OpenGL GameEngine (experiments)
 
-- Physically Based Lighting (TODO: cube maps) 
-- Deferred lighting (sphere culling, TODO: tile based)
+- Dynamic Lights (TODO: cube maps) 
+- Tile based Forward Lighting (TODO: light bounding box)
 - Realtime Shadow maps (pcf 4x, TODO: cascade)
 - Model loading (TODO: load materials)
 

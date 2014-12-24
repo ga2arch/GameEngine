@@ -126,19 +126,15 @@ int main() {
         glDepthFunc(GL_LESS);
         glDepthMask(GL_TRUE);
         
-        glm::vec2 bbox[2] = {
-            glm::vec2(0,0),
-            glm::vec2(800, 600)
-        };
-       
-        auto v1 = bbox[0]/32.0f;
-        auto v2 = bbox[1]/32.0f;
-        
         int offset = 0;
         std::vector<float> tile_lights;
         
         for (int i=0; i < tiles.size(); i++) {
             for (int l=0; l < lights.size(); l++) {
+                auto bbox = lights[l]->bounding_box(w, h);
+                auto v1 = bbox.first/32.0f;
+                auto v2 = bbox.second/32.0f;
+
                 int start_tile_index = v1.x + v1.y * 800/32;
                 int end_tile_index = v2.x + v2.y * 800/32;
                 

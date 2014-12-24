@@ -141,7 +141,7 @@ public:
     float linear_attenuation;
     float quadratic_attenuation;
     
-    float radius = 1;
+    float radius = glm::distance(pos, dir);
 };
 
 class DirectionalLight: public Light {
